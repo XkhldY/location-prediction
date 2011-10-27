@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <string name="no_tasks">No Tasks.</string>
+    <string name="app_name">Task Manager v2</string>
+    <string name ="tasks">Tasks</string>
+    <string name ="cancel">Cancel</string>
+    <string name ="add_task">Add Task</string>
+     <string name ="unsaved_changes_title">Unsaved Changes</string>
+    <string name ="unsaved_changed_message">Add or not?</string>
+     <string name ="discard">Discard</string>
+     <string name = "remove_complete">Remove Task</string>
+    <string name="add_location_to_task">Add Location to task</string>
+    <string name="map_this_address">Map this address</string>
+    <string name="use_this_location">Use this location</string>
+    <string name="use_this_address">Use this address</string>
+    <string name="edit_location">Edit Location</string>
+    <string name="edit_location_task">Edit Location Task</string>
+    <string name="map_the_edit_address">Map the edit Address</string>
+    <string name="edit_address">Edit Address</string>
+    <string name="address_text">Address Text</string>
+    <string name="start_service">Service Started</string>
+</resources>
