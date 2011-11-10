@@ -1,13 +1,13 @@
-package com.data.structure;
+package com.data.ormstructure;
 
 import java.io.Serializable;
 
-import com.interfaces.Sequences;
+import com.interfaces.ISequence;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public abstract class GpsSequences implements Serializable, Sequences 
+public abstract class GpsSequences implements Serializable, ISequence 
 {
 
 	private static final long serialVersionUID = 6741096629549249457L;
@@ -20,7 +20,8 @@ public abstract class GpsSequences implements Serializable, Sequences
 	
 	@DatabaseField 
 	private String endPointAddress;
-	
+	@DatabaseField
+	private int nrOfTimesUsed;
 	public GpsSequences()
 	{
 		
@@ -54,6 +55,14 @@ public abstract class GpsSequences implements Serializable, Sequences
 
 	public void setEndPoint(String endPointAddress) {
 		this.endPointAddress = endPointAddress;
+	}
+
+	public int getNrOfTimesUsed() {
+		return nrOfTimesUsed;
+	}
+
+	public void setNrOfTimesUsed(int nrOfTimesUsed) {
+		this.nrOfTimesUsed = nrOfTimesUsed;
 	}
 	
 }

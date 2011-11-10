@@ -1,4 +1,4 @@
-package com.data.structure;
+package com.data.ormstructure;
 
 import java.io.Serializable;
 

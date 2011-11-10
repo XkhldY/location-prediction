@@ -1,14 +1,14 @@
-package com.data.structure;
+package com.data.ormstructure;
 
 import java.io.Serializable;
 
-import com.interfaces.Sequences;
+import com.interfaces.ISequence;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
 @DatabaseTable
-public abstract class CellSequences implements Serializable, Sequences 
+public abstract class CellSequences implements Serializable, ISequence 
 {
 
 	private static final long serialVersionUID = -2181615333013945029L;

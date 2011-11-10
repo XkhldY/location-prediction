@@ -2,12 +2,12 @@ package com.data.database;
 
 import java.sql.SQLException;
 
-import com.data.structure.Address_Location;
-import com.data.structure.CellPoints;
-import com.data.structure.CellSequences;
-import com.data.structure.GPSPoints;
-import com.data.structure.GpsSequences;
-import com.data.structure.TimeSchedule;
+import com.data.ormstructure.Address_Location;
+import com.data.ormstructure.CellPoints;
+import com.data.ormstructure.CellSequences;
+import com.data.ormstructure.GPSPoints;
+import com.data.ormstructure.GpsSequences;
+import com.data.ormstructure.TimeSchedule;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;

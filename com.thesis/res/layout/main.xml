@@ -47,7 +47,7 @@
     		android:layout_alignParentBottom="true" 
     />
     <Button 
-            android:id="@+id/remove_button"
+            android:id="@+id/edit_button"
             android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:text="@string/remove_complete"
@@ -58,16 +58,20 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_alignParentBottom="true"
-                  android:layout_toRightOf="@id/remove_button"/>
-    <TextView android:id="@+id/show_local_tasks_text"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:padding="2dip"
-                  android:lines="2"
-                  android:gravity="top"
-                  android:text="@string/start_service"
-                  android:layout_toRightOf="@id/show_local_tasks_toggle"
-                  android:layout_alignTop="@id/show_local_tasks_toggle"
-                  android:layout_alignParentBottom="true">
+                  android:layout_toRightOf="@id/edit_button"/>
+
+    <TextView
+        android:id="@+id/show_local_tasks_text"
+        android:layout_width="10dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/show_local_tasks_toggle"
+        android:layout_toRightOf="@id/show_local_tasks_toggle"
+        android:gravity="top"
+        android:lines="2"
+        android:padding="2dip"
+        android:text="@string/start_service" >
+
                   </TextView>
      </RelativeLayout>

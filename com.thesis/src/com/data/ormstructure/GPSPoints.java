@@ -1,14 +1,15 @@
-package com.data.structure;
+package com.data.ormstructure;
 
 import java.io.Serializable;
 
-import com.interfaces.Points;
+import com.interfaces.ISequence;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
 @DatabaseTable
-public abstract class GPSPoints implements Serializable, Points
+public abstract class GPSPoints implements Serializable, ISequence
 {
    
 	private static final long serialVersionUID = 1551422019312099487L;

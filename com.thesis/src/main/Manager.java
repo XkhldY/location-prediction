@@ -51,4 +51,8 @@ public class Manager extends Application implements com.generic.OnLoadCompleteLi
 	{
 			
 	}
+	public ArrayList<EndLocation> getCurrentEndPoints() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
