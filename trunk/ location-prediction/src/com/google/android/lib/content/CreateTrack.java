@@ -3,7 +3,7 @@ package com.google.android.lib.content;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CreateEndPoint implements Parcelable 
+public class CreateTrack implements Parcelable 
 {
 	public static enum EndPointType
 	{
@@ -14,19 +14,19 @@ public class CreateEndPoint implements Parcelable
 	private String name;
 	private String description;
 	private String iconUrl;
-	public final static CreateEndPoint DEFAULT_MARKER = new CreateEndPoint(EndPointType.MARKER);
-	public final static CreateEndPoint DEFAULT_STATISTICS = new CreateEndPoint(EndPointType.STATISTICS);
-	public CreateEndPoint(EndPointType marker) 
+	public final static CreateTrack DEFAULT_MARKER = new CreateTrack(EndPointType.MARKER);
+	public final static CreateTrack DEFAULT_STATISTICS = new CreateTrack(EndPointType.STATISTICS);
+	public CreateTrack(EndPointType marker) 
 	{
 	   this.type = marker;
 	}
-    public CreateEndPoint(String mName, String mDescription, String mIconUrl)
+    public CreateTrack(String mName, String mDescription, String mIconUrl)
     {
     	this.name = mName;
     	this.description = mDescription;
     	this.iconUrl = mIconUrl;
     }
-    public CreateEndPoint(Parcel source)
+    public CreateTrack(Parcel source)
     {
     	readFromParcel(source);
     }
@@ -73,17 +73,17 @@ public class CreateEndPoint implements Parcelable
 	public void setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
 	}
-	public static Parcelable.Creator<CreateEndPoint> CREATOR = new Parcelable.Creator<CreateEndPoint>() 
+	public static Parcelable.Creator<CreateTrack> CREATOR = new Parcelable.Creator<CreateTrack>() 
     {
 
-		public CreateEndPoint createFromParcel(Parcel source) 
+		public CreateTrack createFromParcel(Parcel source) 
 		{
-          return new CreateEndPoint(source);
+          return new CreateTrack(source);
 		}
 
-		public CreateEndPoint[] newArray(int size)
+		public CreateTrack[] newArray(int size)
 		{
-			return new CreateEndPoint[size];
+			return new CreateTrack[size];
 		}
     };
 	public int describeContents() 

@@ -1,5 +1,5 @@
 package com.google.android.lib.services;
-import com.google.android.lib.content.CreateEndPoint;
+import com.google.android.lib.content.CreateTrack;
 
 interface IRouteRecordingService
 {
@@ -11,7 +11,7 @@ interface IRouteRecordingService
   * insert an endpoint and returns 
   *@params id of the new endpoint
   */
-  long insertEndPointWithId(in CreateEndPoint endPoint);
+  long insertEndPointWithId(in CreateTrack track);
   /**
   * start a new route returning
   *@prams id of the route
