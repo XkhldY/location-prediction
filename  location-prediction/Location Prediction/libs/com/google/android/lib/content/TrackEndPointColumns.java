@@ -1,5 +1,9 @@
 package com.google.android.lib.content;
 
-public interface TrackEndPointColumns {
+import android.net.Uri;
+import android.provider.BaseColumns;
+
+public interface TrackEndPointColumns extends BaseColumns 
+{
 
 }

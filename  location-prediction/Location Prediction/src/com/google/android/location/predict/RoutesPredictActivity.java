@@ -1,5 +1,6 @@
 package com.google.android.location.predict;
 
-public class RoutesPredictActivity {
+public class RoutesPredictActivity 
+{
 
 }

@@ -19,9 +19,9 @@ import com.google.android.lib.content.Route;
 import com.google.android.lib.content.RouteLocation;
 import com.google.android.lib.content.RouteCoordinates;
 import com.google.android.lib.content.RoutesColumns;
-import com.google.android.lib.content.Sensor;
+
 import com.google.android.lib.statistics.RouteStatistics;
-import com.google.protobuf.InvalidProtocolBufferException;
+
 
 public class MyRouteProviderImpl implements MyRouteProvider {
 	private final ContentResolver mContentResolver;
@@ -55,13 +55,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		if (location.hasSpeed()) {
 			myValues.put(RouteCoordinates.SPEED, location.getSpeed());
 		}
-		if (location instanceof RouteLocation) {
-			RouteLocation mRouteLocation = (RouteLocation) location;
-			if (mRouteLocation.getSensorDataSet() != null) {
-				myValues.put(RouteCoordinates.SENSOR, mRouteLocation
-						.getSensorDataSet().toByteArray());
-			}
-		}
+		
 		return myValues;
 	}
 
@@ -188,20 +182,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		if (!cursor.isNull(columnIndex.idxAccuracy)) {
 			location.setAccuracy(cursor.getFloat(columnIndex.idxAccuracy));
 		}
-		if (location instanceof RouteLocation
-				&& !cursor.isNull(columnIndex.idxSensor)) {
-			RouteLocation mtLocation = (RouteLocation) location;
-			// TODO get the right buffer.
-			Sensor.SensorDataSet sensorData;
-			try {
-				sensorData = Sensor.SensorDataSet.parseFrom(cursor
-						.getBlob(columnIndex.idxSensor));
-
-				mtLocation.setSensorDataSet(sensorData);
-			} catch (InvalidProtocolBufferException e) {
-				Log.w(TAG, "Failed to parse sensor data.", e);
-			}
-		}
+		
 	}
 
 	private static class CachedRouteCoordinatesColumnIndex {
@@ -213,7 +194,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		public final int idxBearing;
 		public final int idxAccuracy;
 		public final int idxSpeed;
-		public final int idxSensor;
+		
 
 		public CachedRouteCoordinatesColumnIndex(Cursor cursor) {
 			idxId = cursor.getColumnIndex(RouteCoordinates._ID);
@@ -228,7 +209,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			idxAccuracy = cursor
 					.getColumnIndexOrThrow(RouteCoordinates.ACCURACY);
 			idxSpeed = cursor.getColumnIndexOrThrow(RouteCoordinates.SPEED);
-			idxSensor = cursor.getColumnIndexOrThrow(RouteCoordinates.SENSOR);
+			
 		}
 	}
 
