@@ -19,7 +19,7 @@ public interface RouteCoordinates extends BaseColumns
     public static final String TIME = "time";
     public static final String ACCURACY = "accuracy";
     public static final String SPEED = "speed";
-    public static final String SENSOR ="sensor";
+   
     
    /* public static final String SENSOR_TYPE_GPS = "sensor_gps";
     //public static final String SENSOR_TYPE_NETWORK = "sensor_network";

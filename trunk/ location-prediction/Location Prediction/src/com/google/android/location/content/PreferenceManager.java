@@ -1,5 +1,190 @@
 package com.google.android.location.content;
 
-public class PreferenceManager {
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.util.Log;
 
-}
+
+import com.google.android.service.ServiceManager;
+import com.google.android.utilities.MyLocationListenerPolicy;
+
+/**
+		 * A class that manages reading the shared preferences for the service.
+		 *
+		 * @author Sandor Dornbush
+		 */
+public class PreferenceManager implements OnSharedPreferenceChangeListener 
+{
+		  private ServiceManager service;
+		  private SharedPreferences sharedPreferences;
+		  private final String announcementFrequencyKey;
+		  private final String autoResumeTrackCurrentRetryKey;
+		  private final String autoResumeTrackTimeoutKey;
+		  private final String maxRecordingDistanceKey;
+		  private final String metricUnitsKey;
+		  private final String minRecordingDistanceKey;
+		  private final String minRecordingIntervalKey;
+		  private final String minRequiredAccuracyKey;
+		  private final String recordingTrackKey;
+		  private final String selectedTrackKey;
+		  private final String splitFrequencyKey;
+
+		  public PreferenceManager(ServiceManager service) {
+		    this.service = service;
+		    this.sharedPreferences = service.getSharedPreferences(
+		        Constants.SETTINGS_NAME, Context.MODE_PRIVATE);
+		    if (sharedPreferences == null) {
+		      Log.w(Constants.TAG,
+		          "TrackRecordingService: Couldn't get shared preferences.");
+		      throw new IllegalStateException("Couldn't get shared preferences");
+		    }
+		    sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
+		    announcementFrequencyKey =
+		        service.getString(R.string.announcement_frequency_key);
+		    autoResumeTrackCurrentRetryKey =
+		        service.getString(R.string.auto_resume_route_current_retry_key);
+		    autoResumeTrackTimeoutKey =
+		        service.getString(R.string.auto_resume_route_timeout_key);
+		    maxRecordingDistanceKey =
+		        service.getString(R.string.max_recording_distance_key);
+		    metricUnitsKey =
+		        service.getString(R.string.metric_units_key);
+		    minRecordingDistanceKey =
+		        service.getString(R.string.min_recording_distance_key);
+		    minRecordingIntervalKey =
+		        service.getString(R.string.min_recording_interval_key);
+		    minRequiredAccuracyKey =
+		        service.getString(R.string.min_required_accuracy_key);
+		    recordingTrackKey =
+		        service.getString(R.string.recording_route_key);
+		    selectedTrackKey =
+		        service.getString(R.string.selected_route_key);
+		    splitFrequencyKey =
+		        service.getString(R.string.split_frequency_key);
+
+		    // Refresh all properties.
+		    onSharedPreferenceChanged(sharedPreferences, null);
+		  }
+
+		  /**
+		   * Notifies that preferences have changed.
+		   * Call this with key == null to update all preferences in one call.
+		   *
+		   * @param key the key that changed (may be null to update all preferences)
+		   */
+		  @Override
+		  public void onSharedPreferenceChanged(SharedPreferences preferences,
+		      String key) {
+		    if (service == null) {
+		      Log.w(Constants.TAG,
+		          "onSharedPreferenceChanged: a preference change (key = " + key
+		          + ") after a call to shutdown()");
+		      return;
+		    }
+		    if (key == null || key.equals(minRecordingDistanceKey)) {
+		      int minRecordingDistance = sharedPreferences.getInt(
+		          minRecordingDistanceKey,
+		          Constants.DEFAULT_MIN_RECORDING_DISTANCE);
+		      service.setMinRecordingDistance(minRecordingDistance);
+		      Log.d(Constants.TAG,
+		          "TrackRecordingService: minRecordingDistance = "
+		          + minRecordingDistance);
+		    }
+		    if (key == null || key.equals(maxRecordingDistanceKey)) {
+		      service.setMaxRecordingDistance(sharedPreferences.getInt(
+		          maxRecordingDistanceKey,
+		          Constants.DEFAULT_MAX_RECORDING_DISTANCE));
+		    }
+		    if (key == null || key.equals(minRecordingIntervalKey)) {
+		      int minRecordingInterval = sharedPreferences.getInt(
+		          minRecordingIntervalKey,
+		          Constants.DEFAULT_MIN_RECORDING_INTERVAL);
+		      switch (minRecordingInterval) {
+		        case -2:
+		          // Battery Miser
+		          // min: 30 seconds
+		          // max: 5 minutes
+		          // minDist: 5 meters Choose battery life over moving time accuracy.
+		          service.setLocationListenerPolicy(
+		              new MyLocationListenerPolicy(30000, 300000, 5));
+		          break;
+		        case -1:
+		          // High Accuracy
+		          // min: 1 second
+		          // max: 30 seconds
+		          // minDist: 0 meters get all updates to properly measure moving time.
+		          service.setLocationListenerPolicy(
+		              new MyLocationListenerPolicy(1000, 30000, 0));
+		          break;
+		        default:
+		          service.setLocationListenerPolicy(
+		              new MyLocationListenerPolicy(minRecordingInterval * 1000));
+		      }
+		    }
+		    if (key == null || key.equals(minRequiredAccuracyKey)) {
+		      service.setMinRequiredAccuracy(sharedPreferences.getInt(
+		          minRequiredAccuracyKey,
+		          Constants.DEFAULT_MIN_REQUIRED_ACCURACY));
+		    }
+		    if (key == null || key.equals(announcementFrequencyKey)) {
+		      service.setAnnouncementFrequency(
+		          sharedPreferences.getInt(announcementFrequencyKey, -1));
+		    }
+		    if (key == null || key.equals(autoResumeTrackTimeoutKey)) {
+		      service.setAutoResumeTrackTimeout(sharedPreferences.getInt(
+		          autoResumeTrackTimeoutKey,
+		          Constants.DEFAULT_AUTO_RESUME_TRACK_TIMEOUT));
+		    }
+		    if (key == null || key.equals(recordingTrackKey)) 
+		    {
+		      long recordingTrackId = sharedPreferences.getLong(recordingTrackKey, -1);
+		      // Only read the id if it is valid.
+		      // Setting it to -1 should only happen in
+		      // TrackRecordingService.endCurrentTrack()
+		      if (recordingTrackId > 0) 
+		      {
+		        service.setRecordingRouteId(recordingTrackId);
+		      }
+		    }
+		    if (key == null || key.equals(splitFrequencyKey)) 
+		    {
+		      service.setSplitFrequency(
+		          sharedPreferences.getInt(splitFrequencyKey, 0));
+		    }
+		    if (key == null || key.equals(metricUnitsKey)) 
+		    {
+		      service.setMetricUnits(
+		          sharedPreferences.getBoolean(metricUnitsKey, true));
+		    }
+		  }
+
+		  public void setAutoResumeTrackCurrentRetry(int retryAttempts) {
+		    Editor editor = sharedPreferences.edit();
+		    editor.putInt(autoResumeTrackCurrentRetryKey, retryAttempts);
+		    editor.commit();
+		  }
+		  /**
+		   * sets in preferences the current id of track that is currently recording
+		   * @param id of the track that is currently recording
+		   */
+		  public void setRecordingRoute(long id) {
+		    Editor editor = sharedPreferences.edit();
+		    editor.putLong(recordingTrackKey, id);
+		    editor.commit();   
+		  }
+
+		  public void setSelectedTrack(long id) {
+		    Editor editor = sharedPreferences.edit();
+		    editor.putLong(selectedTrackKey, id);
+		    editor.commit();  
+		  }
+
+		  public void shutdown() {
+		    sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+		    service = null;
+		  }
+	}
+
