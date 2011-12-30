@@ -81,10 +81,10 @@ public static final int MAX_DISPLAYED_ROUTE_POINTS = 10000;
  * Target number of track points displayed by the map overlay.
  * We may display more than this number of points.
  */
-public static final int TARGET_DISPLAYED_TRACK_POINTS = 5000;
+public static final int TARGET_DISPLAYED_ROUTE_POINTS = 5000;
 
 /**
- * Maximum number of track points ever loaded at once from the provider into
+ * Maximum number of route points ever loaded at once from the provider into
  * memory.
  * With a recording frequency of 2 seconds, 15000 corresponds to 8.3 hours.
  */
@@ -99,7 +99,7 @@ public static final int MAX_LOADED_TRACK_POINTS_PER_BATCH = 1000;
 /**
  * Maximum number of way points displayed by the map overlay.
  */
-public static final int MAX_DISPLAYED_TRACK_POINTS = 128;
+public static final int MAX_DISPLAYED_ROUTE_TRACK_POINTS = 128;
 
 /**
  * Maximum number of way points that will be loaded at one time.
@@ -161,7 +161,7 @@ public static final String MAPSHOP_BASE_URL =
  */
 
 public static final int DEFAULT_ANNOUNCEMENT_FREQUENCY = -1;
-public static final int DEFAULT_AUTO_RESUME_TRACK_TIMEOUT = 10;  // In min.
+public static final int DEFAULT_AUTO_RESUME_ROUTE_TIMEOUT = 10;  // In min.
 public static final int DEFAULT_MAX_RECORDING_DISTANCE = 200;
 public static final int DEFAULT_MIN_RECORDING_DISTANCE = 5;
 public static final int DEFAULT_MIN_RECORDING_INTERVAL = 0;

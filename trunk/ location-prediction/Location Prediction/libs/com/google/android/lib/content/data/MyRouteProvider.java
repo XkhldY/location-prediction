@@ -9,9 +9,9 @@ import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 
-import com.google.android.lib.content.Track;
+import com.google.android.lib.content.RouteTrackPoint;
 import com.google.android.lib.content.Route;
-import com.google.android.lib.content.RouteLocation;
+
 
 public interface MyRouteProvider 
 {
@@ -26,47 +26,47 @@ public interface MyRouteProvider
 	 * @param routeId = the id of the route to be deleted
 	 */
 	 void deleteRouteById(long routeId);
-	 /** delete an endpoint with a description and id
+	 /** delete a route track point with a description and id
 	 * @param routeId = id of the route from where the track should be deleted
 	 */
-	 void deleteTrack(long endPointId, DescriptionGenerator descriptionGenerator);
+	 void deleteRouteTrackPoint(long endPointId, DescriptionGenerator descriptionGenerator);
 	 /**
 	  * 
 	  * @param track after we search the next point
 	  * @return the next statistics track
 	  */
-	 Track getNextStatisticTrackAfter(Track track);
+	 RouteTrackPoint getNextStatisticRouteTrackPointAfter(RouteTrackPoint track);
 	 /**
-	  * update a track
-	  * @param track to update
-	  * @return true if succesful , false if not
+	  * updates a route track point
+	  * @param route track ppoint to update
+	  * @return true if successful , false if not
 	  */
-	 boolean updateTrack(Track track);
+	 boolean updateRouteTrackPoint(RouteTrackPoint track);
 	 /**
 	  * get last recorded location
 	  * @return last location
 	  */
 	 Location getLastRecordedLocation();
 	 /**
-	  * get first track
+	  * get first route track point
 	  * @param routeId = id of the route
-	  * @return first track from the route with
-	  * @route_id = routeId
+	  * @return first route track point from the route with
+	  * @routeId = routeId
 	  */
-	 long getFirstTrackId(long routeId);
+	 long getFirstRouteTrackPointId(long routeId);
 	 /**
 	  * 
 	  * @param routeId id of the route
-	  * @return the last trackid from route
+	  * @return the last route track point id from route
 	  */
-	 long getLastTrackId(long routeId);
+	 long getLastRouteTrackPointId(long routeId);
 	 /**
 	  * 
 	  * @param routeId = id of the route 
-	  * from where the track should be retrieved
-	  * @return the Track with the route_id = @routeId
+	  * from where the route track point should be retrieved
+	  * @return the RouteTrackPoint with the route_id = @routeId
 	  */
-	 Track getTrackById(long routeId);
+	 RouteTrackPoint getRouteTrackPointById(long routeId);
 	
 	 /**get lastLocationid
 		 * @param routeId = id of the route where the location is
@@ -104,7 +104,7 @@ public interface MyRouteProvider
 	 *@param minTrackId the minimum trackid,
 	 *@param maxTraks = the max nr of endpoints
 	 */
-	 Cursor getTracksCursor(long routeId, long minTrackId, int maxTraks);
+	 Cursor getRouteTrackPointsCursor(long routeId, long minTrackId, int maxTraks);
 	 /**get a cursor over some selected routes
 	 * @param selection = selection for the cursor
 	 */
@@ -112,14 +112,14 @@ public interface MyRouteProvider
 	 //insert a new route
 	 Uri insertRoute(Route newRoute);
 	 /**
-	  * insert a new Track into a route
+	  * insert a new Route Point into a route
 	  * @param location the location where the insertion 
 	  * takes place
 	  * @param routeId the id of the route
 	  * @return the Uri for cursor to insert
 	  * in the db
 	  */
-	 Uri insertRouteTrack(Location location, long routeId);
+	 Uri insertRoutePoint(Location location, long routeId);
 	 /**
 	  * insert an array of locations with a length and a route that belongs to
 	  * @param locations the array of locations to be inserted
@@ -127,13 +127,13 @@ public interface MyRouteProvider
 	  * @param routeId and the route id
 	  * @return the nr inserted
 	  */
-	 int insertManyRouteTracks(Location locations[], int length,long routeId);
-	 /**insert an new Track in the provider
+	 int insertManyRouteTrackPoints(Location locations[], int length,long routeId);
+	 /**insert an new RouteTrackPoint in the provider
 	  * returns the Uri for the new track
 	  * @param track to be inserted
 	  * @return
 	  */
-	 Uri insertTrack(Track track);
+	 Uri insertRouteTrackPoint(RouteTrackPoint track);
 	 /**
 	  * check if a route exists or not
 	  * @param routeId
@@ -147,10 +147,10 @@ public interface MyRouteProvider
 	 void updateRoute(Route route);
 	 /**
 	  * update a route using a location and an endPoint
-	  * @param Track that is to be update and
+	  * @param RouteTrackPoint that is to be update and
 	  * @pram location from the route
 	  */
-	 void updateRoute(Track endpoint);
+	 void updateRoute(RouteTrackPoint endpoint);
 	 /**
 	  * create a new route in the db
 	  * @param cursor that is required for the Route
@@ -158,7 +158,7 @@ public interface MyRouteProvider
 	  */
 	 Route createRoute(Cursor cursor);
 	 /**
-	   * Creates the ContentValues for a given Track object.
+	   * Creates the ContentValues for a given RouteTrackPoint object.
 	   *
 	   * Note: If the track has an id<0 the id column will not be filled.
 	   *
@@ -175,12 +175,17 @@ public interface MyRouteProvider
 	  * @param cursor
 	  * @return a new track
 	  */
-	 Track createTrack(Cursor cursor);
+	 RouteTrackPoint createRouteTrackPoint(Cursor cursor);
+	 /**
+	  * sets the current batch size
+	  */
+	 void setBatchSize(int value);
 	 /**
 	  * Updates a location by a give cursor
 	  * @param location to update
 	  * @param cursor that updates the location in the db
 	  */
+	 
 	 void updateLocation(Cursor cursor,Location location);
 	 interface LocationIterator extends Iterator<Location>
 	 {
@@ -188,9 +193,9 @@ public interface MyRouteProvider
 		 void close();
 	 }
 	 
-	 interface TrackIterator extends Iterator<Location>
+	 interface RouteIterator extends Iterator<Location>
 	 {
-		 long getTrack();
+		 long getRoute();
 		 String getName();
 		 String getDescription();
 		 String getCategory();
@@ -228,32 +233,9 @@ public interface MyRouteProvider
 			}
 	};
 	 //iterato through a number of locations form a route , given a starting point
-	 LocationIterator getLocationIterator(long routeId, long startRoutePointId, boolean sort_type, CreateLocationFactory locationFactory);
-	 public class LastLocationsFactory implements LocationFactory
-	 {
-		private int lastGpsLocation = 0;
-		private int lastNetworkLocation = 0;
-        Location locsGps[] = new RouteLocation[]
-        {
-        	new RouteLocation("gps"),
-        	new RouteLocation("gps")
-        };
-        Location locsNetwork[] = new RouteLocation[]
-        {
-            new RouteLocation("Network"),
-            new RouteLocation("Network")
-   		};
-		public Location createGPSLocation() 
-		{
-			lastGpsLocation = (lastGpsLocation+1)%locsGps.length;
-			return locsGps[lastGpsLocation];
-		}
-		public Location createNetworkLocation() 
-		{
-			lastNetworkLocation = (lastNetworkLocation+1)%locsNetwork.length;
-			return locsNetwork[lastNetworkLocation];
-		} 
-	 }
+	 LocationIterator getLocationIterator(long routeId, long startRoutePointId, 
+			                              boolean sort_type, CreateLocationFactory locationFactory);
+
 	 public static class Factory
 	 {
 		 public static Factory instance  = new Factory();

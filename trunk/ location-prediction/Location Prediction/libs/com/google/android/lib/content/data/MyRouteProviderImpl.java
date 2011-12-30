@@ -1,6 +1,6 @@
 package com.google.android.lib.content.data;
 
-import java.io.ObjectOutputStream.PutField;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -13,11 +13,12 @@ import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.lib.content.Track;
-import com.google.android.lib.content.TrackColumns;
+
+import com.google.android.lib.content.RouteTrackPoint;
+import com.google.android.lib.content.RoutesTrackPointsColumns;
 import com.google.android.lib.content.Route;
 import com.google.android.lib.content.RouteLocation;
-import com.google.android.lib.content.RouteCoordinates;
+import com.google.android.lib.content.RoutesPointsLocations;
 import com.google.android.lib.content.RoutesColumns;
 
 import com.google.android.lib.statistics.RouteStatistics;
@@ -34,26 +35,26 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 	private static ContentValues createContentValues(Location location,
 			long routeId) {
 		ContentValues myValues = new ContentValues();
-		myValues.put(RouteCoordinates.ROUTE_ID, routeId);
-		myValues.put(RouteCoordinates.LATITUDE,
+		myValues.put(RoutesPointsLocations.ROUTE_ID, routeId);
+		myValues.put(RoutesPointsLocations.LATITUDE,
 				(int) location.getLatitude() * 1E6);
-		myValues.put(RouteCoordinates.LONGITUDE,
+		myValues.put(RoutesPointsLocations.LONGITUDE,
 				(int) location.getLongitude() * 1E6);
 		myValues.put(
-				RouteCoordinates.TIME,
+				RoutesPointsLocations.TIME,
 				location.getTime() == 0 ? System.currentTimeMillis() : location
 						.getTime());
 		if (location.hasAltitude()) {
-			myValues.put(RouteCoordinates.ALTITUDE, location.getAltitude());
+			myValues.put(RoutesPointsLocations.ALTITUDE, location.getAltitude());
 		}
 		if (location.hasAccuracy()) {
-			myValues.put(RouteCoordinates.ACCURACY, location.getAccuracy());
+			myValues.put(RoutesPointsLocations.ACCURACY, location.getAccuracy());
 		}
 		if (location.hasBearing()) {
-			myValues.put(RouteCoordinates.BEARING, location.getBearing());
+			myValues.put(RoutesPointsLocations.BEARING, location.getBearing());
 		}
 		if (location.hasSpeed()) {
-			myValues.put(RouteCoordinates.SPEED, location.getSpeed());
+			myValues.put(RoutesPointsLocations.SPEED, location.getSpeed());
 		}
 		
 		return myValues;
@@ -86,61 +87,61 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		content.put(RoutesColumns.AVG_SPEED, routeStats.getAverageSpeed());
 		content.put(RoutesColumns.TOTAL_TIME, routeStats.getTotal_time());
 		content.put(RoutesColumns.TOTAL_DISTANCE,
-				routeStats.getTotal_distance());
+				routeStats.getTotalDistance());
 		content.put(RoutesColumns.MIN_GRADE, routeStats.getMinGrade());
 		content.put(RoutesColumns.MAX_GRADE, routeStats.getMaxGrade());
 		return content;
 	}
 
-	public ContentValues createContentValues(Track point) {
+	public ContentValues createContentValues(RouteTrackPoint point) {
 		ContentValues content = new ContentValues();
 		RouteStatistics routeStats = point.getRouteStatistics();
 		if (point.getId() > 0) {
-			content.put(TrackColumns._ID, point.getId());
+			content.put(RoutesTrackPointsColumns._ID, point.getId());
 		}
-		content.put(TrackColumns.NAME, point.getName());
-		content.put(TrackColumns.DESCRIPTION, point.getDescription());
-		content.put(TrackColumns.CATEGORY, point.getCategory());
-		content.put(TrackColumns.START_ID, point.getStartPointid());
-		content.put(TrackColumns.STOP_ID, point.getStopPointId());
-		content.put(TrackColumns.ICON_TRACK, point.getIcon());
-		content.put(TrackColumns.TRACK_DURATION, point.getDuration());
-		content.put(TrackColumns.LEGNTH_OF_TRACK, point.getLastTrackDuration());
+		content.put(RoutesTrackPointsColumns.NAME, point.getName());
+		content.put(RoutesTrackPointsColumns.DESCRIPTION, point.getDescription());
+		content.put(RoutesTrackPointsColumns.CATEGORY, point.getCategory());
+		content.put(RoutesTrackPointsColumns.START_ID, point.getStartPointid());
+		content.put(RoutesTrackPointsColumns.STOP_ID, point.getStopPointId());
+		content.put(RoutesTrackPointsColumns.ICON_TRACK, point.getIcon());
+		content.put(RoutesTrackPointsColumns.TRACK_DURATION, point.getDuration());
+		content.put(RoutesTrackPointsColumns.LEGNTH_OF_TRACK, point.getLastTrackDuration());
 		if (routeStats != null) {
-			content.put(TrackColumns.START_TIME, routeStats.getStart_time());
-			content.put(TrackColumns.AVG_MOVING_SPEED,
+			content.put(RoutesTrackPointsColumns.START_TIME, routeStats.getStart_time());
+			content.put(RoutesTrackPointsColumns.AVG_MOVING_SPEED,
 					routeStats.getAverageMovingSpeed());
-			content.put(TrackColumns.AVG_SPEED, routeStats.getAverageSpeed());
-			content.put(TrackColumns.TOTAL_DISTANCE,
-					routeStats.getTotal_distance());
-			content.put(TrackColumns.TOTAL_TIME, routeStats.getTotal_time());
-			content.put(TrackColumns.MIN_ELEVATION,
+			content.put(RoutesTrackPointsColumns.AVG_SPEED, routeStats.getAverageSpeed());
+			content.put(RoutesTrackPointsColumns.TOTAL_DISTANCE,
+					routeStats.getTotalDistance());
+			content.put(RoutesTrackPointsColumns.TOTAL_TIME, routeStats.getTotal_time());
+			content.put(RoutesTrackPointsColumns.MIN_ELEVATION,
 					routeStats.getMinElevation());
-			content.put(TrackColumns.MAX_ELEVATION,
+			content.put(RoutesTrackPointsColumns.MAX_ELEVATION,
 					routeStats.getMaxElevation());
-			content.put(TrackColumns.MIN_GRADE, routeStats.getMinGrade());
-			content.put(TrackColumns.MAX_GRADE, routeStats.getMaxGrade());
-			content.put(TrackColumns.MAX_SPEED, routeStats.getMax_speed());
+			content.put(RoutesTrackPointsColumns.MIN_GRADE, routeStats.getMinGrade());
+			content.put(RoutesTrackPointsColumns.MAX_GRADE, routeStats.getMaxGrade());
+			content.put(RoutesTrackPointsColumns.MAX_SPEED, routeStats.getMax_speed());
 		}
 		Location location = point.getLocation();
 		if (location != null) {
 
-			content.put(TrackColumns.LATITUDE,
+			content.put(RoutesTrackPointsColumns.LATITUDE,
 					(int) location.getLatitude() * 1E6);
-			content.put(TrackColumns.LONGITUDE,
+			content.put(RoutesTrackPointsColumns.LONGITUDE,
 					(int) location.getLongitude() * 1E6);
-			content.put(TrackColumns.TIME, location.getTime());
+			content.put(RoutesTrackPointsColumns.TIME, location.getTime());
 			if (location.hasAccuracy()) {
-				content.put(TrackColumns.ACCURACY, location.getAccuracy());
+				content.put(RoutesTrackPointsColumns.ACCURACY, location.getAccuracy());
 			}
 			if (location.hasBearing()) {
-				content.put(TrackColumns.BEARING, location.getBearing());
+				content.put(RoutesTrackPointsColumns.BEARING, location.getBearing());
 			}
 			if (location.hasAltitude()) {
-				content.put(TrackColumns.ALTITUDE, location.getAltitude());
+				content.put(RoutesTrackPointsColumns.ALTITUDE, location.getAltitude());
 			}
 			if (location.hasSpeed()) {
-				content.put(TrackColumns.SPEED, location.getSpeed());
+				content.put(RoutesTrackPointsColumns.SPEED, location.getSpeed());
 			}
 		}
 
@@ -197,18 +198,18 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		
 
 		public CachedRouteCoordinatesColumnIndex(Cursor cursor) {
-			idxId = cursor.getColumnIndex(RouteCoordinates._ID);
+			idxId = cursor.getColumnIndex(RoutesPointsLocations._ID);
 			idxLatitude = cursor
-					.getColumnIndexOrThrow(RouteCoordinates.LATITUDE);
+					.getColumnIndexOrThrow(RoutesPointsLocations.LATITUDE);
 			idxLongitude = cursor
-					.getColumnIndexOrThrow(RouteCoordinates.LONGITUDE);
+					.getColumnIndexOrThrow(RoutesPointsLocations.LONGITUDE);
 			idxAltitude = cursor
-					.getColumnIndexOrThrow(RouteCoordinates.ALTITUDE);
-			idxTime = cursor.getColumnIndexOrThrow(RouteCoordinates.TIME);
-			idxBearing = cursor.getColumnIndexOrThrow(RouteCoordinates.BEARING);
+					.getColumnIndexOrThrow(RoutesPointsLocations.ALTITUDE);
+			idxTime = cursor.getColumnIndexOrThrow(RoutesPointsLocations.TIME);
+			idxBearing = cursor.getColumnIndexOrThrow(RoutesPointsLocations.BEARING);
 			idxAccuracy = cursor
-					.getColumnIndexOrThrow(RouteCoordinates.ACCURACY);
-			idxSpeed = cursor.getColumnIndexOrThrow(RouteCoordinates.SPEED);
+					.getColumnIndexOrThrow(RoutesPointsLocations.ACCURACY);
+			idxSpeed = cursor.getColumnIndexOrThrow(RoutesPointsLocations.SPEED);
 			
 		}
 	}
@@ -285,7 +286,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			route.setNumberRoutePoints(cursor.getInt(idxNumPoints));
 		}
 		if (!cursor.isNull(idxTotalDistance)) {
-			stats.setTotal_distance(cursor.getFloat(idxTotalDistance));
+			stats.setTotalDistance(cursor.getFloat(idxTotalDistance));
 		}
 		if (!cursor.isNull(idxTotalTime)) {
 			stats.setTotal_time(cursor.getLong(idxTotalTime));
@@ -322,51 +323,51 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		return route;
 	}
 
-	public Track createTrack(Cursor cursor) {
-		int idxId = cursor.getColumnIndexOrThrow(TrackColumns._ID);
-		int idxName = cursor.getColumnIndexOrThrow(TrackColumns.NAME);
+	public RouteTrackPoint createRouteTrackPoint(Cursor cursor) {
+		int idxId = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns._ID);
+		int idxName = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.NAME);
 		int idxDescription = cursor
-				.getColumnIndexOrThrow(TrackColumns.DESCRIPTION);
-		int idxCategory = cursor.getColumnIndexOrThrow(TrackColumns.CATEGORY);
-		int idxIcon = cursor.getColumnIndexOrThrow(TrackColumns.ICON_TRACK);
-		int idxRouteId = cursor.getColumnIndexOrThrow(TrackColumns.ROUTE_ID);
-		int idxType = cursor.getColumnIndexOrThrow(TrackColumns.TYPE);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.DESCRIPTION);
+		int idxCategory = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.CATEGORY);
+		int idxIcon = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.ICON_TRACK);
+		int idxRouteId = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.ROUTE_ID);
+		int idxType = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.TYPE);
 		int idxLength = cursor
-				.getColumnIndexOrThrow(TrackColumns.LEGNTH_OF_TRACK);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.LEGNTH_OF_TRACK);
 		int idxDuration = cursor
-				.getColumnIndexOrThrow(TrackColumns.TRACK_DURATION);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.TRACK_DURATION);
 		int idxStartTime = cursor
-				.getColumnIndexOrThrow(TrackColumns.START_TIME);
-		int idxStartId = cursor.getColumnIndexOrThrow(TrackColumns.START_ID);
-		int idxStopId = cursor.getColumnIndexOrThrow(TrackColumns.STOP_ID);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.START_TIME);
+		int idxStartId = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.START_ID);
+		int idxStopId = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.STOP_ID);
 
 		int idxNrOfTimes = cursor
-				.getColumnIndexOrThrow(TrackColumns.NUMBER_TIMES);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.NUMBER_TIMES);
 		int idxTotalDistance = cursor
-				.getColumnIndexOrThrow(TrackColumns.TOTAL_DISTANCE);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.TOTAL_DISTANCE);
 		int idxTotalTime = cursor
-				.getColumnIndexOrThrow(TrackColumns.TOTAL_TIME);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.TOTAL_TIME);
 		int idxMovingTime = cursor
-				.getColumnIndexOrThrow(TrackColumns.MOVING_TIME);
-		int idxMaxSpeed = cursor.getColumnIndexOrThrow(TrackColumns.MAX_SPEED);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.MOVING_TIME);
+		int idxMaxSpeed = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.MAX_SPEED);
 		int idxMinElevation = cursor
-				.getColumnIndexOrThrow(TrackColumns.MIN_ELEVATION);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.MIN_ELEVATION);
 		int idxMaxElevation = cursor
-				.getColumnIndexOrThrow(TrackColumns.MAX_ELEVATION);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.MAX_ELEVATION);
 		int idxElevationGain = cursor
-				.getColumnIndexOrThrow(TrackColumns.ELEVATION_GAIN_CURRENT);
-		int idxMinGrade = cursor.getColumnIndexOrThrow(TrackColumns.MIN_GRADE);
-		int idxMaxGrade = cursor.getColumnIndexOrThrow(TrackColumns.MAX_GRADE);
+				.getColumnIndexOrThrow(RoutesTrackPointsColumns.ELEVATION_GAIN_CURRENT);
+		int idxMinGrade = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.MIN_GRADE);
+		int idxMaxGrade = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.MAX_GRADE);
 
-		int idxLatitude = cursor.getColumnIndexOrThrow(TrackColumns.LATITUDE);
-		int idxLongitude = cursor.getColumnIndexOrThrow(TrackColumns.LONGITUDE);
-		int idxAltitude = cursor.getColumnIndexOrThrow(TrackColumns.ALTITUDE);
-		int idxTime = cursor.getColumnIndexOrThrow(TrackColumns.TIME);
-		int idxBearing = cursor.getColumnIndexOrThrow(TrackColumns.BEARING);
-		int idxAccuracy = cursor.getColumnIndexOrThrow(TrackColumns.ACCURACY);
-		int idxSpeed = cursor.getColumnIndexOrThrow(TrackColumns.SPEED);
+		int idxLatitude = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.LATITUDE);
+		int idxLongitude = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.LONGITUDE);
+		int idxAltitude = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.ALTITUDE);
+		int idxTime = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.TIME);
+		int idxBearing = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.BEARING);
+		int idxAccuracy = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.ACCURACY);
+		int idxSpeed = cursor.getColumnIndexOrThrow(RoutesTrackPointsColumns.SPEED);
 
-		Track track = new Track();
+		RouteTrackPoint track = new RouteTrackPoint();
 
 		if (!cursor.isNull(idxId)) {
 			track.setId(cursor.getLong(idxId));
@@ -393,7 +394,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			track.setType(cursor.getInt(idxType));
 		}
 		if (!cursor.isNull(idxLength)) {
-			track.setTrackLength(cursor.getDouble(idxLength));
+			track.setRouteLength(cursor.getDouble(idxLength));
 		}
 		if (!cursor.isNull(idxDuration)) {
 			track.setDuration(cursor.getLong(idxDuration));
@@ -412,7 +413,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			hasStats = true;
 		}
 		if (!cursor.isNull(idxTotalDistance)) {
-			stats.setTotal_distance(cursor.getFloat(idxTotalDistance));
+			stats.setTotalDistance(cursor.getFloat(idxTotalDistance));
 			hasStats = true;
 		}
 		if (!cursor.isNull(idxTotalTime)) {
@@ -478,8 +479,8 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 
 	public void deleteAllRoutes() {
 		mContentResolver.delete(RoutesColumns.CONTENT_URI, null, null);
-		mContentResolver.delete(RouteCoordinates.CONTENT_URI, null, null);
-		mContentResolver.delete(TrackColumns.CONTENT_URI, null, null);
+		mContentResolver.delete(RoutesPointsLocations.CONTENT_URI, null, null);
+		mContentResolver.delete(RoutesTrackPointsColumns.CONTENT_URI, null, null);
 	}
 
 	public void deleteRouteById(long routeId) {
@@ -489,10 +490,10 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		if (route != null) {
 			where += "_id>=" + route.getStart_id() + " AND _id<="
 					+ route.getStop_id();
-			mContentResolver.delete(RouteCoordinates.CONTENT_URI, where,
+			mContentResolver.delete(RoutesPointsLocations.CONTENT_URI, where,
 					selectionArgs);
 		}
-		mContentResolver.delete(TrackColumns.CONTENT_URI, "_ID = " + routeId,
+		mContentResolver.delete(RoutesTrackPointsColumns.CONTENT_URI, "_ID = " + routeId,
 				null);
 		mContentResolver.delete(RoutesColumns.CONTENT_URI, "_ID = " + routeId,
 				null);
@@ -526,21 +527,21 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 
 	}
 
-	public void deleteTrack(long trackId,
+	public void deleteRouteTrackPoint(long trackId,
 			DescriptionGenerator descriptionGenerator) {
 		String where = "";
-		final Track deleteTrack = getTrackById(trackId);
+		final RouteTrackPoint deleteTrack = getRouteTrackPointById(trackId);
 		if (deleteTrack != null) {
-			final Track nextTrack = getNextStatisticTrackAfter(deleteTrack);
+			final RouteTrackPoint nextTrack = getNextStatisticRouteTrackPointAfter(deleteTrack);
 			if (nextTrack != null
-					&& deleteTrack.getType() == Track.TRACK_STATISTICS) {
+					&& deleteTrack.getType() == RouteTrackPoint.TRACKPOINT_STATISTICS) {
 				Log.d(TAG, "new Marker..." + nextTrack.getId() + " old marker "
 						+ deleteTrack.getId());
 				nextTrack.getRouteStatistics().merge(
 						deleteTrack.getRouteStatistics());
 				nextTrack.setDescription(descriptionGenerator
 						.generateWaypointDescription(nextTrack));
-				if (!updateTrack(nextTrack)) {
+				if (!updateRouteTrackPoint(nextTrack)) {
 					Log.w(TAG, "Update impossible");
 				} else {
 					Log.d(TAG, "No statistics");
@@ -548,22 +549,22 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			}
 		}
 		where += " _id = " + trackId;
-		mContentResolver.delete(TrackColumns.CONTENT_URI, where, null);
+		mContentResolver.delete(RoutesTrackPointsColumns.CONTENT_URI, where, null);
 	}
 
-	public Track getTrackById(long trackId) {
+	public RouteTrackPoint getRouteTrackPointById(long trackId) {
 		Cursor cursor = null;
 		String selection = "";
 		if (trackId < 0) {
 			return null;
 		}
 		selection += "_ID" + " = " + trackId;
-		cursor = mContentResolver.query(TrackColumns.CONTENT_URI, null,
+		cursor = mContentResolver.query(RoutesTrackPointsColumns.CONTENT_URI, null,
 				selection, null, null);
 		if (cursor != null) {
 			try {
 				if (cursor.moveToFirst()) {
-					return createTrack(cursor);
+					return createRouteTrackPoint(cursor);
 				}
 			} catch (RuntimeException e) {
 				Log.w(TAG, "Exception in getTrackById");
@@ -574,18 +575,18 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		return null;
 	}
 
-	public Track getNextStatisticTrackAfter(Track track) {
-		String selection = TrackColumns._ID + " > " + track.getId()
-				+ TrackColumns.ROUTE_ID + " = " + track.getRouteId() + " AND "
-				+ TrackColumns.TYPE + " = " + Track.TRACK_STATISTICS;
-		final String sortOrder = TrackColumns._ID + " LIMIR 1";
+	public RouteTrackPoint getNextStatisticRouteTrackPointAfter(RouteTrackPoint track) {
+		String selection = RoutesTrackPointsColumns._ID + " > " + track.getId()
+				+ RoutesTrackPointsColumns.ROUTE_ID + " = " + track.getRouteId() + " AND "
+				+ RoutesTrackPointsColumns.TYPE + " = " + RouteTrackPoint.TRACKPOINT_STATISTICS;
+		final String sortOrder = RoutesTrackPointsColumns._ID + " LIMIR 1";
 		Cursor cursor = null;
 		try {
-			cursor = mContentResolver.query(TrackColumns.CONTENT_URI, null,
+			cursor = mContentResolver.query(RoutesTrackPointsColumns.CONTENT_URI, null,
 					selection, null, sortOrder);
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
-					return createTrack(cursor);
+					return createRouteTrackPoint(cursor);
 				}
 			}
 		} catch (RuntimeException exception) {
@@ -598,11 +599,11 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		return null;
 	}
 
-	public boolean updateTrack(Track track) {
+	public boolean updateRouteTrackPoint(RouteTrackPoint track) {
 		String where = "";
 		try {
 			where += "_ID" + " = " + track.getId();
-			final int rows = mContentResolver.update(TrackColumns.CONTENT_URI,
+			final int rows = mContentResolver.update(RoutesTrackPointsColumns.CONTENT_URI,
 					createContentValues(track), where, null);
 			if (rows > 0) {
 				return (rows == 1);
@@ -618,7 +619,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		return findLocationById(selection);
 	}
 
-	public Track getFirstTrackFromRoute(long routeId) {
+	public RouteTrackPoint getFirstTrackFromRoute(long routeId) {
 		if (routeId < 0) {
 			return null;
 		}
@@ -635,12 +636,12 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			final String[] projection = { "_id" };
 			selection += "_id = (select max(_id) from routepoints where route_id "
 					+ " = " + routeId + " )";
-			cursor = mContentResolver.query(RouteCoordinates.CONTENT_URI,
+			cursor = mContentResolver.query(RoutesPointsLocations.CONTENT_URI,
 					projection, selection, null, null);
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
 					return cursor.getLong(cursor
-							.getColumnIndexOrThrow(RouteCoordinates._ID));
+							.getColumnIndexOrThrow(RoutesPointsLocations._ID));
 				}
 			}
 		} catch (Exception e) {
@@ -651,8 +652,8 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 
 		return -1;
 	}
-
-	public long getFirstTrackId(long routeId) {
+    @Override
+	public long getFirstRouteTrackPointId(long routeId) {
 		if (routeId < 0) {
 			return -1;
 		}
@@ -661,13 +662,13 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		String sortOrder = "_id ASC LIMIT 1";
 		String[] projection = { "_id" };
 		try {
-			selection += TrackColumns.ROUTE_ID + " = " + routeId;
-			cursor = mContentResolver.query(TrackColumns.CONTENT_URI,
+			selection += RoutesTrackPointsColumns.ROUTE_ID + " = " + routeId;
+			cursor = mContentResolver.query(RoutesTrackPointsColumns.CONTENT_URI,
 					projection, selection, null, sortOrder);
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
 					return cursor.getLong(cursor
-							.getColumnIndexOrThrow(TrackColumns._ID));
+							.getColumnIndexOrThrow(RoutesTrackPointsColumns._ID));
 				}
 
 			}
@@ -680,8 +681,8 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		}
 		return -1;
 	}
-
-	public long getLastTrackId(long routeId) {
+    @Override
+	public long getLastRouteTrackPointId(long routeId) {
 		if (routeId < 0) {
 			return -1;
 		}
@@ -690,13 +691,13 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		Cursor cursor = null;
 		String sortOrder = "_id DESC LIMIT 1";
 		try {
-			selection += TrackColumns.ROUTE_ID + " = " + routeId;
-			cursor = mContentResolver.query(TrackColumns.CONTENT_URI,
+			selection += RoutesTrackPointsColumns.ROUTE_ID + " = " + routeId;
+			cursor = mContentResolver.query(RoutesTrackPointsColumns.CONTENT_URI,
 					projection, selection, null, sortOrder);
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
 					return cursor.getLong(cursor
-							.getColumnIndexOrThrow(TrackColumns._ID));
+							.getColumnIndexOrThrow(RoutesTrackPointsColumns._ID));
 				}
 			}
 		} catch (Exception e) {
@@ -708,24 +709,38 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		}
 		return 0;
 	}
-
-	public long getLastRouteId() {
-		// TODO Auto-generated method stub
-		return 0;
+    @Override
+	public long getLastRouteId() 
+	{
+		String[] proj = { RoutesColumns._ID };
+		Cursor cursor = mContentResolver.query(RoutesColumns.CONTENT_URI, proj,
+				"_id=(select max(_id) from tracks)", null, null);
+		if (cursor != null) {
+			try {
+				if (cursor.moveToFirst()) {
+					return cursor.getLong(cursor
+							.getColumnIndexOrThrow(RoutesColumns._ID));
+				}
+			} finally {
+				cursor.close();
+			}
+		}
+		return -1;
 	}
+
 
 	public Location getLocationById(long id) {
 		if (id < 0) {
 			return null;
 		}
-		String selection = RouteCoordinates._ID + " = " + id;
+		String selection = RoutesPointsLocations._ID + " = " + id;
 		return findLocationById(selection);
 	}
 
 	private Location findLocationById(String selection) {
 		Cursor cursor = null;
 		try {
-			cursor = mContentResolver.query(RouteCoordinates.CONTENT_URI, null,
+			cursor = mContentResolver.query(RoutesPointsLocations.CONTENT_URI, null,
 					selection, null, null);
 			if (cursor != null) {
 				if (cursor.moveToFirst()) {
@@ -796,10 +811,10 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		String selection;
 		if (minRoutePointId >= 0) {
 			selection = String.format("%s=%d AND %s%s%d",
-					RouteCoordinates.ROUTE_ID, routeId, RouteCoordinates._ID,
+					RoutesPointsLocations.ROUTE_ID, routeId, RoutesPointsLocations._ID,
 					sort_type ? "<=" : ">=", minRoutePointId);
 		} else {
-			selection = String.format("%s=%d", RouteCoordinates.ROUTE_ID,
+			selection = String.format("%s=%d", RoutesPointsLocations.ROUTE_ID,
 					routeId);
 		}
 
@@ -808,11 +823,11 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			sortOrder += " LIMIT " + locationsNumber;
 		}
 
-		return mContentResolver.query(RouteCoordinates.CONTENT_URI, null,
+		return mContentResolver.query(RoutesPointsLocations.CONTENT_URI, null,
 				selection, null, sortOrder);
 	}
 
-	public Cursor getTracksCursor(long routeId, long minTrackId, int maxTraks) {
+	public Cursor getRouteTrackPointsCursor(long routeId, long minTrackId, int maxTraks) {
 		if (routeId < 0) {
 			return null;
 		}
@@ -821,16 +836,16 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		Cursor cursor = null;
 		try {
 			if (minTrackId > 0) {
-				selection += TrackColumns.ROUTE_ID + " = " + routeId + " AND "
-						+ TrackColumns._ID + " > " + minTrackId;
+				selection += RoutesTrackPointsColumns.ROUTE_ID + " = " + routeId + " AND "
+						+ RoutesTrackPointsColumns._ID + " > " + minTrackId;
 			} else {
-				selection += TrackColumns.ROUTE_ID + " = " + routeId;
+				selection += RoutesTrackPointsColumns.ROUTE_ID + " = " + routeId;
 			}
 			if (maxTraks > 0) {
 				sortOrder += " LIMIT" + maxTraks;
 			}
 
-			cursor = mContentResolver.query(TrackColumns.CONTENT_URI, null,
+			cursor = mContentResolver.query(RoutesTrackPointsColumns.CONTENT_URI, null,
 					selection, null, sortOrder);
 			return cursor;
 		} catch (RuntimeException e) {
@@ -838,10 +853,11 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		}
 		return null;
 	}
-
-	public Cursor getSelectedRoutesCursor(String selection) {
-		// TODO Auto-generated method stub
-		return null;
+    @Override
+	public Cursor getSelectedRoutesCursor(String selection) 
+	{
+	    Cursor cursor = mContentResolver.query(RoutesColumns.CONTENT_URI, null, selection, null, "_id");
+	    return cursor;
 	}
 
 	public Uri insertRoute(Route newRoute) {
@@ -850,13 +866,13 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 				createContentValues(newRoute));
 	}
 
-	public Uri insertRouteTrack(Location location, long routeId) {
+	public Uri insertRoutePoint(Location location, long routeId) {
 		Log.d(TAG, "MyRouteProviderImpl.insertTrackPoint");
 		return mContentResolver.insert(RoutesColumns.CONTENT_URI,
 				createContentValues(location, routeId));
 	}
 
-	public int insertManyRouteTracks(Location[] locations, int length,
+	public int insertManyRouteTrackPoints(Location[] locations, int length,
 			long routeId) {
 		if (length == -1) {
 			length = locations.length;
@@ -866,13 +882,13 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			values[i] = createContentValues(locations[i], routeId);
 		}
 		return mContentResolver
-				.bulkInsert(RouteCoordinates.CONTENT_URI, values);
+				.bulkInsert(RoutesPointsLocations.CONTENT_URI, values);
 	}
 
-	public Uri insertTrack(Track track) {
+	public Uri insertRouteTrackPoint(RouteTrackPoint track) {
 		Log.d(TAG, "MyRouteProviderImpl.insertWaypoint");
 		track.setId(-1);
-		return mContentResolver.insert(TrackColumns.CONTENT_URI,
+		return mContentResolver.insert(RoutesTrackPointsColumns.CONTENT_URI,
 				createContentValues(track));
 	}
 
@@ -909,12 +925,20 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 
 	}
 
-	public void updateRoute(Track endpoint) {
+	public void updateRoute(RouteTrackPoint endpoint) {
 		// TODO Auto-generated method stub
 
 	}
-
-	public LocationIterator getLocationIterator(final long routeId, final long startRoutePointId, final boolean sort_type,final CreateLocationFactory locationFactory) 
+    public void setBatchSize(int value)
+    {
+    	this.defaultCursorBatchSize = value;
+    }
+    public int getBatchSize()
+    {
+    	return defaultCursorBatchSize;
+    }
+	public LocationIterator getLocationIterator(final long routeId, final long startRoutePointId, final boolean sort_type,
+			                                    final CreateLocationFactory locationFactory) 
 	{
 		if (locationFactory == null) 
 		{
@@ -922,14 +946,18 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		}
 		return new LocationIterator() 
 		{
+			/**
+			 * lastPointId at the beginning of the route is equal with the startRouteId
+			 */
 			private long lastPointId = startRoutePointId;
 			private Cursor cursor = geCurrentCursor(startRoutePointId);
 
-			private final CachedRouteCoordinatesColumnIndex columnIndices = cursor != null ? new CachedRouteCoordinatesColumnIndex(cursor) : null;
+			private final CachedRouteCoordinatesColumnIndex columnIndices = cursor != null ? 
+					                                         new CachedRouteCoordinatesColumnIndex(cursor) : null;
 
 			private Cursor geCurrentCursor(long startRoutePointId) {
 				return getLocationsCursor(routeId, startRoutePointId,
-						defaultCursorBatchSize, sort_type);
+						                  getBatchSize(), sort_type);
 			}
 
 			private boolean advanceCursorToNextBatch() {
@@ -940,15 +968,16 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 				return cursor != null;
 			}
 
-			private Cursor getCursor(long trackPointId) {
-				return getLocationsCursor(routeId, trackPointId, defaultCursorBatchSize, sort_type);
+			private Cursor getCursor(long routePointId) {
+				return getLocationsCursor(routeId, routePointId, getBatchSize(), sort_type);
 			}
 
 			public long getLocationid() {
 				return lastPointId;
 			}
 
-			public boolean hasNext() {
+			public boolean hasNext() 
+			{
 				if (cursor == null) {
 					return false;
 				}
@@ -959,7 +988,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 					// If the current batch size was less that max, we can
 					// safely return, otherwise
 					// we need to advance to the next batch.
-					return cursor.getCount() == defaultCursorBatchSize
+					return cursor.getCount() == getBatchSize()
 							&& advanceCursorToNextBatch()
 							&& !cursor.isAfterLast();
 				}
@@ -993,4 +1022,5 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			}
 		};
 	}
+
 }

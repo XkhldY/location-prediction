@@ -30,10 +30,10 @@ limitations under the License.
       android:orientation="vertical">
       
       <TextView
-        android:text="@string/welcome_my_tracks_question"
+        android:text="@string/welcome_my_routes_question"
         style="@style/WelcomeTextView.Question"/>
       <TextView
-        android:text="@string/welcome_my_tracks_answer"
+        android:text="@string/welcome_my_routes_answer"
         style="@style/WelcomeTextView"/>
       <TextView
         android:text="@string/welcome_app_navigation_question"
@@ -114,10 +114,10 @@ limitations under the License.
         android:text="@string/welcome_edit_accuracy_answer"
         style="@style/WelcomeTextView"/>     
       <TextView
-        android:text="@string/welcome_split_track_question"
+        android:text="@string/welcome_split_route_question"
         style="@style/WelcomeTextView.Question"/>
       <TextView
-        android:text="@string/welcome_split_track_answer"
+        android:text="@string/welcome_split_route_answer"
         style="@style/WelcomeTextView"/>           
       <TextView
         android:text="@string/welcome_delete_all_question"

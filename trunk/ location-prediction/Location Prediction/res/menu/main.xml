@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/menu_record_track"
+  <item android:id="@+id/menu_record_route"
     android:icon="@drawable/ic_menu_recordtrack"
-    android:title="@string/menu_record_track"/>
+    android:title="@string/menu_record_route"/>
 
   <item android:id="@+id/menu_stop_recording"
     android:icon="@drawable/ic_menu_stoprecording"
     android:title="@string/menu_stop_recording"/>
 
-  <item android:id="@+id/menu_tracks"
+  <item android:id="@+id/menu_routes"
     android:icon="@drawable/ic_menu_tracklist"
-    android:title="@string/menu_tracks"/>
+    android:title="@string/menu_routes"/>
 
   <item android:id="@+id/menu_markers"
     android:icon="@drawable/ic_menu_waypoints"

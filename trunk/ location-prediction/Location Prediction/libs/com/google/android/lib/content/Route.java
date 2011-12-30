@@ -189,16 +189,19 @@ public class Route implements Parcelable
 	public ArrayList<Location> getLocations() {
 		return mLocations;
 	}
-
-	public void setmocations(ArrayList<Location> mLocations) {
+    public void addLocation(Location loc)
+    {
+    	mLocations.add(loc);
+    }
+	public void setLocations(ArrayList<Location> mLocations) {
 		this.mLocations = mLocations;
 	}
 
-	public Map<Integer, Location> getmHashLocations() {
+	public Map<Integer, Location> getHashLocations() {
 		return mHashLocations;
 	}
 
-	public void setmHashLocations(Map<Integer, Location> mHashLocations) {
+	public void setHashLocations(Map<Integer, Location> mHashLocations) {
 		this.mHashLocations = mHashLocations;
 	}
 

@@ -5,7 +5,7 @@ import android.location.Location;
 import com.google.android.lib.content.RouteLocation;
 
 
-public class LastLocations implements CreateLocationFactory
+public class DoubleLastLocations implements CreateLocationFactory
 {
 	private int lastGpsLocation = 0;
 	private int lastNetworkLocation = 0;
@@ -16,7 +16,8 @@ public class LastLocations implements CreateLocationFactory
 	};
 	Location locsNetwork[] = new RouteLocation[] 
 	{
-		new RouteLocation("Network"), new RouteLocation("Network") 
+		new RouteLocation("Network"), 
+		new RouteLocation("Network") 
 	};
 
 	public Location createGPSLocation() 

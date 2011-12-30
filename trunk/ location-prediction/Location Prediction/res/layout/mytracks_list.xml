@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apl/res/com.google.android.apps.mytracks"
-  android:id="@+id/tracklist_root"
+  xmlns:app="http://schemas.android.com/apl/res/com.google.android.apps.myroutes"
+  android:id="@+id/routelist_root"
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
@@ -32,7 +32,7 @@ limitations under the License.
       android:layout_height="wrap_content"
       android:textSize="16dip"
       android:textColor="#fff"
-      android:text="@string/track_list_pick_one"
+      android:text="@string/route_list_pick_one"
       android:layout_weight="0"/>
   </LinearLayout>
   <ListView android:id="@android:id/list"
@@ -41,17 +41,17 @@ limitations under the License.
     android:layout_weight="1"/>
   <LinearLayout style="@style/ButtonLayout">
     <LinearLayout style="@style/ButtonSpacer"/>
-    <Button android:id="@+id/tracklist_btn_import_all"
+    <Button android:id="@+id/routelist_btn_import_all"
       android:layout_gravity="left"
-      android:text="@string/track_list_import_all"
+      android:text="@string/route_list_import_all"
       style="@style/Button"/>
-    <Button android:id="@+id/tracklist_btn_export_all"
+    <Button android:id="@+id/routelist_btn_export_all"
       android:layout_gravity="center_horizontal"
-      android:text="@string/track_list_export_all"
+      android:text="@string/route_list_export_all"
       style="@style/Button"/>
-    <Button android:id="@+id/tracklist_btn_delete_all"
+    <Button android:id="@+id/routelist_btn_delete_all"
       android:layout_gravity="right"
-      android:text="@string/track_list_delete_all"
+      android:text="@string/route_list_delete_all"
       style="@style/Button"/>
     <LinearLayout style="@style/ButtonSpacer"/>
   </LinearLayout>

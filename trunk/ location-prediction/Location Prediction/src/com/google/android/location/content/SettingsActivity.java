@@ -15,8 +15,7 @@ import android.preference.PreferenceManager;
 /**
  * An activity that let's the user see and edit the settings.
  * 
- * @author Leif Hendrik Wilden
- * @author Rodrigo Damazio
+ * @author Andrei
  */
 public class SettingsActivity extends PreferenceActivity {
 
@@ -192,7 +191,7 @@ public class SettingsActivity extends PreferenceActivity {
    */
   private void updateDisplayOptions(boolean isMetric) 
   {
-    setTaskOptions(isMetric, R.string.split_frequency_key);
+    setTaskOptions(isMetric, R.string.route_update_idletime_key);
     setRecordingDistanceOptions(isMetric, R.string.min_recording_distance_key);
     setTrackDistanceOptions(isMetric, R.string.max_recording_distance_key);
     setGpsAccuracyOptions(isMetric, R.string.min_required_accuracy_key);
