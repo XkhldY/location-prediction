@@ -17,10 +17,10 @@ limitations under the License.
 <resources>
   <!-- Keys for application preferences. Sorted alphabetically. - DO NOT TRANSLATE -->
   <string name="allow_access_key">allowAccess</string>
-  <string name="announcement_frequency_key">announcementFrequency</string>
+
 
   <string name="auto_resume_route_timeout_key">autoResumeRouteTimeout</string>
- 
+  <string name="report_speed_key">reportSpeed</string>
    
   <string name="default_activity_key">defaultActivity</string>
   <string name="default_map_public_key">defaultMapPublic</string>
@@ -29,27 +29,13 @@ limitations under the License.
   <string name="min_recording_distance_key">minRecordingDistance</string>
   <string name="min_recording_interval_key">minRecordingInterval</string>
   <string name="min_required_accuracy_key">minRequiredAccuracy</string>
-  <string name="pick_existing_map_key">pickExistingMap</string>
-  <string name="report_speed_key">reportSpeed</string>
-  <string name="send_to_docs_key">sendToDocs</string>
-  <string name="send_to_fusion_tables_key">sendToFusionTables</string>
-  <string name="send_to_my_maps_key">sendToMyMaps</string>
-  <string name="sensor_type_key">sensorType</string>
-  <string name="split_frequency_key">splitFrequency</string>
-  <string name="timestamp_track_name_key">timestampTrackName</string>
-  <string name="route_color_mode_dynamic_speed_variation_key">routeColorModeDynamicVariation
-          </string>  
-  <string name="route_color_mode_fixed_speed_medium_display_key">trackColorModeFixedMediumDisplay
-          </string>
-  <string name="route_color_mode_fixed_speed_medium_key">routeColorModeFixedMedium</string>
-  <string name="route_color_mode_fixed_speed_slow_display_key">routeColorModeFixedSlowDisplay
-          </string>
-  <string name="route_color_mode_fixed_speed_slow_key">trackColorModeFixedSlow</string>
-  <string name="route_color_mode_key">routeColorMode</string>
+  <string name="route_update_idletime_key">updateIdleTimeKey</string>
+  <string name="timestamp_route_name_key">timestampRoutekName</string>
+
     
   <!-- Preference keys which keep transient state (not user preferences). Sorted alphabetically.
        - DO NOT TRANSLATE -->
-  <string name="auto_resume_route_current_retry_key">autoResumeTrackCurrentRetry</string>
+  <string name="auto_resume_route_current_retry_key">autoResumeRouteCurrentRetry</string>
   <string name="recording_route_key">recordingTrack</string>
   <string name="selected_route_key">selectedTrack</string>
 

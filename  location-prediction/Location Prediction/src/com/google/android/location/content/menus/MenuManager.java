@@ -1,8 +1,14 @@
-package com.google.android.location.content;
+package com.google.android.location.content.menus;
 
 
 
 
+
+import com.google.android.location.content.R;
+import com.google.android.location.content.SettingsActivity;
+import com.google.android.location.content.StartActivity;
+import com.google.android.location.content.R.id;
+import com.google.android.location.content.R.menu;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +21,7 @@ import android.widget.Toast;
  *
  * @author Andrei
  */
-class MenuManager {
+public class MenuManager {
 
   private final StartActivity activity;
 
@@ -32,7 +38,7 @@ class MenuManager {
       boolean isRecording, boolean hasSelectedTrack) {
     menu.findItem(R.id.menu_markers)
         .setEnabled(hasRecorded && hasSelectedTrack);
-    menu.findItem(R.id.menu_record_track)
+    menu.findItem(R.id.menu_record_route)
         .setEnabled(!isRecording)
         .setVisible(!isRecording);
     menu.findItem(R.id.menu_stop_recording)
@@ -42,7 +48,7 @@ class MenuManager {
 
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-      case R.id.menu_record_track: {
+      case R.id.menu_record_route: {
         activity.startRecording();
         return true;
       }

@@ -1,5 +1,5 @@
 package com.google.android.lib.services;
-import com.google.android.lib.content.CreateTrack;
+import com.google.android.lib.content.CreateRouteTrackPoint;
 
 interface IRouteRecordingService
 {
@@ -8,10 +8,10 @@ interface IRouteRecordingService
  **/
   boolean isRecording();
   /**
-  * insert an endpoint and returns 
-  *@params id of the new endpoint
+  * insert an reoute track point and returns 
+  *@params id of the new route track points
   */
-  long insertEndPointWithId(in CreateTrack track);
+  long insertAndReturnRouteTPId(in CreateRouteTrackPoint track);
   /**
   * start a new route returning
   *@prams id of the route
@@ -25,15 +25,16 @@ interface IRouteRecordingService
   */
   long getRecordingRouteId();
   /**
-  *while recording records a new locating
+  *This is used only for special GPS or Network points given the fact that we have attach a location listener
+  * to the service so this should be in special cases.
   *
   */
-  void recordLocation();
+  void recordLocation(in Location location);
   /** calculate statistics
   * for every point and route
   */
   void calculateStatistics();
-  /** check fi a current point already exists in the database
+  /** check if a current point already exists in the database
   *
   */
   boolean existEndPointAtId();

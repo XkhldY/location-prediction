@@ -3,6 +3,8 @@ package com.google.android.location.content;
 import com.google.android.lib.content.data.MyRouteProvider;
 import com.google.android.lib.logs.MyLogClass;
 import com.google.android.lib.services.IRouteRecordingService;
+import com.google.android.location.content.menus.MenuManager;
+import com.google.android.location.content.menus.NavigationControls;
 import com.google.android.location.predict.RoutesPredictActivity;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MyMapActivity;

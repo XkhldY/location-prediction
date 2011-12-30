@@ -39,7 +39,7 @@ limitations under the License.
   </string>
   <string name="about_support"
     translation_description="In the 'About My Tracks' page, label for the support link. E.g.,
-      'Support: mytracks.appspot.com'.
+      'Support: myroutes.appspot.com'.
 
       Screenshot: about.png">
     Support:
@@ -330,15 +330,15 @@ limitations under the License.
       completion suggestion for surfing.">
     surfing
   </string>
-  <string name="activity_type_track_cycling"
+  <string name="activity_type_route_cycling"
     translation_description="When entering an 'Activity type', in the auto-complete text box, the
-      completion suggestion for track cycling.">
-    track cycling
+      completion suggestion for route cycling.">
+    route cycling
   </string>
-  <string name="activity_type_track_running"
+  <string name="activity_type_route_running"
     translation_description="When entering an 'Activity type', in the auto-complete text box, the
-      completion suggestion for track running.">
-    track running
+      completion suggestion for route running.">
+    route running
   </string>
   <string name="activity_type_trail_hiking"
     translation_description="When entering an 'Activity type', in the auto-complete text box, the
@@ -406,7 +406,7 @@ limitations under the License.
     \n
     * ANT+ and SRM support requires an ANT+ compatible phone\n
     \n
-    My Tracks can share your track data:\n
+    My Tracks can share your route data:\n
     - As a GPX, KML, CSV, or TCX file\n
     - Using Google My Maps, Google Fusion Tables, or Google Docs\n
     - Via Twitter or Facebook\n
@@ -419,13 +419,13 @@ limitations under the License.
     My Tracks is run by volunteers and Googlers in their 20% time. If you would like to contribute,
     please visit:\n
     \n
-    http://mytracks.googlecode.com\n
+    http://myroutes.googlecode.com\n
   </string>
   <string name="android_market_promo_text"
     translation_description="For the Android Market (not used in the app), the promotion text.
 
       Character limit: 80.">
-    My Tracks allows you to record and share your GPS tracks, including statistics.
+    My Tracks allows you to record and share your GPS routes, including statistics.
   </string>
 
   <!-- Chart Settings -->
@@ -611,12 +611,12 @@ limitations under the License.
 
   <!-- Export -->
   <string name="export_error"
-    translation_description="When exporting all the tracks to the SD card, a toast message
+    translation_description="When exporting all the routes to the SD card, a toast message
       indicating error.">
     Unable to export.
   </string>
   <string name="export_success"
-    translation_description="When exporting all the tracks to the SD card, a toast message
+    translation_description="When exporting all the routes to the SD card, a toast message
       indicating success.
 
       Screenshot: export_success">
@@ -691,46 +691,46 @@ limitations under the License.
 
   <!-- Import -->
   <string name="import_error"
-    translation_description="When importing all the tracks, a toast message indicating import error
-      for one of the tracks.
+    translation_description="When importing all the routes, a toast message indicating import error
+      for one of the routes.
 
-      %1$s: the track's file path on the SD card. E.g., '/mnt/sdcard/MyTacks/gpx/1.gpx'.">
+      %1$s: the route's file path on the SD card. E.g., '/mnt/sdcard/MyTacks/gpx/1.gpx'.">
     Import error for file %1$s.
   </string>
   <string name="import_gpx_files_few"
-    translation_description="When importing all the tracks, phrase for 'few' GPX files.
+    translation_description="When importing all the routes, phrase for 'few' GPX files.
 
       %1$d an integer number. The number is a small number.">
     %1$d GPX files
   </string>
   <string name="import_gpx_files_many"
-    translation_description="When importing all the tracks, phrase for 'many' GPX files.
+    translation_description="When importing all the routes, phrase for 'many' GPX files.
 
       %1$d an integer number. The number is a large number.">
     %1$d GPX files
   </string>
   <string name="import_gpx_files_one"
-    translation_description="When importing all the tracks, phrase for 1 GPX file.">
+    translation_description="When importing all the routes, phrase for 1 GPX file.">
     1 GPX file
   </string>
   <string name="import_gpx_files_other"
-    translation_description="When importing all the tracks, phrase for 'other' GPX files, 'other'
+    translation_description="When importing all the routes, phrase for 'other' GPX files, 'other'
       means for cases that the language does not require special treatment of the given quantity.
 
       %1$d an integer number.">
     %1$d GPX files
   </string>
   <string name="import_gpx_files_two"
-    translation_description="When importing all the tracks, phrase for 2 GPX files.">
+    translation_description="When importing all the routes, phrase for 2 GPX files.">
     2 GPX files
   </string>
   <string name="import_gpx_files_zero"
-    translation_description="When importing all the tracks, phrase for 0 GPX files.">
+    translation_description="When importing all the routes, phrase for 0 GPX files.">
     0 GPX files
   </string>
   <string name="import_no_file"
-    translation_description="After importing all the tracks from the SD card, the alert message
-      indicating that no track is imported.
+    translation_description="After importing all the routes from the SD card, the alert message
+      indicating that no route is imported.
 
       %1$s: the SD card directory path. E.g., '/mnt/sdcard/MyTracks/gpx/'.
       Screenshot: import_no_file.png">
@@ -738,10 +738,10 @@ limitations under the License.
     GPX file.
   </string>
   <string name="import_success"
-    translation_description="After importing all the tracks from the SD card, the alert message
+    translation_description="After importing all the routes from the SD card, the alert message
       indicating success.
 
-      %1$d the number of successfully imported tracks. E.g., '1'.
+      %1$d the number of successfully imported routes. E.g., '1'.
       %2$s the number of GPX files in the SD card. E.g., '1 GPX file' or '2 GPX files'.
       %3$s the SD card directory path. E.g., '/mnt/sdcard/MyTracks/gpx/'.
       Screenshot: import_success.png">
@@ -796,13 +796,13 @@ limitations under the License.
     A marker was inserted.
   </string>
   <string name="marker_label_end"
-    translation_description="When inserting a marker to indicate the end of a track, the label at
-      the end of the marker name. E.g., the marker is named 'track_name (End)'.">
+    translation_description="When inserting a marker to indicate the end of a route, the label at
+      the end of the marker name. E.g., the marker is named 'route_name (End)'.">
     (End)
   </string>
   <string name="marker_label_start"
-    translation_description="When inserting a marker to indicate the beginning of a track, the label
-      at the end of the marker name. E.g., the marker is named 'track_name (Start)'.">
+    translation_description="When inserting a marker to indicate the beginning of a route, the label
+      at the end of the marker name. E.g., the marker is named 'route_name (Start)'.">
     (Start)
   </string>
   <string name="marker_list_context_menu_title"
@@ -879,7 +879,7 @@ limitations under the License.
   <string name="menu_aggregated_statistics"
     translation_description="In the menu, to go to the aggregated statistics page.
 
-      Screenshot: menu_record_track_more.png">
+      Screenshot: menu_record_route_more.png">
     Aggregated statistics
   </string>
   <string name="menu_chart_view_chart_settings"
@@ -891,7 +891,7 @@ limitations under the License.
   <string name="menu_help"
     translation_description="In the menu, to go to the help page.
 
-      Screenshot: menu_record_track_more.png">
+      Screenshot: menu_record_route_more.png">
     Help
   </string>
   <string name="menu_map_view_map_mode"
@@ -903,50 +903,50 @@ limitations under the License.
   <string name="menu_map_view_my_location"
     translation_description="In the menu for the map view, to display user's current location.
 
-      Screenshot: menu_record_track.png">
+      Screenshot: menu_record_route.png">
     My location
   </string>
   <string name="menu_map_view_satellite_mode"
     translation_description="In the menu for the map view, to switch the display to the satellite
       mode.
 
-      Screenshot: menu_record_track.png">
+      Screenshot: menu_record_route.png">
     Satellite mode
   </string>
   <string name="menu_markers"
-    translation_description="In the menu, to show a list of markers for the current track.
+    translation_description="In the menu, to show a list of markers for the current route.
 
-      Screenshot: menu_record_track.png">
+      Screenshot: menu_record_route.png">
     Markers
   </string>
-  <string name="menu_record_track"
-    translation_description="In the menu, to start recording a track.
+  <string name="menu_record_route"
+    translation_description="In the menu, to start recording a route.
 
-      Screenshot: menu_record_track.png">
-    Record track
+      Screenshot: menu_record_route.png">
+    Record route
   </string>
   <string name="menu_sensor_state"
     translation_description="In the menu, to go to the sensor state page.
 
-      Screenshot: menu_record_track_more.png">
+      Screenshot: menu_record_route_more.png">
     Sensor state
   </string>
   <string name="menu_settings"
     translation_description="In the menu, to go to the settings page.
 
-      Screenshot: menu_record_track_more.png">
+      Screenshot: menu_record_route_more.png">
     Settings
   </string>
   <string name="menu_stop_recording"
-    translation_description="In the menu, to stop recording a track.
+    translation_description="In the menu, to stop recording a route.
 
       Screenshot: menu_stop_recording.png">
     Stop recording
   </string>
-  <string name="menu_tracks"
-    translation_description="In the menu, to show a list of all the tracks.
+  <string name="menu_routes"
+    translation_description="In the menu, to show a list of all the routes.
 
-      Screenshot: menu_record_track.png">
+      Screenshot: menu_record_route.png">
     Tracks
   </string>
 
@@ -969,45 +969,45 @@ limitations under the License.
 
   <!-- My Maps List -->
   <string name="my_maps_list_error"
-    translation_description="When sending a track to an existing Google My Map, the text on the
+    translation_description="When sending a route to an existing Google My Map, the text on the
       'My Maps' list page informing the user that his maps cannot be loaded at this time.">
     Your maps could not be loaded at this time.
   </string>
   <string name="my_maps_list_loading"
-    translation_description="When sending a track to an existing Google My Map, the progress dialog
+    translation_description="When sending a route to an existing Google My Map, the progress dialog
       message informing the user that his maps are being loaded.">
     Loading maps...
   </string>
   <string name="my_maps_list_no_maps"
-    translation_description="When sending a track to an existing Google My Map, the text on the
+    translation_description="When sending a route to an existing Google My Map, the text on the
       'My Maps' list page informing the user that he doesn't have any maps.
 
       Screenshot: my_maps_list_no_maps.png">
     You don\'t have any maps.
   </string>
   <string name="my_maps_list_pick_map"
-    translation_description="When sending a track to an existing Google My Map, the text on the
+    translation_description="When sending a route to an existing Google My Map, the text on the
       'My Maps' list page asking the user to pick one of his maps.
 
       Screenshot: my_maps.png">
     Pick a map:
   </string>
   <string name="my_maps_list_public_label"
-    translation_description="When sending a track to an existing Google My Map, in the 'My Maps'
+    translation_description="When sending a route to an existing Google My Map, in the 'My Maps'
       list page, the label next to the maps that are public, as opposed to being unlisted.
 
       Screenshot: my_maps.png">
     Public
   </string>
   <string name="my_maps_list_title"
-    translation_description="When sending a track to an existing Google My Map, the title of the
+    translation_description="When sending a route to an existing Google My Map, the title of the
       page listing the user's maps in Google My Maps.
 
       Screenshot: my_maps.png">
     Your Google My Maps
   </string>
   <string name="my_maps_list_unlisted_label"
-    translation_description="When sending a track to an existing Google My Map, in the 'My Maps'
+    translation_description="When sending a route to an existing Google My Map, in the 'My Maps'
       list page, the label next to the maps that are unlisted, as opposed to being public.
 
       Screenshot: my_maps.png">
@@ -1015,23 +1015,23 @@ limitations under the License.
   </string>
 
   <!-- My Tracks -->
-  <string name="my_tracks_app_name"
+  <string name="my_routes_app_name"
     translation_description="The My Tracks application name.">
       My Tracks
   </string>
-  <string name="my_tracks_importer"
+  <string name="my_routes_importer"
     translation_description="When opening a GPX file from a file manager, the name of the My Tracks
       application that can import the file to My Tracks.
 
-      Screenshot: my_tracks_importer.png">
+      Screenshot: my_routes_importer.png">
       My Tracks Importer
   </string>
-  <string name="my_tracks_recording_service"
+  <string name="my_routes_recording_service"
     translation_description="When viewing the 'Running services' on Android, the name of the My
-      Tracks service that is recording a track in the background.
+      Tracks service that is recording a route in the background.
 
       Character limit: ~23 (1 line)
-      Screenshot: my_tracks_recording_service.png">
+      Screenshot: my_routes_recording_service.png">
     Track recording service
   </string>
 
@@ -1104,7 +1104,7 @@ limitations under the License.
 
   <!-- SD Card -->
   <string name="sd_card_canceled"
-    translation_description="When exporting a track to the SD card, a message indicating that the
+    translation_description="When exporting a route to the SD card, a message indicating that the
       export operation was canceled.
 
       Screenshot: sd_card_canceled.png">
@@ -1136,7 +1136,7 @@ limitations under the License.
       that it may take a while.
 
       Screenshot: sd_card_progress_write_file.png">
-    Exporting a track to the SD card. This may take a while.
+    Exporting a route to the SD card. This may take a while.
   </string>
   <string name="sd_card_success_read_file"
     translation_description="When reading from the SD card, the success message when finish reading
@@ -1154,11 +1154,11 @@ limitations under the License.
   </string>
 
   <!-- Send Google -->
-  <string name="send_google_by_my_tracks"
-    translation_description="When sending a track to Google, a note indicating it is created by
+  <string name="send_google_by_my_routes"
+    translation_description="When sending a route to Google, a note indicating it is created by
       My Tracks on Android.
 
-      %1$s: the html anchor opening tag, '&lt;a href=\'http://mytracks.appspot.com\'&gt;'. Please
+      %1$s: the html anchor opening tag, '&lt;a href=\'http://myroutes.appspot.com\'&gt;'. Please
       place this placeholder before the app name, 'My Tracks'.
       %2$s: the html anchor closing tag, '&lt;/a&gt;'. Please place this placeholder after the app
       name, 'My Tracks'.">
@@ -1171,40 +1171,40 @@ limitations under the License.
     Choose account
   </string>
   <string name="send_google_docs"
-    translation_description="When sending a track to Google, under the 'Send to...' dialog, the
+    translation_description="When sending a route to Google, under the 'Send to...' dialog, the
       checkbox option to send to Google Docs.
 
       Screenshot: send_google_choose_service.png">
     Google Docs
   </string>
   <string name="send_google_error"
-    translation_description="When sending a track to Google, a message indicating that an error has
+    translation_description="When sending a route to Google, a message indicating that an error has
       occurred and ask the user to try again.">
     An error has occurred. Please try again.
   </string>
   <string name="send_google_existing_map"
-    translation_description="When sending a track to Google My Maps, the radio option to use an
+    translation_description="When sending a route to Google My Maps, the radio option to use an
       existing map as opposed to create a new map.
 
       Screenshot: send_google_choose_service.png">
     Use an existing map
   </string>
   <string name="send_google_fusion_tables"
-    translation_description="When sending a track to Google, under the 'Send to...' dialog, the
+    translation_description="When sending a route to Google, under the 'Send to...' dialog, the
       checkbox option to send to Google Fusion Tables.
 
       Screenshot: send_google_choose_service.png">
     Google Fusion Tables
   </string>
   <string name="send_google_my_maps"
-    translation_description="When sending a track to Google, under the 'Send to...' dialog, the
+    translation_description="When sending a route to Google, under the 'Send to...' dialog, the
       checkbox option to send to Google My Maps.
 
       Screenshot: send_google_choose_service.png">
     Google My Maps
   </string>
   <string name="send_google_new_map"
-    translation_description="When sending a track to Google My Maps, the radio option to create a
+    translation_description="When sending a route to Google My Maps, the radio option to create a
       new map as opposed to use an existing map.
 
       Screenshot: send_google_choose_service.png">
@@ -1213,7 +1213,7 @@ limitations under the License.
   <string name="send_google_no_account_message"
     translation_description="When sending to Google, the dialog message when no Google account is
       found.">
-    No account found to upload tracks to.
+    No account found to upload routes to.
   </string>
   <string name="send_google_no_account_title"
     translation_description="When sending to Google, the dialog title when no Google account is
@@ -1221,80 +1221,80 @@ limitations under the License.
     No account found
   </string>
   <string name="send_google_progress_authenticating"
-    translation_description="When sending a track to a Google service, the message on the progress
+    translation_description="When sending a route to a Google service, the message on the progress
       dialog indicating authenticating to the service.
 
       %1$s: service name. 'Google My Maps', 'Google Fusion Tables', or 'Google Docs'.">
     Authenticating to %1$s...
   </string>
   <string name="send_google_progress_creating"
-    translation_description="When sending a track to a Google service, the message on the progress
+    translation_description="When sending a route to a Google service, the message on the progress
       dialog indicating creating a new service item.
 
       %1$s: service name. 'Google My Maps', 'Google Fusion Tables', or 'Google Docs'.">
     Creating a new %1$s item...
   </string>
-  <string name="send_google_progress_preparing_track"
-    translation_description="When sending a track to Google My Maps, the message on the progress
-      dialog indicating My Tracks is preparing the track's data for upload.">
-    Preparing track...
+  <string name="send_google_progress_preparing_route"
+    translation_description="When sending a route to Google My Maps, the message on the progress
+      dialog indicating My Tracks is preparing the route's data for upload.">
+    Preparing route...
   </string>
-  <string name="send_google_progress_reading_track"
-    translation_description="When sending a track to Google, the message on the progress dialog
-      indicating My Tracks is reading the track from its database.">
-    Reading track...
+  <string name="send_google_progress_reading_route"
+    translation_description="When sending a route to Google, the message on the progress dialog
+      indicating My Tracks is reading the route from its database.">
+    Reading route...
   </string>
   <string name="send_google_progress_sending"
-    translation_description="When sending a track to Google service, the message on the progress
-      dialog indicating My Tracks is sending the track data.
+    translation_description="When sending a route to Google service, the message on the progress
+      dialog indicating My Tracks is sending the route data.
 
       %1$s: service name. 'Google My Maps', 'Google Fusion Tables', or 'Google Docs'.">
-    Sending a track to %1$s...
+    Sending a route to %1$s...
   </string>
   <string name="send_google_recorded"
-    translation_description="When sending a track to Google, in the track description, a tag
-      for the track recorded date. E.g., 'Recorded: Tue Sep 06 15:08:30 PDT 2011'.">
+    translation_description="When sending a route to Google, in the route description, a tag
+      for the route recorded date. E.g., 'Recorded: Tue Sep 06 15:08:30 PDT 2011'.">
     Recorded
   </string>
   <string name="send_google_result_header"
-    translation_description="When sending a track to Google, the header on the top of the result
+    translation_description="When sending a route to Google, the header on the top of the result
       page.
 
       Screenshot: send_google_success.png">
     Upload status:
   </string>
   <string name="send_google_result_share_url"
-    translation_description="When sending a track to Google, in the result dialog, the button on
-      the bottom to share with friends the URL of the uploaded track.
+    translation_description="When sending a route to Google, in the result dialog, the button on
+      the bottom to share with friends the URL of the uploaded route.
 
       Screenshot: send_google_success.png">
-    Share track URL
+    Share route URL
   </string>
   <string name="send_google_send_now"
-    translation_description="When sending a track to Google, under the 'Send to...' dialog, the
-      button on the bottom to send the track to the selected Google services.
+    translation_description="When sending a route to Google, under the 'Send to...' dialog, the
+      button on the bottom to send the route to the selected Google services.
 
       Screenshot: send_google_choose_service.png">
     Send now
   </string>
   <string name="send_google_success_footer"
-    translation_description="When sending a track to Google, the additional comment on the bottom of
+    translation_description="When sending a route to Google, the additional comment on the bottom of
       the result page.
 
       Screenshot: send_google_success.png">
-    It may take a few minutes before new tracks appear.
+    It may take a few minutes before new routes appear.
   </string>
   <string name="send_google_title"
-    translation_description="When sending a track to Google, the dialog title to choose the Google
-      services to send the track to. The user can choose Google My Maps, Google Fusion
+    translation_description="When sending a route to Google, the dialog title to choose the Google
+      services to send the route to. The user can choose Google My Maps, Google Fusion
       Tables, and Google Docs.
 
       Screenshot: send_google_choose_service.png">
     Send to...
   </string>
-  <string name="send_google_track_part_label"
-    translation_description="When sending a track to Google, the label to name segments when
-      splitting a large track.
+  <string name="send_google_route_part_label"
+    translation_description="When sending a route to Google, the label to name segments when
+      splitting a large route.
 
       %1$d: part number. E.g., '1'.">
     (Part %1$d)
@@ -1385,19 +1385,19 @@ limitations under the License.
   </string>
   <string name="settings_backup_now_progress_message"
     translation_description="In the 'Backup' settings, after pressing the 'Backup now' option, the
-      progress dialog telling the user that it is writing all tracks and settings and that it may
+      progress dialog telling the user that it is writing all routes and settings and that it may
       take a while.
 
       Screenshot: settings_backup_now_progress_message.png">
-    Writing all tracks and settings to the SD card. This may take a while...
+    Writing all routes and settings to the SD card. This may take a while...
   </string>
   <string name="settings_backup_now_summary"
     translation_description="In the 'Backup' settings, under the 'SD card backup' section, the
-      summary for the 'Backup now' option explaining that all tracks and settings will be written to
+      summary for the 'Backup now' option explaining that all routes and settings will be written to
       the SD card.
 
       Screenshot: settings_backup.png">
-    Write a full copy of all your tracks and settings to the SD card.
+    Write a full copy of all your routes and settings to the SD card.
   </string>
   <string name="settings_backup_restore"
     translation_description="In the 'Backup' settings, under the 'SD card backup' section, the
@@ -1410,10 +1410,10 @@ limitations under the License.
   <string name="settings_backup_restore_confirm_message"
     translation_description="In the 'Backup' settings, after pressing the 'Restore now' option, the
       message in the alert dialog asking the user to confirm that he wants to restore from a backup
-      and it will overwrite all the current tracks and settings.
+      and it will overwrite all the current routes and settings.
 
       Screenshot: settings_backup_restore_confirm_message.png">
-    Restoring a backup from the SD card will overwrite all your current tracks and settings. Are you
+    Restoring a backup from the SD card will overwrite all your current routes and settings. Are you
     sure?
   </string>
   <string name="settings_backup_restore_no_backup"
@@ -1425,11 +1425,11 @@ limitations under the License.
   </string>
   <string name="settings_backup_restore_progress_message"
     translation_description="In the 'Backup' settings, after pressing the 'Restore now' option, the
-      message on the progress dialog indicating that My Tracks is reading all tracks and settings
+      message on the progress dialog indicating that My Tracks is reading all routes and settings
       from the backup on the SD card and that it may take a while.
 
       Screenshot: settings_backup_restore_progress.png">
-    Reading all tracks and settings from the SD card. This may take a while...
+    Reading all routes and settings from the SD card. This may take a while...
   </string>
   <string name="settings_backup_restore_select_title"
     translation_description="In the 'Backup' settings, after pressing the 'Restore now' option, the
@@ -1440,12 +1440,12 @@ limitations under the License.
   </string>
   <string name="settings_backup_restore_summary"
     translation_description="In the 'Backup' settings, under the 'SD card backup' section, the
-      summary for the 'Restore now' option explaining that it restores all tracks and settings from
+      summary for the 'Restore now' option explaining that it restores all routes and settings from
       the SD card.
 
       Character limit: ~26 (1 line)
       Screenshot: settings_backup.png">
-    Restore all tracks and settings from the SD card.
+    Restore all routes and settings from the SD card.
   </string>
   <string name="settings_backup_sd_card"
     translation_description="In the 'Backup' settings, the section header for configuring backup to
@@ -1508,53 +1508,53 @@ limitations under the License.
       Screenshot: settings_display.png">
     Display speed (e.g., miles/hour).
   </string>
-  <string name="settings_display_track_color"
-    translation_description="In the 'Display' settings, the dropdown option to choose a track color
-      mode for how to use different colors to color a track based on slow, medium, and fast speed.
+  <string name="settings_display_route_color"
+    translation_description="In the 'Display' settings, the dropdown option to choose a route color
+      mode for how to use different colors to color a route based on slow, medium, and fast speed.
 
       Character limit: ~23 (1 line)
       Screenshot: settings_display.png">
     Track color mode
   </string>
-  <string name="settings_display_track_color_dynamic"
+  <string name="settings_display_route_color_dynamic"
     translation_description="In the 'Display' settings, for the 'Track color mode' dropdown, the
-      option to use different colors to color a track based on dynamically determined speed
+      option to use different colors to color a route based on dynamically determined speed
       thresholds. E.g., use one color when the speed is below the slow speed threshold.
 
       Character limit: ~21 (1 line)
-      Screenshot: settings_display_track_color_option.png">
+      Screenshot: settings_display_route_color_option.png">
     Dynamic thresholds
   </string>
-  <string name="settings_display_track_color_dynamic_medium"
+  <string name="settings_display_route_color_dynamic_medium"
     translation_description="In the 'Display' settings, under the 'Dynamic thresholds'
       configurations, the option for configuring the percentage from the average speed for the
-      medium speed range. The track color mode will use different colors to color a track depending
+      medium speed range. The route color mode will use different colors to color a route depending
       on whether the speed is above, in, or below the medium speed range.
 
       Character limit: ~23 (1 line)
       Screenshot: settings_display.png">
     Percentage from average
   </string>
-  <string name="settings_display_track_color_dynamic_medium_summary"
+  <string name="settings_display_route_color_dynamic_medium_summary"
     translation_description="In the 'Display' settings, under the 'Dynamic thresholds'
       configurations, the summary for the 'Percentage from average' option explaining that it sets
-      the percentage from the average speed for the medium speed range. The track color mode will
-      use different colors to color a track depending on whether the speed is above, in, or below
+      the percentage from the average speed for the medium speed range. The route color mode will
+      use different colors to color a route depending on whether the speed is above, in, or below
       the medium speed range.
 
       Screenshot: settings_display.png">
     Percentage from the average speed for the medium speed range.
   </string>
-  <string name="settings_display_track_color_fixed"
+  <string name="settings_display_route_color_fixed"
     translation_description="In the 'Display' settings, for the 'Track color mode' dropdown, the
-      option to use different colors to color a track based on fixed speed thresholds. E.g., use
+      option to use different colors to color a route based on fixed speed thresholds. E.g., use
       one color when the speed is below the slow speed threshold.
 
       Character limit: ~21 (1 line)
-      Screenshot: settings_display_track_color_option.png">
+      Screenshot: settings_display_route_color_option.png">
     Fixed thresholds
   </string>
-  <string name="settings_display_track_color_fixed_medium"
+  <string name="settings_display_route_color_fixed_medium"
     translation_description="In the 'Display' settings, under the 'Fixed thresholds' configurations,
       the option for configuring the medium speed threshold. Thus any speed lower than the
       threshold but greater than the slow speed threshold will be colored by the medium speed
@@ -1564,7 +1564,7 @@ limitations under the License.
       Screenshot: settings_display.png">
     Medium speed threshold
   </string>
-  <string name="settings_display_track_color_fixed_medium_summary"
+  <string name="settings_display_route_color_fixed_medium_summary"
     translation_description="In the 'Display' settings, under the 'Fixed thresholds' configurations,
       the summary for the 'Medium speed threshold' option explaining that it sets a cutoff speed
       for the medium speed color.
@@ -1572,7 +1572,7 @@ limitations under the License.
       Screenshot: settings_display.png">
     Medium speed top value.
   </string>
-  <string name="settings_display_track_color_fixed_slow"
+  <string name="settings_display_route_color_fixed_slow"
     translation_description="In the 'Display' settings, under the 'Fixed thresholds' configurations,
       the option for configuring the slow speed threshold. Thus any speed lower than the threshold
       will be colored by the slow speed color.
@@ -1581,7 +1581,7 @@ limitations under the License.
       Screenshot: settings_display.png">
     Slow speed threshold
   </string>
-  <string name="settings_display_track_color_fixed_slow_summary"
+  <string name="settings_display_route_color_fixed_slow_summary"
     translation_description="In the 'Display' settings, under the 'Fixed thresholds' configurations,
       the summary for the 'Slow speed threshold' option explaining that it sets a cutoff speed for
       the slow speed color.
@@ -1589,31 +1589,31 @@ limitations under the License.
       Screenshot: settings_display.png">
     Slow speed top value.
   </string>
-  <string name="settings_display_track_color_single"
+  <string name="settings_display_route_color_single"
     translation_description="In the 'Display' settings, for the 'Track color mode' dropdown, the
       option to use a single color for all speeds.
 
       Character limit: ~21 (1 line)
-      Screenshot: settings_display_track_color_option.png">
+      Screenshot: settings_display_route_color_option.png">
     Single color
   </string>
-  <string name="settings_display_track_color_summary"
+  <string name="settings_display_route_color_summary"
     translation_description="In the 'Display' settings, the summary for the 'Track color mode'
-      dropdown explaining that it configures how colors are used to color a track based on
+      dropdown explaining that it configures how colors are used to color a route based on
       slow, medium, and fast speed.
 
       Screenshot: settings_display.png">
-    The way to color a track based on slow, medium, and fast speed.
+    The way to color a route based on slow, medium, and fast speed.
   </string>
   <string name="settings_not_while_recording"
     translation_description="In settings, the summary for an option that is not available during a
-      track recording.
+      route recording.
 
       Screenshot: settings_not_while_recording.png">
-    Not available while recording a track.
+    Not available while recording a route.
   </string>
   <string name="settings_recording"
-    translation_description="In the 'Settings' page, the option to change the track recording
+    translation_description="In the 'Settings' page, the option to change the route recording
       related settings.
 
       Character limit: ~26 (1 line)
@@ -1622,7 +1622,7 @@ limitations under the License.
   </string>
   <string name="settings_recording_auto_resume"
     translation_description="In the 'Recording' settings, the dropdown option to configure the
-      timeout after which a recorded track will not be continued after phone reboot.
+      timeout after which a recorded route will not be continued after phone reboot.
 
       Character limit: ~23 (1 line)
       Screenshot: settings_recording_bottom.png">
@@ -1634,10 +1634,10 @@ limitations under the License.
       recording will not be resumed after phone reboot.
 
       Screenshot: settings_recording_bottom.png">
-    Maximum time after which a previously recording track will not be resumed after phone reboot.
+    Maximum time after which a previously recording route will not be resumed after phone reboot.
   </string>
   <string name="settings_recording_default_activity"
-    translation_description="In the 'Recording' settings, the option to specify a new track's
+    translation_description="In the 'Recording' settings, the option to specify a new route's
       default activity type.
 
       Character limit: ~23 (1 line)
@@ -1646,10 +1646,10 @@ limitations under the License.
   </string>
   <string name="settings_recording_default_activity_summary"
     translation_description="In the 'Recording' settings, the summary for the 'Default activity
-      type' option explaining that it sets the default activity type for a new track.
+      type' option explaining that it sets the default activity type for a new route.
 
       Screenshot: settings_recording_bottom.png">
-    Default activity type for a new track.
+    Default activity type for a new route.
   </string>
   <string name="settings_recording_distance"
     translation_description="In the 'Recording' settings, the dropdown option to configure the
@@ -1717,40 +1717,40 @@ limitations under the License.
     Time/distance after which a new marker will be inserted.
   </string>
   <string name="settings_recording_name"
-    translation_description="In the 'Recording' settings, the checkbox on whether the track should
-      be named based on the track's start time or based on a number.
+    translation_description="In the 'Recording' settings, the checkbox on whether the route should
+      be named based on the route's start time or based on a number.
 
       Character limit: ~23 (1 line)
       Screenshot: settings_recording_bottom.png">
-    Use time for track name
+    Use time for route name
   </string>
   <string name="settings_recording_name_summary_off"
-    translation_description="In the 'Recording' settings, the summary for the 'Use time for track
-      name' checkbox when it is unchecked explaining using a number as the default track name.
+    translation_description="In the 'Recording' settings, the summary for the 'Use time for route
+      name' checkbox when it is unchecked explaining using a number as the default route name.
 
       Screenshot: settings_recording_bottom_unchecked.png">
-    Use a number as the default track name.
+    Use a number as the default route name.
   </string>
   <string name="settings_recording_name_summary_on"
-    translation_description="In the 'Recording' settings, the summary for the 'Use time for track
-      name' checkbox when it is checked explaining using the track's start time as the default track
+    translation_description="In the 'Recording' settings, the summary for the 'Use time for route
+      name' checkbox when it is checked explaining using the route's start time as the default route
       name.
 
       Screenshot: settings_recording_bottom.png">
-    Use the track\'s start time as the default track name.
+    Use the route\'s start time as the default route name.
   </string>
-  <string name="settings_recording_track_distance"
+  <string name="settings_recording_route_distance"
     translation_description="In the 'Recording' settings, the dropdown option to configure the
-      distance between two tracks.
+      distance between two routes.
 
       Character limit: ~23 (1 line)
       Screenshot: settings_recording_top.png">
-    Distance between tracks
+    Distance between routes
   </string>
-  <string name="settings_recording_track_distance_summary"
+  <string name="settings_recording_route_distance_summary"
     translation_description="In the 'Recording' settings, the summary for the 'Distance between
-      tracks' dropdown option explaining that it configures the maximum distance for two recorded
-      points for them to be still considered as the same track.
+      routes' dropdown option explaining that it configures the maximum distance for two recorded
+      points for them to be still considered as the same route.
 
       Screenshot: settings_recording_top.png">
     Track will be split if two recordings of your position are further than this.
@@ -1788,10 +1788,10 @@ limitations under the License.
   <string name="settings_reset_dialog_message"
     translation_description="In the 'Settings' page, after pressing the 'Reset to defaults' option,
       the confirmation dialog asking the user to confirm reverting all settings to defaults. But
-      the saved tracks will be preserved.
+      the saved routes will be preserved.
 
       Screenshot: settings_reset_dialog_message.png">
-    All your settings will be erased and reverted to the default values. Saved tracks will be
+    All your settings will be erased and reverted to the default values. Saved routes will be
     preserved. Are you sure?
   </string>
   <string name="settings_reset_done"
@@ -1951,7 +1951,7 @@ limitations under the License.
     Unpair SRM ANT+ bridge
   </string>
   <string name="settings_sharing"
-    translation_description="In the 'Settings' page, the option to change the track sharing related
+    translation_description="In the 'Settings' page, the option to change the route sharing related
       settings.
 
       Character limit: ~26 (1 line)
@@ -2048,32 +2048,32 @@ limitations under the License.
   </string>
 
   <!-- Share Track -->
-  <string name="share_track_file_body_format"
-    translation_description="When sharing a track file with friends, the body of the message.
+  <string name="share_route_file_body_format"
+    translation_description="When sharing a route file with friends, the body of the message.
 
-      Screenshot: share_track_file.png">
-    I think you might be interested in this track.\n\nTo view this track use Google Earth or other
+      Screenshot: share_route_file.png">
+    I think you might be interested in this route.\n\nTo view this route use Google Earth or other
     mapping software.
   </string>
-  <string name="share_track_picker_title"
-    translation_description="When sharing a track URL with friends, the title on the picker to ask
+  <string name="share_route_picker_title"
+    translation_description="When sharing a route URL with friends, the title on the picker to ask
       the user which application he wants to use.
 
-      Screenshot: share_track_pick_title.png">
-    Share track using:
+      Screenshot: share_route_pick_title.png">
+    Share route using:
   </string>
-  <string name="share_track_subject"
-    translation_description="When sharing a track with friends, the subject line.
+  <string name="share_route_subject"
+    translation_description="When sharing a route with friends, the subject line.
 
-      Screenshot: share_track_url.png">
-    I would like to share a track with you
+      Screenshot: share_route_url.png">
+    I would like to share a route with you
   </string>
-  <string name="share_track_url_body_format"
-    translation_description="When sharing a track URL with friends, the body of the message.
+  <string name="share_route_url_body_format"
+    translation_description="When sharing a route URL with friends, the body of the message.
 
       %1$s: url. E.g, 'https://maps.google.com/maps'.
-      Screenshot: share_track_url.png">
-    I think you might be interested in this track:\n\n%1$s
+      Screenshot: share_route_url.png">
+    I think you might be interested in this route:\n\n%1$s
   </string>
 
   <!-- Stat Page -->
@@ -2193,195 +2193,195 @@ limitations under the License.
   </string>
 
   <!-- Track -->
-  <string name="track_detail_activity_type"
-    translation_description="In the detail page for a track, the text field for the activity type,
+  <string name="route_detail_activity_type"
+    translation_description="In the detail page for a route, the text field for the activity type,
       including for examples.
 
-      Screenshot: track_detail.png">
+      Screenshot: route_detail.png">
     Activity type (e.g. hiking, cycling, running...)
   </string>
-  <string name="track_detail_activity_type_hint"
-    translation_description="In the detail page for a track, the hint in the 'Activity type' text
+  <string name="route_detail_activity_type_hint"
+    translation_description="In the detail page for a route, the hint in the 'Activity type' text
       field when it is empty.
 
-      Screenshot: track_detail.png">
+      Screenshot: route_detail.png">
     Activity type
   </string>
-  <string name="track_detail_title"
-    translation_description="In the detail page for a track, the title of the page.
+  <string name="route_detail_title"
+    translation_description="In the detail page for a route, the title of the page.
 
-      Screenshot: track_detail.png">
+      Screenshot: route_detail.png">
     Track details
   </string>
-  <string name="track_detail_track_description"
-    translation_description="In the detail page for a track, the text field for the track
+  <string name="route_detail_route_description"
+    translation_description="In the detail page for a route, the text field for the route
       description.
 
-      Screenshot: track_detail.png">
+      Screenshot: route_detail.png">
     Track description
   </string>
-  <string name="track_detail_track_name"
-    translation_description="In the detail page for a track, the text field for the track name.
+  <string name="route_detail_route_name"
+    translation_description="In the detail page for a route, the text field for the route name.
 
-      Screenshot: track_detail.png">
+      Screenshot: route_detail.png">
     Track name
   </string>
-  <string name="track_list_clear_map"
-    translation_description="In the context menu for a track, the menu option to clear the map of
-      any track.
+  <string name="route_list_clear_map"
+    translation_description="In the context menu for a route, the menu option to clear the map of
+      any route.
 
-      Screenshot: track_list_context_menu.png">
+      Screenshot: route_list_context_menu.png">
     Clear map
   </string>
-  <string name="track_list_context_menu_title"
-    translation_description="In the context menu for a track, the title indicating that all the menu
-      options below are for this track.
+  <string name="route_list_context_menu_title"
+    translation_description="In the context menu for a route, the title indicating that all the menu
+      options below are for this route.
 
-      Screenshot: track_list_context_menu.png">
-    This track
+      Screenshot: route_list_context_menu.png">
+    This route
   </string>
-  <string name="track_list_delete_all"
-    translation_description="In the 'Tracks' page, the button on the bottom to delete all tracks.
+  <string name="route_list_delete_all"
+    translation_description="In the 'Tracks' page, the button on the bottom to delete all routes.
 
-      Screenshot: track_list.png">
+      Screenshot: route_list.png">
     Delete all
   </string>
-  <string name="track_list_delete_all_confirm_message"
+  <string name="route_list_delete_all_confirm_message"
     translation_description="In the 'Tracks' page, when pressing the 'Delete all' button, the
-      confirmation dialog message informing the user that all tracks and markers will be permanently
+      confirmation dialog message informing the user that all routes and markers will be permanently
       deleted from the phone.
 
-      Screenshot: track_list_delete_all_confirm_message.png">
-    All tracks and markers will be permanently deleted from the phone.
+      Screenshot: route_list_delete_all_confirm_message.png">
+    All routes and markers will be permanently deleted from the phone.
   </string>
-  <string name="track_list_delete_track"
-    translation_description="In the context menu for a track, the menu option to delete the
-      track from the phone.
+  <string name="route_list_delete_route"
+    translation_description="In the context menu for a route, the menu option to delete the
+      route from the phone.
 
-      Screenshot: track_list_context_menu.png">
+      Screenshot: route_list_context_menu.png">
     Delete from phone...
   </string>
-  <string name="track_list_delete_track_confirm_message"
-    translation_description="In the context menu for a track, when pressing the 'Delete from
-      phone...' option, the confirmation dialog message informing the user that the track and its
+  <string name="route_list_delete_route_confirm_message"
+    translation_description="In the context menu for a route, when pressing the 'Delete from
+      phone...' option, the confirmation dialog message informing the user that the route and its
       markers will be permanently deleted from the phone.
 
-      Screenshot: track_list_delete_track_confirm_message.png">
-    The track and its markers will be permanently deleted from the phone.
+      Screenshot: route_list_delete_route_confirm_message.png">
+    The route and its markers will be permanently deleted from the phone.
   </string>
-  <string name="track_list_edit_track"
-    translation_description="In the context menu for a track, the menu option to edit the track's
+  <string name="route_list_edit_route"
+    translation_description="In the context menu for a route, the menu option to edit the route's
       metadata (e.g., name, activity type, etc.).
 
-      Screenshot: track_list_context_menu.png">
+      Screenshot: route_list_context_menu.png">
     Edit
   </string>
-  <string name="track_list_export_all"
-    translation_description="In the 'Tracks' page, the button on the bottom to export all tracks.
+  <string name="route_list_export_all"
+    translation_description="In the 'Tracks' page, the button on the bottom to export all routes.
 
-      Screenshot: track_list.png">
+      Screenshot: route_list.png">
     Export all
   </string>
-  <string name="track_list_export_file"
+  <string name="route_list_export_file"
     translation_description="In the 'Tracks' page, after pressing the 'Export all' button, the menu
-      option to export all the tracks as a certain file format
+      option to export all the routes as a certain file format
 
       %1$s: file format. 'GPX', 'KML', 'CSV', or 'TCX'.
-      Screenshot: track_list_export_file.png">
+      Screenshot: route_list_export_file.png">
     Export as %1$s
   </string>
-  <string name="track_list_import_all"
-    translation_description="In the 'Tracks' page, the button on the bottom to import all tracks.
+  <string name="route_list_import_all"
+    translation_description="In the 'Tracks' page, the button on the bottom to import all routes.
 
-      Screenshot: track_list.png">
+      Screenshot: route_list.png">
     Import all
   </string>
-  <string name="track_list_pick_one"
+  <string name="route_list_pick_one"
     translation_description="In the 'Tracks' page, the instruction at the top of the page informing
-      the user he can press and hold a track for more options.
+      the user he can press and hold a route for more options.
 
-      Screenshot: track_list.png">
-    Pick a track. Press &amp; hold for more options.
+      Screenshot: route_list.png">
+    Pick a route. Press &amp; hold for more options.
   </string>
-  <string name="track_list_save_file"
-    translation_description="In the context menu for a track, under the 'Save to SD card...'
-      option, the menu option to save the track as a certain file format.
+  <string name="route_list_save_file"
+    translation_description="In the context menu for a route, under the 'Save to SD card...'
+      option, the menu option to save the route as a certain file format.
 
       %1$s: file format. 'GPX', 'KML', 'CSV', or 'TCX'.
-      Screenshot: track_list_save_file.png">
+      Screenshot: route_list_save_file.png">
     As a %1$s file
   </string>
-  <string name="track_list_save_sd"
-    translation_description="In the context menu for a track, the menu option to save the track to
+  <string name="route_list_save_sd"
+    translation_description="In the context menu for a route, the menu option to save the route to
       the SD card.
 
-      Screenshot: track_list_context_menu.png">
+      Screenshot: route_list_context_menu.png">
     Save to SD card...
   </string>
-  <string name="track_list_send_google"
-    translation_description="In the context menu for a track, the menu option to send the track to
+  <string name="route_list_send_google"
+    translation_description="In the context menu for a route, the menu option to send the route to
       Google.
 
-      Screenshot: track_list_context_menu.png">
+      Screenshot: route_list_context_menu.png">
     Send to Google...
   </string>
-  <string name="track_list_share_file"
-    translation_description="In the context menu for a track, under the 'Share with friends...'
-      option, the menu option to share the track as a certain file format.
+  <string name="route_list_share_file"
+    translation_description="In the context menu for a route, under the 'Share with friends...'
+      option, the menu option to share the route as a certain file format.
 
       %1$s: file format. 'GPX', 'KML', 'CSV', or 'TCX'.
-      Screenshot: track_list_share_options.png">
+      Screenshot: route_list_share_options.png">
     A %1$s file
   </string>
-  <string name="track_list_share_track"
-    translation_description="In the context menu for a track, the menu option to share the track
+  <string name="route_list_share_route"
+    translation_description="In the context menu for a route, the menu option to share the route
       with friends through other applications.
 
-      Screenshot: track_list_context_menu.png">
+      Screenshot: route_list_context_menu.png">
     Share with friends...
   </string>
-  <string name="track_list_share_url"
-    translation_description="In the context menu for a track, under the 'Share with friends...'
-      option, the menu option to save a track to My Maps or Fusion Tables and share the URL with
+  <string name="route_list_share_url"
+    translation_description="In the context menu for a route, under the 'Share with friends...'
+      option, the menu option to save a route to My Maps or Fusion Tables and share the URL with
       friends.
 
-      Screenshot: track_list_share_options.png">
+      Screenshot: route_list_share_options.png">
     My Map or Fusion Table URL
   </string>
-  <string name="track_list_show_on_map"
-    translation_description="In the context menu for a track, the menu option to show the track on
+  <string name="route_list_show_on_map"
+    translation_description="In the context menu for a route, the menu option to show the route on
       the map.
 
-      Screenshot: track_list_show_on_map.png">
+      Screenshot: route_list_show_on_map.png">
     Show on map
   </string>
-  <string name="track_name_format"
-    translation_description="When creating a new track, the string format to name the track.
+  <string name="route_name_format"
+    translation_description="When creating a new route, the string format to name the route.
 
-      %1$d: track number. E.g., '1'.
-      Screenshot: track_name_format.png">
+      %1$d: route number. E.g., '1'.
+      Screenshot: route_name_format.png">
     Track %1$d
   </string>
-  <string name="track_record_error"
+  <string name="route_record_error"
     translation_description="When starting a recording, message when not able to start due to no GPS
       location and asking the user to try again.
 
-      Screenshot: track_record_error.png">
+      Screenshot: route_record_error.png">
     Unable to start recording. No GPS location. Try again.
   </string>
-  <string name="track_record_notification"
-    translation_description="When recording a track, the message on the My Tracks notification
-      informing the user that My Tracks is actively recording his track.
+  <string name="route_record_notification"
+    translation_description="When recording a route, the message on the My Tracks notification
+      informing the user that My Tracks is actively recording his route.
 
-      Screenshot: track_record_notification.png">
-    Recording your track...
+      Screenshot: route_record_notification.png">
+    Recording your route...
   </string>
-  <string name="track_record_success"
-    translation_description="When starting a new track recording, a status message indicating
+  <string name="route_record_success"
+    translation_description="When starting a new route recording, a status message indicating
       success.
 
-      Screenshot: track_record_success.png">
-    Now recording a new track.
+      Screenshot: route_record_success.png">
+    Now recording a new route.
   </string>
 
   <!-- Unit -->
@@ -2826,7 +2826,7 @@ limitations under the License.
     total distance 0 miles
   </string>
   <string name="voice_total_distance_zero"
-    translation_description="For the voice announcement, the announcement when the current track's
+    translation_description="For the voice announcement, the announcement when the current route's
       total distance is zero.">
     My Tracks total distance zero.
   </string>
@@ -3137,13 +3137,13 @@ limitations under the License.
     translation_description="In the 'Welcome' page, the help content question on battery life.
 
       Screenshot: welcome.png">
-    How long does the battery last when recording tracks?
+    How long does the battery last when recording routes?
   </string>
   <string name="welcome_data_connection_answer"
     translation_description="In the 'Welcome' page, the help content answer on data connection.
 
       Screenshot: welcome.png">
-    Cell signal or data connection is not required to record GPS tracks. However, if there is no
+    Cell signal or data connection is not required to record GPS routes. However, if there is no
     data connection, you will not be able to see a map. Instead, you will see a grey screen or a
     partial map. Tracks, represented as simple lines, can still be recorded even if there is no data
     connection.
@@ -3155,39 +3155,39 @@ limitations under the License.
     Do I need cell signal and data connection to use My Tracks?
   </string>
   <string name="welcome_delete_all_answer"
-    translation_description="In the 'Welcome' page, the help content answer on deleting all tracks.
+    translation_description="In the 'Welcome' page, the help content answer on deleting all routes.
 
       Screenshot: welcome.png">
-    Menu -> Tracks -> Delete all. This permanently deletes the recorded tracks from memory. If you
-    have saved tracks to the SD card, you must delete them separately. Tracks uploaded to Google My
+    Menu -> Tracks -> Delete all. This permanently deletes the recorded routes from memory. If you
+    have saved routes to the SD card, you must delete them separately. Tracks uploaded to Google My
     Maps, Google Fusion Tables, and Google Docs must also be deleted separately.
   </string>
   <string name="welcome_delete_all_question"
     translation_description="In the 'Welcome' page, the help content question on deleting all
-      tracks.
+      routes.
 
       Screenshot: welcome.png">
-    How do I delete all the tracks from the phone?
+    How do I delete all the routes from the phone?
   </string>
   <string name="welcome_edit_accuracy_answer"
     translation_description="In the 'Welcome' page, the help content answer on editing points.
 
       Screenshot: welcome.png">
-    Once you upload tracks to Google My Maps, Google Fusion Tables, or Google Docs, you can move,
-    delete or insert individual track points as desired.
+    Once you upload routes to Google My Maps, Google Fusion Tables, or Google Docs, you can move,
+    delete or insert individual route points as desired.
   </string>
   <string name="welcome_edit_accuracy_question"
     translation_description="In the 'Welcome' page, the help content question on editing points.
 
       Screenshot: welcome.png">
-    How can I edit or correct tracks for accuracy?
+    How can I edit or correct routes for accuracy?
   </string>
   <string name="welcome_elevation_precision_answer"
     translation_description="In the 'Welcome' page, the help content answer on elevation precision.
 
       Screenshot: welcome.png">
     GPS receivers measure elevations much less precisely than latitude and longitude. Elevations
-    can sometimes be off by a few hundred feet, though relative changes are tracked more precisely.
+    can sometimes be off by a few hundred feet, though relative changes are routeed more precisely.
     To get a good elevation measurement, make sure that you have a strong GPS signal and wait a few
     minutes for the elevation to settle to a stable value.
   </string>
@@ -3229,7 +3229,7 @@ limitations under the License.
     translation_description="In the 'Welcome' page, the help content question on location precision.
 
       Screenshot: welcome.png">
-    How precise are the recorded tracks?
+    How precise are the recorded routes?
   </string>
   <string name="welcome_my_maps_sharing_answer"
     translation_description="In the 'Welcome' page, the help content answer on Google My Maps
@@ -3246,23 +3246,23 @@ limitations under the License.
       Screenshot: welcome.png">
     Who can see the maps I send to Google My Maps?
   </string>
-  <string name="welcome_my_tracks_answer"
+  <string name="welcome_my_routes_answer"
     translation_description="In the 'Welcome' page, the help content answer on what is My Tracks.
 
       Screenshot: welcome.png">
-    My Tracks allows you to record GPS tracks and visualize your hiking, running, biking or any
+    My Tracks allows you to record GPS routes and visualize your hiking, running, biking or any
     other activity while watching live performance statistics. My Tracks makes it easy to archive
     your training history with Google My Maps, Google Fusion Tables, and Google Docs, and share your
     activities with friends and the world.
   </string>
-  <string name="welcome_my_tracks_question"
+  <string name="welcome_my_routes_question"
     translation_description="In the 'Welcome' page, the help content question on what is My Tracks.
 
       Screenshot: welcome.png">
     What is My Tracks?
   </string>
   <string name="welcome_send_google_answer"
-    translation_description="In the 'Welcome' page, the help content answer on sending a track to
+    translation_description="In the 'Welcome' page, the help content answer on sending a route to
       Google.
 
       Screenshot: welcome.png">
@@ -3270,61 +3270,61 @@ limitations under the License.
     Google...\".
   </string>
   <string name="welcome_send_google_question"
-    translation_description="In the 'Welcome' page, the help content question on sending a track to
+    translation_description="In the 'Welcome' page, the help content question on sending a route to
       Google.
 
       Screenshot: welcome.png">
-    How do I send my tracks to Google My Maps, Google Fusion Tables, and Google Docs?
+    How do I send my routes to Google My Maps, Google Fusion Tables, and Google Docs?
   </string>
   <string name="welcome_share_file_answer"
     translation_description="In the 'Welcome' page, the help content answer on sharing a file.
 
       Screenshot: welcome.png">
-    You can use Google Earth or similar applications to visualize and edit GPS tracks.
+    You can use Google Earth or similar applications to visualize and edit GPS routes.
   </string>
   <string name="welcome_share_file_question"
     translation_description="In the 'Welcome' page, the help content question on sharing a file.
 
       Screenshot: welcome.png">
-    What can I do with tracks after saving them to the SD card or sharing such files with friends?
+    What can I do with routes after saving them to the SD card or sharing such files with friends?
   </string>
   <string name="welcome_share_friends_answer"
-    translation_description="In the 'Welcome' page, the help content answer on sharing a track with
+    translation_description="In the 'Welcome' page, the help content answer on sharing a route with
       friends.
 
       Screenshot: welcome.png">
     Tap the Options button located at the bottom right corner of the map view and select \"Share
-    with friends...\". You can share the track as a link to Google My Map or Google Fusion Table
-    (you will be prompted to upload the track first) or as a GPX, KML, CSV, or TCX file in an e-mail
+    with friends...\". You can share the route as a link to Google My Map or Google Fusion Table
+    (you will be prompted to upload the route first) or as a GPX, KML, CSV, or TCX file in an e-mail
     attachment.
   </string>
   <string name="welcome_share_friends_question"
-    translation_description="In the 'Welcome' page, the help content question on sharing a track
+    translation_description="In the 'Welcome' page, the help content question on sharing a route
       with friends.
 
       Screenshot: welcome.png">
-    How do I share tracks with friends and the rest of the world?
+    How do I share routes with friends and the rest of the world?
   </string>
-  <string name="welcome_split_track_answer"
+  <string name="welcome_split_route_answer"
     translation_description="In the 'Welcome' page, the help content answer on splitting long
-      tracks.
+      routes.
 
       Screenshot: welcome.png">
     Tracks on Google My Maps and Google Fusion Tables are limited to certain sizes.
   </string>
-  <string name="welcome_split_track_question"
+  <string name="welcome_split_route_question"
     translation_description="In the 'Welcome' page, the help content question on splitting long
-      tracks.
+      routes.
 
       Screenshot: welcome.png">
-    Why do very long tracks split into multiple segments upon sending them to Google My Maps and
+    Why do very long routes split into multiple segments upon sending them to Google My Maps and
     Google Fusion Tables?
   </string>
   <string name="welcome_statistics_marker_answer"
     translation_description="In the 'Welcome' page, the help content answer on statistics markers.
 
       Screenshot: welcome.png">
-    Statistics markers are used to segment a track to calculate statistics for each segment. For
+    Statistics markers are used to segment a route to calculate statistics for each segment. For
     example, let\'s say you are recording a bike ride up a hill, you can insert a statistics marker
     at the bottom of the hill and another at the top by pressing Menu -> Markers -> Insert
     statistics.
@@ -3345,7 +3345,7 @@ limitations under the License.
     translation_description="In the 'Welcome' page, the help content answer on waypoint markers.
 
       Screenshot: welcome.png">
-    Waypoint markers are used to annotate a location. For example, if you are recording a track and
+    Waypoint markers are used to annotate a location. For example, if you are recording a route and
     you are close to an interesting place, press Menu -> Markers -> Insert waypoint.
   </string>
   <string name="welcome_waypoint_marker_question"

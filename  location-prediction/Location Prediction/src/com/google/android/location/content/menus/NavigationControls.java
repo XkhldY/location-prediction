@@ -1,8 +1,11 @@
-package com.google.android.location.content;
+package com.google.android.location.content.menus;
 
 
 
 import com.google.android.lib.logs.MyLogClass;
+import com.google.android.location.content.R;
+import com.google.android.location.content.R.id;
+import com.google.android.location.content.R.layout;
 
 import android.content.Context;
 import android.content.res.TypedArray;

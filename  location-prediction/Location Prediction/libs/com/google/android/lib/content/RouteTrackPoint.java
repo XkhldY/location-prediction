@@ -7,10 +7,10 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public final class Track implements Parcelable 
+public final class RouteTrackPoint implements Parcelable 
 {
-	public static final int TYPE_OF_TRACK= 0;
-	public static final int TRACK_STATISTICS = 1;
+	public static final int TYPE_OF_TRACKPOINT= 0;
+	public static final int TRACKPOINT_STATISTICS = 1;
 	private String name = "";
 	private String category = "";
 	private String description = "";
@@ -23,15 +23,15 @@ public final class Track implements Parcelable
     private RouteStatistics tripStats;
     
     //length of the route
-    private double track_length;
+    private double route_length;
     //duration pf the whole route
     private double track_duration;
-    //last route duration - from the last endpoint
-    private double last_track_duration;
+    //last route duration - from the last RouteTrackPoint
+    private double last_trackpoint_duration;
     private String track_Icon = "";
 	private int type = 0;
 	private int nrOfTimes = 0;
-	public Track()
+	public RouteTrackPoint() 
 	{
 		
 	}
@@ -59,7 +59,7 @@ public final class Track implements Parcelable
          }
          dest.writeInt(nrOfTimes);
 	}
-	public Track(Parcel source)
+	public RouteTrackPoint(Parcel source)
 	{	
        readFromParcel(source);
 	}
@@ -89,27 +89,27 @@ public final class Track implements Parcelable
 		nrOfTimes = source.readInt();
 		
 	}
-	public static final Parcelable.Creator<Track> CREATOR = new Parcelable.Creator<Track>() 
+	public static final Parcelable.Creator<RouteTrackPoint> CREATOR = new Parcelable.Creator<RouteTrackPoint>() 
 	{
 
-		public Track createFromParcel(Parcel source) 
+		public RouteTrackPoint createFromParcel(Parcel source) 
 		{
-			return new Track(source);
+			return new RouteTrackPoint(source);
 		}
 
-		public Track[] newArray(int size) 
+		public RouteTrackPoint[] newArray(int size) 
 		{
-			return new Track[size];
+			return new RouteTrackPoint[size];
 		}
 	
 	};
-    public double getTrackLength()
+    public double getRouteLength()
     {
-    	return track_length;
+    	return route_length;
     }
-    public void setTrackLength(double track_length)
+    public void setRouteLength(double track_length)
     {
-    	this.track_length = track_length;
+    	this.route_length = track_length;
     }
     public int getType()
     {
@@ -185,10 +185,10 @@ public final class Track implements Parcelable
 		this.track_duration = track_duration;
 	}
 	public double getLastTrackDuration() {
-		return last_track_duration;
+		return last_trackpoint_duration;
 	}
 	public void setLastTrackDuration(double lastTrackDuration) {
-		this.last_track_duration = lastTrackDuration;
+		this.last_trackpoint_duration = lastTrackDuration;
 	}
 	public String getDescription() {
 		return description;

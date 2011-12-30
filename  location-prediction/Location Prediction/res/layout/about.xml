@@ -33,7 +33,7 @@ limitations under the License.
         <TextView
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
-          android:text="@string/my_tracks_app_name"
+          android:text="@string/my_routes_app_name"
           android:textSize="30sp" />
         <TextView
           android:layout_height="wrap_content"
@@ -84,7 +84,7 @@ limitations under the License.
         android:text="@string/about_support"
         style="@style/AboutTextView.Column0"/>
       <TextView
-        android:text="@string/my_tracks_web_url"
+        android:text="Web Url"
         style="@style/AboutTextView.Url"/>
     </TableRow>  
     <TableRow style="@style/AboutTableRow">
@@ -92,7 +92,7 @@ limitations under the License.
         android:text="@string/about_privacy"
         style="@style/AboutTextView.Column0"/>
       <TextView
-        android:text="@string/my_tracks_privacy_url"
+        android:text="My Route Privacy"
         style="@style/AboutTextView.Url"/>
     </TableRow>
   </TableLayout>

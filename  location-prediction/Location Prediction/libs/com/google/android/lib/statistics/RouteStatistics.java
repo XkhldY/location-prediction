@@ -66,7 +66,7 @@ public class RouteStatistics implements Parcelable{
 	        +  "{ Start Time: " + getStart_time()
 	        + "; Total Time: " + getTotal_time()
 	        + "; Moving Time: " + getMoving_time()
-	        + "; Total Distance: " + getTotal_distance()
+	        + "; Total Distance: " + getTotalDistance()
 	        + "; Elevation Gain: " + getTotal_elevation_gain()
 	        + "; Min Elevation: " + getMinElevation()
 	        + "; Max Elevation: " + getMaxElevation()
@@ -82,14 +82,14 @@ public class RouteStatistics implements Parcelable{
 	 * */
 	public double getAverageMovingSpeed() 
 	{
-	   return  getTotal_distance()/((double) getMoving_time()/1000);	
+	   return  getTotalDistance()/((double) getMoving_time()/1000);	
 	}
 	/**get the average speed during a trip
 	 * @return average speed = total distance/total time
 	 * */
 	public double getAverageSpeed()
 	{
-		return getTotal_distance()/((double)getTotal_time()/1000);
+		return getTotalDistance()/((double)getTotal_time()/1000);
 	}
 	
 	public void readFromParcel(Parcel source)
@@ -196,11 +196,11 @@ public class RouteStatistics implements Parcelable{
 		this.total_time = total_time;
 	}
 
-	public double getTotal_distance() {
+	public double getTotalDistance() {
 		return total_distance;
 	}
 
-	public void setTotal_distance(double total_distance) {
+	public void setTotalDistance(double total_distance) {
 		this.total_distance = total_distance;
 	}
 
@@ -333,7 +333,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param distance the distance to add in meters
 		   */
-		  void addTotalDistance(double distance) {
+		  public void addTotalDistance(double distance) {
 		     total_distance += distance;
 		  }
 
@@ -342,7 +342,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param gain the elevation variation in meters
 		   */
-		  void addTotalElevationGain(double gain) {
+		  public void addTotalElevationGain(double gain) {
 		    total_elevation_gain += gain;
 		  }
 
@@ -351,7 +351,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param time the time in milliseconds
 		   */
-		  void addMovingTime(long time) {
+		  public void addMovingTime(long time) {
 		    moving_time += time;
 		  }
 		  
@@ -360,7 +360,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param latitude the latitude value in signed decimal degrees
 		   */
-		  void updateLatitudeExtremities(double latitude) {
+		  public void updateLatitudeExtremities(double latitude) {
 		    latitudeExtremities.updateValue(latitude);
 		  }
 
@@ -369,7 +369,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param longitude the longitude value in signed decimal degrees
 		   */
-		  void updateLongitudeExtremities(double longitude) {
+		  public void updateLongitudeExtremities(double longitude) {
 		    longitudeExtremities.updateValue(longitude);
 		  }
 
@@ -378,7 +378,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param elevation the elevation value in meters
 		   */
-		  void updateElevationExtremities(double elevation) {
+		  public void updateElevationExtremities(double elevation) {
 		    elevationExtremities.updateValue(elevation);
 		  }
 
@@ -387,7 +387,7 @@ public class RouteStatistics implements Parcelable{
 		   *
 		   * @param grade the grade value as a fraction
 		   */
-		  void updateGradeExtremities(double grade) {
+		  public void updateGradeExtremities(double grade) {
 		    gradeExtremities.updateValue(grade);
 		  }
 

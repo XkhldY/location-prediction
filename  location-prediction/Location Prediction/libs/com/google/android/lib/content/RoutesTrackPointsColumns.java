@@ -3,7 +3,7 @@ package com.google.android.lib.content;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-public interface TrackColumns extends BaseColumns {
+public interface RoutesTrackPointsColumns extends BaseColumns {
 	public static final Uri CONTENT_URI = Uri
 			.parse("content://com.google.android.maps.myroutes/endpoints");
 	public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.google.endpoint";

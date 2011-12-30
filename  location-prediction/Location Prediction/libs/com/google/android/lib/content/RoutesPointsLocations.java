@@ -3,7 +3,7 @@ package com.google.android.lib.content;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-public interface RouteCoordinates extends BaseColumns 
+public interface RoutesPointsLocations extends BaseColumns 
 {
     public static final Uri CONTENT_URI = Uri.parse("content://com.android.google.maps.myroutes/routepoints");
     public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.google.routepoint";
