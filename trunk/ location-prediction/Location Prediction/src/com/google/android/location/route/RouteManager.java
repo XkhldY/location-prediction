@@ -224,6 +224,7 @@ public class RouteManager {
 		}
 		started = true;
 		listenerHandlerThread = new HandlerThread("routeDataMangerThread");
+		dataSources = newDataSources();
 		dataSourceManager = new MapManagerDataSourceListener(dataManagerSourceListener, dataSources);
 		listenerHandlerThread.start();
 		listenerHandler = new Handler(listenerHandlerThread.getLooper());
@@ -239,7 +240,10 @@ public class RouteManager {
 				DEFAULT_MIN_REQUIRED_ACCURACY);
 
 	}
-    
+    public DbManagerDataSourceImpl newDataSources()
+    {
+       return new DbManagerDataSourceImpl(context, preferences);	
+    }
 	private EnumSet<ListenerDataType> getLastUpdatedListenerTypes() {
 
 		EnumSet<ListenerDataType> neededTypes = routeDataListeners
