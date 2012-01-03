@@ -2,7 +2,9 @@ package com.google.android.lib.content.data;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static com.google.android.lib.logs.MyLogClass.TAG;
@@ -56,6 +58,18 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		if (location.hasSpeed()) {
 			myValues.put(RoutesPointsLocations.SPEED, location.getSpeed());
 		}
+		if(location instanceof RouteLocation)
+		{
+			RouteLocation routeLocation = (RouteLocation)location;
+			if(routeLocation.getIdleTime()!=-1)
+			{
+				myValues.put(RoutesPointsLocations.IDLE_TIME, routeLocation.getIdleTime());
+			}
+			if(routeLocation.getTimesCount()!=-1)
+			{
+				myValues.put(RoutesPointsLocations.TIMES_COUNT, routeLocation.getTimesCount());
+			}
+		}
 		
 		return myValues;
 	}
@@ -76,10 +90,10 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		content.put(RoutesColumns.STOP_ID, route.getStop_id());
 		content.put(RoutesColumns.START_TIME, routeStats.getStart_time());
 		content.put(RoutesColumns.STOP_TIME, routeStats.getStop_time());
-		content.put(RoutesColumns.MIN_LAT, routeStats.getLowestAltitude());
-		content.put(RoutesColumns.MAX_LAT, routeStats.getHighestAltitude());
+		content.put(RoutesColumns.MIN_LAT, routeStats.getLowestLatitude());
+		content.put(RoutesColumns.MAX_LAT, routeStats.getHighestLatitude());
 		content.put(RoutesColumns.MIN_LONG, routeStats.getLowestLongitude());
-		content.put(RoutesColumns.MAX_LONG, routeStats.getHighestAltitude());
+		content.put(RoutesColumns.MAX_LONG, routeStats.getHighestLatitude());
 		content.put(RoutesColumns.MIN_ELEVATION, routeStats.getMinElevation());
 		content.put(RoutesColumns.MAX_ELEVATION, routeStats.getMaxElevation());
 		content.put(RoutesColumns.AVG_MOVING_SPEED,
@@ -153,13 +167,14 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		updateLocation(cursor, location);
 		return location;
 	}
-
+    
 	public void updateLocation(Cursor cursor, Location location) {
 		CachedRouteCoordinatesColumnIndex mColmunIndex = new CachedRouteCoordinatesColumnIndex(
 				cursor);
 		updateLocation(cursor, mColmunIndex, location);
 	}
 
+	
 	public void updateLocation(Cursor cursor,
 			CachedRouteCoordinatesColumnIndex columnIndex, Location location) {
 		if (!cursor.isNull(columnIndex.idxLatitude)) {
@@ -183,9 +198,21 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		if (!cursor.isNull(columnIndex.idxAccuracy)) {
 			location.setAccuracy(cursor.getFloat(columnIndex.idxAccuracy));
 		}
-		
+	
+		if(location instanceof RouteLocation)
+		{
+			RouteLocation routeLocation  = (RouteLocation)location;
+			if(!cursor.isNull(columnIndex.idxIdleTime))
+			{
+				routeLocation.setIdleTime(cursor.getLong(columnIndex.idxIdleTime));
+			}
+			if(!cursor.isNull(columnIndex.idxTimesCount))
+			{
+				routeLocation.setTimesCount(cursor.getInt(columnIndex.idxTimesCount));
+			}
+		}
 	}
-
+    
 	private static class CachedRouteCoordinatesColumnIndex {
 		public final int idxId;
 		public final int idxLatitude;
@@ -195,7 +222,8 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		public final int idxBearing;
 		public final int idxAccuracy;
 		public final int idxSpeed;
-		
+		public final int idxTimesCount;
+		public final int idxIdleTime;
 
 		public CachedRouteCoordinatesColumnIndex(Cursor cursor) {
 			idxId = cursor.getColumnIndex(RoutesPointsLocations._ID);
@@ -210,7 +238,8 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			idxAccuracy = cursor
 					.getColumnIndexOrThrow(RoutesPointsLocations.ACCURACY);
 			idxSpeed = cursor.getColumnIndexOrThrow(RoutesPointsLocations.SPEED);
-			
+			idxTimesCount = cursor.getColumnIndexOrThrow(RoutesPointsLocations.TIMES_COUNT);
+			idxIdleTime = cursor.getColumnIndexOrThrow(RoutesPointsLocations.IDLE_TIME);
 		}
 	}
 
@@ -526,7 +555,6 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		return null;
 
 	}
-
 	public void deleteRouteTrackPoint(long trackId,
 			DescriptionGenerator descriptionGenerator) {
 		String where = "";
@@ -540,7 +568,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 				nextTrack.getRouteStatistics().merge(
 						deleteTrack.getRouteStatistics());
 				nextTrack.setDescription(descriptionGenerator
-						.generateWaypointDescription(nextTrack));
+						.generateRouteTrackPointDescription(nextTrack));
 				if (!updateRouteTrackPoint(nextTrack)) {
 					Log.w(TAG, "Update impossible");
 				} else {
@@ -801,9 +829,9 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		}
 		return null;
 	}
-
+   
 	public Cursor getLocationsCursor(long routeId, long minRoutePointId,
-			int locationsNumber, boolean sort_type) {
+			int locationsNumber, boolean descending) {
 		if (routeId < 0) {
 			return null;
 		}
@@ -812,13 +840,13 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 		if (minRoutePointId >= 0) {
 			selection = String.format("%s=%d AND %s%s%d",
 					RoutesPointsLocations.ROUTE_ID, routeId, RoutesPointsLocations._ID,
-					sort_type ? "<=" : ">=", minRoutePointId);
+					descending ? "<=" : ">=", minRoutePointId);
 		} else {
 			selection = String.format("%s=%d", RoutesPointsLocations.ROUTE_ID,
 					routeId);
 		}
 
-		String sortOrder = "_id " + (sort_type ? "DESC" : "ASC");
+		String sortOrder = "_id " + (descending ? "DESC" : "ASC");
 		if (locationsNumber > 0) {
 			sortOrder += " LIMIT " + locationsNumber;
 		}
@@ -868,7 +896,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 
 	public Uri insertRoutePoint(Location location, long routeId) {
 		Log.d(TAG, "MyRouteProviderImpl.insertTrackPoint");
-		return mContentResolver.insert(RoutesColumns.CONTENT_URI,
+		return mContentResolver.insert(RoutesPointsLocations.CONTENT_URI,
 				createContentValues(location, routeId));
 	}
 
@@ -924,7 +952,122 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 				createContentValues(route), "_id=" + route.getId(), null);
 
 	}
-
+	/**
+	 * checks if tow locations match.
+	 * @param locToSearch the location we are trying to find the match for.
+	 * @param locToFind the location that we compare with the location we are trying to find.
+	 * @return
+	 */
+	public boolean checkIfLocationsMatch(Location locToSearch, Location locToFind)
+	{
+		if(locToSearch.getAltitude() == locToFind.getAltitude() && 
+		   locToSearch.getLongitude() == locToFind.getLongitude() &&
+		   locToSearch.getLatitude() == locToFind.getLatitude())
+		{
+			return true;
+		}
+		return false;
+	}
+	public void updateLocationTimesCount(Location location, long routeId, CreateLocationFactory locationFactory,Cursor cursor)
+	{
+	
+		Route route = getRouteById(routeId);
+		CachedRouteCoordinatesColumnIndex columnIndex =  new CachedRouteCoordinatesColumnIndex(cursor);
+		Location locationToBeUpdated = getLocationByName(location, routeId, locationFactory);
+		
+		if (!cursor.isNull(columnIndex.idxLatitude)) 
+		{
+			locationToBeUpdated.setLatitude(1. * cursor.getInt(columnIndex.idxLatitude) / 1E6);
+		}
+		if (!cursor.isNull(columnIndex.idxLongitude)) {
+			locationToBeUpdated.setLongitude(1. * cursor.getInt(columnIndex.idxLongitude) / 1E6);
+		}
+		if (!cursor.isNull(columnIndex.idxAltitude)) {
+			locationToBeUpdated.setAltitude(cursor.getFloat(columnIndex.idxAltitude));
+		}
+		if (!cursor.isNull(columnIndex.idxTime)) {
+			locationToBeUpdated.setTime(cursor.getLong(columnIndex.idxTime));
+		}
+		if (!cursor.isNull(columnIndex.idxBearing)) {
+			locationToBeUpdated.setBearing(cursor.getFloat(columnIndex.idxBearing));
+		}
+		if (!cursor.isNull(columnIndex.idxSpeed)) {
+			locationToBeUpdated.setSpeed(cursor.getFloat(columnIndex.idxSpeed));
+		}
+		if (!cursor.isNull(columnIndex.idxAccuracy)) {
+			locationToBeUpdated.setAccuracy(cursor.getFloat(columnIndex.idxAccuracy));
+		}
+	
+		if(locationToBeUpdated instanceof RouteLocation)
+		{
+			RouteLocation routeLocation  = (RouteLocation)locationToBeUpdated;
+			if(!cursor.isNull(columnIndex.idxIdleTime))
+			{
+				routeLocation.setIdleTime(cursor.getLong(columnIndex.idxIdleTime));
+			}
+			if(!cursor.isNull(columnIndex.idxTimesCount))
+			{
+				routeLocation.setTimesCount(cursor.getInt(columnIndex.idxTimesCount)+1);
+			}
+		}
+		mContentResolver.insert(RoutesColumns.CONTENT_URI,createContentValues(locationToBeUpdated, routeId));
+	}
+	public int getLocationTimesCount(Location location, long routeId, CreateLocationFactory locationFactory, Cursor cursor)
+	{
+		int timesCount = -1;
+		Route route = getRouteById(routeId);
+		Location locationFromDb = getLocationByName(location, routeId, locationFactory);
+		
+		CachedRouteCoordinatesColumnIndex columnIndex = new CachedRouteCoordinatesColumnIndex(cursor);
+		if(locationFromDb!=null)
+		{
+			if(locationFromDb instanceof RouteLocation)
+			{
+				//RouteLocation routeLocation = (RouteLocation)locationFromDb;
+				if(!cursor.isNull(columnIndex.idxTimesCount))
+				{
+					timesCount = cursor.getInt(columnIndex.idxTimesCount);
+				}
+			}
+		}
+		return timesCount;
+	}
+	public Location getLocationByName(Location locationToSearch, long routeId, CreateLocationFactory locationFactory)
+	{
+		
+		Route route = getRouteById(routeId);
+		Location locationToReturn = null;
+		LocationIterator it = getLocationIterator(routeId, route.getStart_id(),true, locationFactory);
+		while(it.hasNext())
+		{
+			Location location = it.next();
+			if(location.equals(locationToSearch) || checkIfLocationsMatch(locationToSearch, location))
+			{
+				locationToReturn = location;
+				break;
+			}
+		}
+		it.close();
+		return locationToReturn;
+		
+	}
+    public boolean checkLocation(Location locationToSearch, long routeId, CreateLocationFactory locationFactory)
+    {
+    	Route route = getRouteById(routeId);
+    	boolean returnStatus = false;
+        LocationIterator it = getLocationIterator(routeId, route.getStart_id(), true, locationFactory);
+        while(it.hasNext())
+        {
+        	Location locationToFind = it.next();
+        	if(checkIfLocationsMatch(locationToSearch, locationToFind))
+        	{
+        		returnStatus = true;
+        		break;
+        	}
+        }
+        it.close();
+    	return returnStatus;
+    }
 	public void updateRoute(RouteTrackPoint endpoint) {
 		// TODO Auto-generated method stub
 
@@ -937,7 +1080,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
     {
     	return defaultCursorBatchSize;
     }
-	public LocationIterator getLocationIterator(final long routeId, final long startRoutePointId, final boolean sort_type,
+	public LocationIterator getLocationIterator(final long routeId,final long startRoutePointId,final boolean descending,
 			                                    final CreateLocationFactory locationFactory) 
 	{
 		if (locationFactory == null) 
@@ -957,11 +1100,11 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 
 			private Cursor geCurrentCursor(long startRoutePointId) {
 				return getLocationsCursor(routeId, startRoutePointId,
-						                  getBatchSize(), sort_type);
+						                  getBatchSize(), descending);
 			}
 
 			private boolean advanceCursorToNextBatch() {
-				long pointId = lastPointId + (sort_type ? -1 : 1);
+				long pointId = lastPointId + (descending ? -1 : 1);
 				Log.d(TAG, "Advancing cursor point ID: " + pointId);
 				cursor.close();
 				cursor = getCursor(pointId);
@@ -969,7 +1112,7 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			}
 
 			private Cursor getCursor(long routePointId) {
-				return getLocationsCursor(routeId, routePointId, getBatchSize(), sort_type);
+				return getLocationsCursor(routeId, routePointId, getBatchSize(), descending);
 			}
 
 			public long getLocationid() {
@@ -1022,5 +1165,9 @@ public class MyRouteProviderImpl implements MyRouteProvider {
 			}
 		};
 	}
+
+
+
+	
 
 }

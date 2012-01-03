@@ -3,7 +3,7 @@ package com.google.android.location.route;
 import java.util.EnumSet;
 import java.util.Set;
 
-import com.google.android.lib.content.Route;
+
 import com.google.android.lib.content.RoutesColumns;
 import com.google.android.lib.content.RoutesPointsLocations;
 import com.google.android.lib.content.RoutesTrackPointsColumns;
@@ -39,8 +39,8 @@ class MapManagerDataSourceListener
 
   /** Single interface for receiving system events that were registered for. */
   interface DataSourceListener {
-    void notifyTrackUpdated();
-    void notifyWaypointUpdated();
+    void notifyRouteUpdated();
+    void notifyRouteTrackPointUpdated();
     void notifyPointsUpdated();
     void notifyPreferenceChanged(String key);
     void notifyLocationProviderEnabled(boolean enabled);
@@ -59,7 +59,7 @@ class MapManagerDataSourceListener
 
     @Override
     public void onChange(boolean selfChange) {
-      listener.notifyTrackUpdated();
+      listener.notifyRouteUpdated();
     }
   }
 
@@ -71,7 +71,7 @@ class MapManagerDataSourceListener
 
     @Override
     public void onChange(boolean selfChange) {
-      listener.notifyWaypointUpdated();
+      listener.notifyRouteTrackPointUpdated();
     }
   }
 

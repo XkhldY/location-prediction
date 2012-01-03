@@ -5,7 +5,7 @@ import android.location.Location;
 import com.google.android.lib.content.RouteLocation;
 
 
-public class DoubleLastLocations implements CreateLocationFactory
+public class DoubleLastLocationsFactory implements CreateLocationFactory
 {
 	private int lastGpsLocation = 0;
 	private int lastNetworkLocation = 0;

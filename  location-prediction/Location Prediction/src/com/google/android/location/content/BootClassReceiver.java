@@ -7,7 +7,13 @@ import android.util.Log;
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
 import static com.google.android.location.content.Constants.RESUME_TRACK_EXTRA_NAME;
 import com.google.android.service.ServiceManager;
-
+/**
+ * class for maintaining the status of booting/rebooting the android phone.
+ * Meaning that if the android phone gets rebooted then when the rebooting finishes
+ * the route is loaded again and the service starts.
+ * @author Andrei
+ *
+ */
 public class BootClassReceiver extends BroadcastReceiver 
 {
 	@Override

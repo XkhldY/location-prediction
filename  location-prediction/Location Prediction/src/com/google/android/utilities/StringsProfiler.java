@@ -124,7 +124,7 @@ public class StringsProfiler implements DescriptionGenerator {
    *
    * @return a route description
    */
-  public String generateWaypointDescription(RouteTrackPoint rtp) {
+  public String generateRouteTrackPointDescription(RouteTrackPoint rtp) {
     RouteStatistics stats = rtp.getRouteStatistics();
 
     final double distanceInKm = stats.getTotalDistance() / 1000;

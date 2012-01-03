@@ -1,26 +1,33 @@
 package com.google.android.location.content;
 
+
+import com.google.android.lib.content.RoutesColumns;
 import com.google.android.lib.content.data.MyRouteProvider;
 import com.google.android.lib.logs.MyLogClass;
 import com.google.android.lib.services.IRouteRecordingService;
 import com.google.android.location.content.menus.MenuManager;
 import com.google.android.location.content.menus.NavigationControls;
 import com.google.android.location.predict.RoutesPredictActivity;
+import com.google.android.location.route.RouteManager;
+import com.google.android.location.route.RouteMapDataListener;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MyMapActivity;
 import com.google.android.maps.MyMapPredictionActivity;
-import com.google.android.service.ServiceConnectionManager;
+
 import com.google.android.service.ServiceControl;
 import com.google.android.service.ServiceManager;
+import com.google.android.utilities.UriProfiler;
 
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.IBinder.DeathRecipient;
@@ -45,6 +52,10 @@ public class StartActivity extends TabActivity implements OnTouchListener {
 	ServiceConnectionManager managerConnection;
 	IRouteRecordingService connectionService;
 	private boolean startNewRecording = false;
+	/**
+	 * route manager of the current route
+	 */
+	RouteManager dataHub;
 	ServiceConnectionManager serviceConnectionManager;
 	private final Runnable changeTab = new Runnable() {
 		public void run() {
@@ -77,6 +88,7 @@ public class StartActivity extends TabActivity implements OnTouchListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final Resources res = getResources();
+		dataHub = ((MyRouteAppManager)getApplication()).getRouteDataHub();
 		final TabHost tabHost = getTabHost();
 		tabHost.addTab(tabHost
 				.newTabSpec("tab1")
@@ -92,10 +104,10 @@ public class StartActivity extends TabActivity implements OnTouchListener {
 				.newTabSpec("tab3")
 				.setIndicator("Route Stats",
 						res.getDrawable(R.drawable.menu_statistics))
-				.setContent(new Intent(this, ChartActivity.class)));
+				.setContent(new Intent(this, StatsActivity.class)));
 
 		serviceConnectionManager = new ServiceConnectionManager();
-		myRouteProvider = new MyRouteProvider.Factory().getRouteProvider(this);
+		myRouteProvider = MyRouteProvider.Factory.getRouteProvider(this);
 		tabHost.getTabWidget().setVisibility(View.GONE);
 		preferences = getSharedPreferences(Constants.SETTINGS_NAME,
 				Context.MODE_PRIVATE);
@@ -160,13 +172,29 @@ public class StartActivity extends TabActivity implements OnTouchListener {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		Log.i(MyLogClass.TAG, "Load tracking manager");
+		dataHub.startTracking();
+		Log.i(MyLogClass.TAG, "StartActivity.dataHub:Load tracking manager");
 		if (ServiceControl.isRecording(getApplicationContext(), null,
 				preferences)) {
 			serviceConnectionManager.startAndBindService();
 		}
+		Intent intent = getIntent();
+	    String action = intent.getAction();
+	    Uri data = intent.getData();
+	    if ((Intent.ACTION_VIEW.equals(action) || Intent.ACTION_EDIT.equals(action)) 
+	        && RoutesColumns.CONTENT_ITEMTYPE.equals(intent.getType())
+	        && UriProfiler.matchesContentUri(data, RoutesColumns.CONTENT_URI)) 
+	    {
+	      long routeId = ContentUris.parseId(data);
+	      dataHub.loadRoute(routeId);
+	    }
 	}
+    @Override
+    protected void onStop() {
+     	super.onStop();
+     	dataHub.stopListening();
 
+    }
 	@Override
 	protected void onPause() {
 		Log.i(MyLogClass.TAG, "StartActivity : OnPause");

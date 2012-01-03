@@ -5,8 +5,11 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,22 +24,31 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.Process;
 import android.os.RemoteException;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
+
 
 
 import com.google.android.lib.content.CreateRouteTrackPoint;
 
 import com.google.android.lib.content.Route;
+import com.google.android.lib.content.RouteLocation;
 import com.google.android.lib.content.RouteTrackPoint;
+import com.google.android.lib.content.RoutesColumns;
+import com.google.android.lib.content.RoutesTrackPointsColumns;
 
+import com.google.android.lib.content.data.CreateLocationFactory;
+import com.google.android.lib.content.data.DoubleCachedLocationFactory;
 import com.google.android.lib.content.data.MyRouteProvider;
 import com.google.android.lib.logs.MyLogClass;
 import com.google.android.lib.services.IRouteRecordingService;
 import com.google.android.lib.statistics.RouteStatistics;
 import com.google.android.location.content.Constants;
 import com.google.android.location.content.R;
+import com.google.android.location.content.StartActivity;
 import com.google.android.location.preferences.PreferenceManager;
 import com.google.android.location.tasks.PeriodicTaskExecutor;
 import com.google.android.location.tasks.PeriodicTaskImpl;
@@ -45,6 +57,10 @@ import com.google.android.utilities.DefaultRouteNameFactory;
 import com.google.android.utilities.LocationFilter;
 import com.google.android.utilities.LocationListenerPolicy;
 import com.google.android.utilities.MyLocationListenerPolicy;
+import com.google.android.utilities.NotificationManagerAdapter;
+import com.google.android.utilities.NotifyAdapterFactory;
+import com.google.android.utilities.StringsProfiler;
+
 
 import static com.google.android.location.content.Constants.*;
 
@@ -63,6 +79,8 @@ public class ServiceManager extends Service
 	private TripStatisticsManager statsBuilder;
 	private TripStatisticsManager routeTrackPointStatsBuilder;
 	private long currentRouteTrackPointId = -1;
+	CreateLocationFactory locationFactory;
+	private WakeLock wakeLock;
 	/**
 	 * The interval in milliseconds that we have requested to be notified of gps
 	 * readings.
@@ -195,6 +213,7 @@ public class ServiceManager extends Service
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		setupRoutePeriodicUpdater();
+		locationFactory = new DoubleCachedLocationFactory();
 		prefManager = new PreferenceManager(this);
 		registerLocationListener();
 		/*
@@ -224,15 +243,27 @@ public class ServiceManager extends Service
 	}
 
 	/**
-	 * shows notification regarding the current route
+	 * shows notification regarding the current route and an icon in the notification bar.
 	 */
 	private void showNotification() 
 	{
 		Log.d(TAG, "ServiceManager:notifying StartActivity.");
+		final NotificationManagerAdapter notifyAdapter = NotifyAdapterFactory.getInstance().getNotifyManagerAdapter();
 		if (isRecording) 
 		{
 			Log.d(TAG,
 					"ServiceManager:starts notifying and moving the service into foreground");
+			Notification notification = new Notification(R.drawable.arrow_320, null /* tickerText */,System.currentTimeMillis());
+		    PendingIntent contentIntent = PendingIntent.getActivity(this, 0 /* requestCode */, 
+		                                                  new Intent(this, StartActivity.class), 0 /* flags */);
+		    notification.setLatestEventInfo(this, getString(R.string.my_routes_app_name), 
+		                                      getString(R.string.route_record_notification), contentIntent);
+		    notification.flags += Notification.FLAG_NO_CLEAR;
+		    notifyAdapter.startForeground(this, notificationManager, 1, notification);
+		}
+		else
+		{
+			notifyAdapter.stopForeground(this, notificationManager, 1);
 		}
 	}
     /**
@@ -247,6 +278,7 @@ public class ServiceManager extends Service
 			 return -1L;
 		 }
 		 long currentLocalStartTime = System.currentTimeMillis();
+		 acquireWakeLock();
 		 Route route = new Route();
 		 RouteStatistics currentRouteStatistics = route.getRouteStatistics();
 		 currentRouteStatistics.setStart_time(currentLocalStartTime);
@@ -273,17 +305,147 @@ public class ServiceManager extends Service
 		 prefManager.setRecordingRoute(recordingRouteId);
 		 //sendRouteBroadcat(R.string.route);
 		 routeTrackPointsUpdater.restore(isRecording());
+		 //routeTrackPointsUpdater.restore(isRecording());
 		 return recordingRouteId;
 	 }
+
+	/**
+	 * updates current route track point
+	 */
+	private void updateCurrentRouteTrackPoint() {
+		if (currentRouteTrackPointId >= 0) {
+			ContentValues values = new ContentValues();
+			RouteStatistics routeTrackPointsStats = routeTrackPointStatsBuilder
+					.getStatistics();
+			values.put(RoutesTrackPointsColumns.START_TIME,
+					routeTrackPointsStats.getStart_time());
+			values.put(RoutesTrackPointsColumns.LEGNTH_OF_TRACK, route_length);
+			values.put(RoutesTrackPointsColumns.TRACK_DURATION,
+					System.currentTimeMillis()
+							- statsBuilder.getStatistics().getStart_time());
+			values.put(RoutesTrackPointsColumns.TOTAL_DISTANCE,
+					routeTrackPointsStats.getTotalDistance());
+			values.put(RoutesTrackPointsColumns.TOTAL_TIME,
+					routeTrackPointsStats.getTotal_time());
+			values.put(RoutesTrackPointsColumns.MOVING_TIME,
+					routeTrackPointsStats.getMoving_time());
+			values.put(RoutesTrackPointsColumns.AVG_SPEED,
+					routeTrackPointsStats.getAverageSpeed());
+			values.put(RoutesTrackPointsColumns.AVG_MOVING_SPEED,
+					routeTrackPointsStats.getAverageMovingSpeed());
+			values.put(RoutesTrackPointsColumns.MAX_SPEED,
+					routeTrackPointsStats.getMax_speed());
+			values.put(RoutesTrackPointsColumns.MIN_ELEVATION,
+					routeTrackPointsStats.getMinElevation());
+			values.put(RoutesTrackPointsColumns.MAX_ELEVATION,
+					routeTrackPointsStats.getMaxElevation());
+			values.put(RoutesTrackPointsColumns.ELEVATION_GAIN_CURRENT,
+					routeTrackPointsStats.getTotal_elevation_gain());
+			values.put(RoutesTrackPointsColumns.MIN_GRADE,
+					routeTrackPointsStats.getMinGrade());
+			values.put(RoutesTrackPointsColumns.MAX_GRADE,
+					routeTrackPointsStats.getMaxGrade());
+			getContentResolver().update(RoutesTrackPointsColumns.CONTENT_URI,
+					values, "_id = " + currentRouteTrackPointId, null);
+		}
+	}
 	 /**
 	  * inserts a route track point with type deafault_statistics
 	  * @param defaultStatistics
 	  * @return route track point id
 	  */
-	 private long insertRouteTrackPoint(CreateRouteTrackPoint defaultStatistics) 
+	 public long insertRouteTrackPoint(CreateRouteTrackPoint defaultMarker) 
 	 {  
-		return 0;
+		 if(!isRecording())
+		 {
+			 throw new IllegalStateException("Unable to insert route track points while not recording...");
+		 }
+		 if(defaultMarker==null)
+		 {
+			 defaultMarker = CreateRouteTrackPoint.DEFAULT_MARKER;
+		 }
+		 RouteTrackPoint routeTrackPoint = new RouteTrackPoint();
+		 switch(defaultMarker.getType())
+		 {
+		 case MARKER:
+			 buildMarker(routeTrackPoint,defaultMarker);
+			 break;
+		 case STATISTICS:
+			 buildStatisticsMarker(routeTrackPoint);
+			 break;
+		 }
+		 routeTrackPoint.setRouteId(recordingRouteId);
+		 routeTrackPoint.setRouteLength(route_length);
+		 if(lastLocation ==  null || statsBuilder==null || statsBuilder.getStatistics() == null)
+		 {
+			 //in the beginning it should be exactly like this
+			 Location location = new Location("");//no provider for now
+			 location.setLatitude(100);
+			 location.setLongitude(180);
+			 routeTrackPoint.setLocation(location);
+		 }
+		 else
+		 {
+			 routeTrackPoint.setLocation(lastLocation);
+			 routeTrackPoint.setDuration(lastLocation.getTime() - statsBuilder.getStatistics().getStart_time());
+		 }
+		 Uri uri = myRouteProvider.insertRouteTrackPoint(routeTrackPoint);
+		 return Long.parseLong(uri.getLastPathSegment());
 	 }
+	 /**
+	   * Build a statistics marker. A statistics marker holds the stats for the*
+	   * last segment up to this marker.
+	   * 
+	   * @param waypoint The route track point which will be populated with stats data.
+	   */
+	private void buildStatisticsMarker(RouteTrackPoint routeTrackPoint) 
+	{
+		StringsProfiler stringsProfiler =  new StringsProfiler(ServiceManager.this);
+		 // Set stop and total time in the stats data
+	    final long time = System.currentTimeMillis();
+	    routeTrackPointStatsBuilder.pauseAt(time);
+
+	    // Override the duration - it's not the duration from the last waypoint, but
+	    // the duration from the beginning of the whole track
+	    routeTrackPoint.setDuration(time - statsBuilder.getStatistics().getStart_time());
+
+	    // Set the rest of the routeTrackPoint data
+	    routeTrackPoint.setType(RouteTrackPoint.TYPE_OF_TRACKPOINT);
+	    routeTrackPoint.setName(getString(R.string.marker_type_statistics));
+	    routeTrackPoint.setRouteStatisticss(routeTrackPointStatsBuilder.getStatistics());
+	    routeTrackPoint.setDescription(stringsProfiler.generateRouteTrackPointDescription(routeTrackPoint));
+	    routeTrackPoint.setIcon(getString(R.string.marker_statistics_icon_url));
+
+	    routeTrackPoint.setStartPointid(myRouteProvider.getLastLocationId(recordingRouteId));
+
+	    // Create a new stats keeper for the next marker.
+	    routeTrackPointStatsBuilder = new TripStatisticsManager(time);
+	}
+
+	private void buildMarker(RouteTrackPoint routeTrackPoint, CreateRouteTrackPoint defaultMarker) 
+	{
+		routeTrackPoint.setType(RouteTrackPoint.TYPE_OF_TRACKPOINT);
+		if (defaultMarker.getIconUrl() == null) 
+		{
+			routeTrackPoint.setIcon(getString(R.string.marker_waypoint_icon_url));
+		} 
+		else 
+		{
+			routeTrackPoint.setIcon(defaultMarker.getIconUrl());
+		}
+		if (defaultMarker.getName() == null) 
+		{
+			routeTrackPoint.setName(getString(R.string.marker_type_waypoint));
+		} 
+		else 
+		{
+			routeTrackPoint.setName(defaultMarker.getName());
+		}
+		if (defaultMarker.getDescription() != null) 
+		{
+			routeTrackPoint.setDescription(defaultMarker.getDescription());
+		}
+	}
 
 	/**
 	  * checks if the current route is in progress
@@ -356,7 +518,7 @@ public class ServiceManager extends Service
 	        cursor.close();
 	      }
 	    }
-
+        routeTrackPointsUpdater.restore(isRecording());
 	}
 
 	/**
@@ -430,7 +592,8 @@ public class ServiceManager extends Service
 						locationListener);
 				currentRecordingInterval = desiredInterval;
 				Log.d(TAG,"...location listener now registered w/ ServiceManager @ " + currentRecordingInterval);
-			} else if (checkNetworkProvider) 
+			} else 
+			if (checkNetworkProvider) 
 			{
 				long desiredInterval = locationListenerPolicy.getDesiredPollingInterval();
 
@@ -452,7 +615,7 @@ public class ServiceManager extends Service
 		{
 			Log.e(TAG,"Could not register location listener: " + e.getMessage(),e);
 		}
-
+        //routeTrackPointsUpdater.update();
 	}
 
 	/**
@@ -464,7 +627,7 @@ public class ServiceManager extends Service
 		if (isRecording) {
 			routeTrackPointsUpdater = new PeriodicTaskExecutor(
 					new PeriodicTaskImpl.Factory(), isRecording,
-					locationListenerPolicy);
+					locationListenerPolicy, this);
 		}
 
 	}
@@ -518,39 +681,123 @@ public class ServiceManager extends Service
 		{
 			Log.d(TAG, "ServiceManager:not recording.no recording route");
 		}
+	
+		addLocationToStats(location);
 		if(currentRecordingInterval!=locationListenerPolicy.getDesiredPollingInterval())
 		{
 			registerLocationListener();
 		}
-		addLocationToStats(location);
+		
 		Location lastRecordedLocation = myRouteProvider.getLastRecordedLocation();
+		
+		long currentIdleTime = 0;
+		
 		double distanceToLastRecorded = Double.POSITIVE_INFINITY;
+		
 		if(lastRecordedLocation!=null)
 		{
-			distanceToLastRecorded = location.distanceTo(lastRecordedLocation);
+			currentIdleTime = location.getTime() - lastRecordedLocation.getTime();
+		    distanceToLastRecorded = location.distanceTo(lastRecordedLocation);
 		}
+		locationListenerPolicy.setLastLocation(lastRecordedLocation);
 		double distanceToLastLocation = Double.POSITIVE_INFINITY;
 		if(lastLocation!=null)
 		{
 			distanceToLastLocation = location.distanceTo(lastLocation);
 		}
-        if(distanceToLastLocation==0)
+		if(distanceToLastLocation==0)
         {
         	if(isMoving)
         	{
         		Log.d(TAG, "ServiceManager:found two identical locations.");
         	   isMoving =  false;
+        	   // Need to write the last location. This will happen when
+               // lastRecordedLocation.distance(lastLocation) <
+               // minRecordingDistance
         	   if(lastLocation!=null && lastRecordedLocation!=null &&!lastRecordedLocation.equals(lastLocation))
         	   {
-        		  if(!insertLocation(location, lastRecordedLocation, recordingRouteId))
+        		  if(!insertLocation(lastLocation, lastRecordedLocation, recordingRouteId))
         		  {
         			  return;
         		  }
+        		  currentIdleTime = location.getTime() - lastLocation.getTime();
+        		  locationListenerPolicy.setLastLocation(lastLocation);
+        		  locationListenerPolicy.setDistance(distanceToLastLocation);
+        		  locationListenerPolicy.updateIdleTime(currentIdleTime);
+        	   }
+        	   else if(lastLocation!=null && lastRecordedLocation!=null && lastRecordedLocation.equals(lastLocation))
+        	   {
+        		  currentIdleTime = location.getTime() - lastRecordedLocation.getTime();
+         		  locationListenerPolicy.setLastLocation(lastLocation);
+         		  locationListenerPolicy.setDistance(distanceToLastLocation);
+         		  locationListenerPolicy.updateIdleTime(currentIdleTime);
         	   }
         	}
+        	else
+        	{
+        		Log.d(TAG, "ServiceManager:not recording.two identical locations");
+        	}
         }
+        else if(distanceToLastRecorded > minRecordingDistance)
+        {
+          if(lastLocation!=null && !isMoving)
+          {
+        	   // Last location was the last stationary location. Need to go back and
+              // add it.
+        	   if(!insertLocation(lastLocation, lastRecordedLocation, recordingRouteId))
+        	   {
+        		   return;
+        	   }
         
-				
+        	   isMoving = true;
+          }
+          boolean startNewSegment = lastRecordedLocation != null
+                  && lastRecordedLocation.getLatitude() < 90
+                  && distanceToLastRecorded > maxRecordingDistance && recordingRoute.getStart_id() >= 0;
+              if (startNewSegment) 
+              {
+                // Insert a separator point to indicate start of new track:
+                //we need another technique here because it's very important to know when a track starts and another one ends.
+                Log.d(TAG, "Inserting a separator.");
+                Location separator = new Location(LocationManager.GPS_PROVIDER);
+                separator.setLongitude(0);
+                separator.setLatitude(100);
+                separator.setTime(lastRecordedLocation.getTime());
+                //insert a new location point for the new route
+                myRouteProvider.insertRoutePoint(separator, recordingRouteId);
+              }
+              //being the first location we need to update the locationListenerPolicy
+              if(lastLocation == null || lastRecordedLocation==null)
+              {
+            	  Log.d(TAG, "ServiceManager:first location.");
+            	  locationListenerPolicy.setLastLocation(location);
+            	  locationListenerPolicy.setDistance(0);
+            	  locationListenerPolicy.updateIdleTime(0);
+              }
+              //we know that this is the first location so we insert it
+              if (!insertLocation(location, lastRecordedLocation, recordingRouteId)) 
+              {
+                return; 
+              }
+              if(lastLocation!=null )
+              { 
+            	  currentIdleTime = 0;
+            	  locationListenerPolicy.setLastLocation(location);
+                  locationListenerPolicy.updateIdleTime(currentIdleTime);
+                  locationListenerPolicy.setDistance(0);  
+            	  
+              }
+        }
+        else
+        {
+        	Log.d(TAG,  String.format("Not recording.distance to last point is less than the " +
+        			"minimum required distance"));
+        	currentIdleTime = location.getTime() -  lastRecordedLocation.getTime();
+        	locationListenerPolicy.updateIdleTime(currentIdleTime);
+            locationListenerPolicy.setLastLocation(lastRecordedLocation);
+        	locationListenerPolicy.setDistance(distanceToLastRecorded);
+        	return;
+        }
 	  } 
       catch (Error e) 
       {
@@ -561,6 +808,7 @@ public class ServiceManager extends Service
       {
     	  throw ex;
       }
+      routeTrackPointsUpdater.update();
       lastLocation = location;
 	} 
 	private boolean insertLocation(Location location, Location lastRecordedLocation, long recordingRouteId)
@@ -577,14 +825,71 @@ public class ServiceManager extends Service
 		//trying to insert the new location
 		try 
 		{
-		   Location locationToInsert = location;
-		   
+		   //Location locationToInsert = null;
+			RouteLocation locationToInsert = null;
+			//locationToInsert = new RouteLocation(location);
+			if(myRouteProvider.checkLocation(location, recordingRouteId,locationFactory))
+			{
+				
+				//we get a cursor over all the locations from the database given a routeId or 0
+			   Cursor cursor = myRouteProvider.getLocationsCursor(recordingRouteId, 0, 
+					                                              recordingRoute.getNumberRoutePoints(), true);
+			   
+			   locationToInsert = new RouteLocation(location);
+			   //then we update the location that we found a match for
+			   myRouteProvider.updateLocationTimesCount(locationToInsert,recordingRouteId, locationFactory, cursor);
+			}
+			else
+				if(!myRouteProvider.checkLocation(location, recordingRouteId,locationFactory))
+				{
+					locationToInsert = new RouteLocation(location); 
+					locationToInsert.setIdleTime(0);
+					locationToInsert.setTimesCount(0);
+				}
+		      
+		  
+		   Uri pointToInsertUri = myRouteProvider.insertRoutePoint(locationToInsert, recordingRouteId);
+		   int pointToInsertId = Integer.parseInt(pointToInsertUri.getLastPathSegment());
+		   //this check is for differentiating start points from other points on the way
+		   if(lastRecordedLocation!=null && lastRecordedLocation.getAltitude() < 90)
+		   {
+			   ContentValues values = new ContentValues();
+			   RouteStatistics routeStatistics = statsBuilder.getStatistics();
+			   //first time we dont have any points
+			   if(recordingRoute.getStart_id() < 0)
+			   {
+				   values.put(RoutesColumns.START_ID, pointToInsertId);
+				   recordingRoute.setStart_id(recordingRouteId);
+			   }
+			   values.put(RoutesColumns.STOP_ID, pointToInsertId);
+		        values.put(RoutesColumns.STOP_TIME, System.currentTimeMillis());
+		        values.put(RoutesColumns.NUMBER_POINTS, recordingRoute.getNumberRoutePoints() + 1);
+		        values.put(RoutesColumns.MIN_LAT, routeStatistics.getLowestLatitude());
+		        values.put(RoutesColumns.MAX_LAT, routeStatistics.getHighestLatitude());
+		        values.put(RoutesColumns.MIN_LONG, routeStatistics.getLowestLongitude());
+		        values.put(RoutesColumns.MAX_LONG, routeStatistics.getHighestLongitude());
+		        values.put(RoutesColumns.TOTAL_DISTANCE, routeStatistics.getTotalDistance());
+		        values.put(RoutesColumns.TOTAL_TIME, routeStatistics.getTotal_time());
+		        values.put(RoutesColumns.MOVING_TIME, routeStatistics.getMoving_time());
+		        values.put(RoutesColumns.AVG_SPEED, routeStatistics.getAverageSpeed());
+		        values.put(RoutesColumns.AVG_MOVING_SPEED, routeStatistics.getAverageMovingSpeed());
+		        values.put(RoutesColumns.MAX_SPEED, routeStatistics.getMax_speed());
+		        values.put(RoutesColumns.MIN_ELEVATION, routeStatistics.getMinElevation());
+		        values.put(RoutesColumns.MAX_ELEVATION, routeStatistics.getMaxElevation());
+		        values.put(RoutesColumns.ELEVATION_GAIN_CURRENT, routeStatistics.getTotal_elevation_gain());
+		        values.put(RoutesColumns.MIN_GRADE, routeStatistics.getMinGrade());
+		        values.put(RoutesColumns.MAX_GRADE, routeStatistics.getMaxGrade());
+		        getContentResolver().update(RoutesColumns.CONTENT_URI, values, "_id = " + recordingRoute.getId(), null);
+		        //updating current route track point
+		        updateCurrentRouteTrackPoint();
+		   }
 		}
 		catch (SQLException ex) 
 		{
 			Log.w(TAG, "ServiceManager:insertLocationError");
 			return false;
 		}
+		routeTrackPointsUpdater.update();
 		return true;
 	}
 
@@ -644,7 +949,7 @@ public class ServiceManager extends Service
 		}
 		// checks the last time the route stopped - the time that the route
 		// stopped recording
-		// if the stop time is different by null thast was the last time
+		// if the stop time is different by null that was the last time
 		// something was recorded
 		// otherwise 0
 		long lastTime = route.getRouteStatistics() != null ? route.getRouteStatistics().getStop_time() : 0;
@@ -725,6 +1030,7 @@ public class ServiceManager extends Service
 	    Log.d(TAG, "TrackRecordingService.onUnbind");
 	    return super.onUnbind(intent);
     }
+	@Override
 	public void onDestroy() 
 	{
 		Log.d(TAG, "ServiceManager:Destroy the service");
@@ -747,16 +1053,64 @@ public class ServiceManager extends Service
 	    mBinder = null;
 	    // Shutdown the executor service last to avoid sending events to a dead
 	    // executor.
+	    releaseWakeLock();
 	    executorService.shutdown();
 	    super.onDestroy();
 
 	}
-
+    
 	public void shutDownRoutePeriodicUpdater() 
 	{
 		Log.d(TAG, "ServiceManager:");
+	   try 
+	   {
+		  routeTrackPointsUpdater.shutdown();
+	   } 
+	   finally  
+	   {
+		  routeTrackPointsUpdater =null;
+	   }	
 	}
+	/**
+	   * Tries to acquire a partial wake lock if not already acquired. Logs errors
+	   * and gives up trying in case the wake lock cannot be acquired.
+	   */
+	  private void acquireWakeLock() {
+	    try {
+	      PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+	      if (pm == null) {
+	        Log.e(TAG, "TrackRecordingService: Power manager not found!");
+	        return;
+	      }
+	      if (wakeLock == null) {
+	        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+	        if (wakeLock == null) {
+	          Log.e(TAG, "TrackRecordingService: Could not create wake lock (null).");
+	          return;
+	        }
+	      }
+	      if (!wakeLock.isHeld()) {
+	        wakeLock.acquire();
+	        if (!wakeLock.isHeld()) {
+	          Log.e(TAG, "TrackRecordingService: Could not acquire wake lock.");
+	        }
+	      }
+	    } catch (RuntimeException e) {
+	      Log.e(TAG, "TrackRecordingService: Caught unexpected exception: " + e.getMessage(), e);
+	    }
+	  }
 
+	  /**
+	   * Releases the wake lock if it's currently held.
+	   */
+	  private void releaseWakeLock() 
+	  {
+	    if (wakeLock != null && wakeLock.isHeld()) 
+	    {
+	      wakeLock.release();
+	      wakeLock = null;
+	    }
+	  }
 	/**
 	 * 
 	 */
@@ -764,9 +1118,39 @@ public class ServiceManager extends Service
 		Log.d(TAG,"ServiceManager:inserts and return the id of the current route track point");
 		return 0;
 	}
+	/**
+	 * 
+	 */
 	public void endCurrentRoute() 
 	{
        Log.d(TAG, "ServiceManager:endCurrentRoute");
+       if(!isRouteInProgress())
+       {
+    	   return;
+       }
+       routeTrackPointsUpdater.shutdown();
+       isRecording = true;
+       Route mRecordedRoute = myRouteProvider.getRouteById(recordingRouteId);
+       if(mRecordedRoute!=null)
+       {
+    	   RouteStatistics routeStats = mRecordedRoute.getRouteStatistics();
+    	   routeStats.setStop_time(routeStats.getStop_time() - routeStats.getStart_time());
+    	   long lastRecordedLcationId = myRouteProvider.getLastLocationId(recordingRouteId);
+           ContentValues values = new ContentValues();
+           if(lastRecordedLcationId >=0 && mRecordedRoute.getStop_id()>=0)
+           {
+        	   values.put(RoutesColumns.STOP_ID, lastRecordedLcationId);
+           }
+           values.put(RoutesColumns.STOP_TIME, routeStats.getStop_time());
+           values.put(RoutesColumns.TOTAL_TIME, routeStats.getTotal_time());
+           getContentResolver().update(RoutesColumns.CONTENT_URI, values, "_id = " + mRecordedRoute.getId(), null);
+       }
+       showNotification();
+       long mLastRecordedRouteId = recordingRouteId;
+       prefManager.setRecordingRoute(mLastRecordedRouteId = -1);
+       releaseWakeLock();
+       stopSelf();
+       
 	}
 	/**
 	 * Service binder which leaks memory. the recommanded solution from google

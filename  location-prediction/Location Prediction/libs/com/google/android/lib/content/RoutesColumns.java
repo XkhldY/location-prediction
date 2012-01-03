@@ -37,7 +37,7 @@ public interface RoutesColumns extends BaseColumns
    public static final String MIN_ELEVATION = "min_elevation";
    public static final String ELEVATION_GAIN_CURRENT = "elevation_gain_current";
    public static final String MIN_GRADE = "min_grade";
-   public static final String MAX_GRADE = "min_grade";
+   public static final String MAX_GRADE = "max_grade";
    public static final String MIN_LAT = "min_lat";
    public static final String MAX_LAT = "max_lat";
    public static final String MAX_LONG ="max_long";

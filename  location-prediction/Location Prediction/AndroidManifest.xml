@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.location.content"
+<manifest package="com.google.android.location.content"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk android:minSdkVersion="8" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.google.android.locatiom.content.MYROUTES_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!-- Permission to read raw route data (points, etc.) -->
+  <permission android:name="com.google.android.location.content.READ_ROUTE_DATA"
+              android:permissionGroup="android.permission-group.LOCATION"
+              android:label="@string/permission_read_label"
+              android:description="@string/permission_read_description"
+              android:protectionLevel="dangerous" />
+  <!-- Permission to write track data, either raw or by making service calls -->
+  <permission android:name="com.google.android.location.content.WRITE_ROUTE_DATA"
+              android:permissionGroup="android.permission-group.LOCATION"
+              android:label="@string/permission_write_label"
+              android:description="@string/permission_write_description"
+              android:protectionLevel="dangerous" />
+      <!-- Features required -->
+  <uses-feature android:name="android.hardware.location" android:required="true"/>
+  <uses-feature android:name="android.hardware.location.gps" android:required="true"/>
+
+  <!-- Features optional -->
+  <uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
+  <uses-feature android:name="android.hardware.faketouch" android:required="false"/>
+  <uses-feature android:name="android.hardware.location.network" android:required="false"/>
+  <uses-feature android:name="android.hardware.sensor.compass" android:required="false"/>
+  <uses-feature android:name="android.hardware.telephony" android:required="false"/>
+  <uses-feature android:name="android.hardware.telephony.gsm" android:required="false"/>
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
+  <uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="false"/>
     <application
-        android:icon="@drawable/ic_launcher"
-        android:label="Location Prediction" android:allowTaskReparenting="false" android:restoreAnyVersion="false">
+        android:allowTaskReparenting="false"
+        android:icon="@drawable/arrow_0"
+        android:name="com.google.android.location.content.MyRouteAppManager"
+        android:label="@string/location_prediction"
+        android:restoreAnyVersion="false" >
         <activity
             android:label="Location Prediction"
             android:name="com.google.android.location.content.StartActivity" >
@@ -18,12 +55,78 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.google.android.maps.MyMapActivity" android:label="MyMapActivity"></activity>
-        <activity android:name="com.google.android.maps.MyMapPredictionActivity" android:label="MyMapPredictionActivity"></activity>
-        <uses-library android:name="com.google.android.maps"/>
-        <meta-data android:value="AEdPqrEAAAAIi-_QiwoRSc9_bAC9cmuNXTQyU8ajJmGtKdhskQ" android:name="com.google.android.backup.api_key"/>
-        <activity android:name="com.google.android.location.content.ChartActivity" android:label="ChartActivity"></activity>
-        <service android:name="com.google.android.service.ServiceManager" android:label="ServiceManager"></service>
+        <activity
+            android:label="MyMapActivity"
+            android:name="com.google.android.maps.MyMapActivity" >
+        </activity>
+        <activity
+            android:label="MyMapPredictionActivity"
+            android:name="com.google.android.maps.MyMapPredictionActivity" >
+        </activity>
+
+        <uses-library android:name="com.google.android.maps" />
+
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAIi-_QiwoRSc9_bAC9cmuNXTQyU8ajJmGtKdhskQ" />
+
+        <activity
+            android:label="ChartActivity"
+            android:name="com.google.android.location.content.ChartActivity" >
+        </activity>
+
+        <service
+            android:label="ServiceManager"
+            android:name="com.google.android.service.ServiceManager" >
+        </service>
+
+        <activity
+            android:label="StatsActivity"
+            android:name="com.google.android.location.content.StatsActivity" >
+        </activity>
+
+        <receiver android:name="com.google.android.location.content.BootClassReceiver" >
+             <intent-filter>
+        	   <action android:name="android.intent.action.BOOT_COMPLETED" />
+             </intent-filter>
+        </receiver>
+
+        <service android:name="com.google.android.service.ControlRecordingService" 
+                 android:label="@string/my_routes_recording_service"
+             	 android:icon="@drawable/arrow_320"
+                 android:enabled="true"
+             	 android:exported="true"
+            	 android:permission="com.google.android.location.content.WRITE_TRACK_DATA" />
+        <service android:name="com.google.android.service.ServiceManager" >
+        </service>
+
+        <activity
+            android:label="WelcomeActivity"
+            android:name="com.google.android.location.content.WelcomeActivity" >
+        </activity>
+        <activity
+            android:label="AggregateStatistics"
+            android:name="AggregatedStatsActivity" >
+        </activity>
+        <activity
+            android:label="SettingsActivity"
+            android:name="com.google.android.location.content.SettingsActivity" >
+        </activity>
+        <activity
+            android:label="RouteTrackPointsDetails"
+            android:name="RouteTrackPointDetails" >
+        </activity>
+        <activity
+            android:label="MyMapActivity"
+            android:name="com.google.android.maps.MyMapActivity" >
+        </activity>
+
+        <uses-library android:name="com.google.android.maps" />
+        <provider android:name="com.google.android.location.route.MyRouteDataProvider"
+              android:authorities="com.google.android.maps.myroutes"
+              android:exported="true"
+              android:readPermission="com.google.android.location.content.READ_ROUTE_DATA"
+              android:writePermission="com.google.android.location.content.WRITE_ROUTE_DATA" />
     </application>
 
 </manifest>

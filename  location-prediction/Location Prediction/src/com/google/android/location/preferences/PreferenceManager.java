@@ -120,7 +120,7 @@ public class PreferenceManager implements OnSharedPreferenceChangeListener
 				// minDist: 15 meters Choose battery life over moving time
 				// accuracy.
 				service.setLocationListenerPolicy(new MyLocationListenerPolicy(
-						30000, 180000, 15));
+						30000, 180000,25));
 				break;
 			case -1:
 				// High Accuracy
@@ -129,7 +129,7 @@ public class PreferenceManager implements OnSharedPreferenceChangeListener
 				// minDist: 0 meters get all updates to properly measure moving
 				// time.
 				service.setLocationListenerPolicy(new MyLocationListenerPolicy(
-						1000, 30000, 0));
+						1000, 30000,15));
 				break;
 			default:
 				service.setLocationListenerPolicy(new MyLocationListenerPolicy(

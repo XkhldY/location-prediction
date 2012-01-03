@@ -19,8 +19,8 @@ public interface RoutesPointsLocations extends BaseColumns
     public static final String TIME = "time";
     public static final String ACCURACY = "accuracy";
     public static final String SPEED = "speed";
-   
-    
+    public static final String TIMES_COUNT="times_count";
+    public static final String IDLE_TIME = "idle_time";
    /* public static final String SENSOR_TYPE_GPS = "sensor_gps";
     //public static final String SENSOR_TYPE_NETWORK = "sensor_network";
     //to be implemented

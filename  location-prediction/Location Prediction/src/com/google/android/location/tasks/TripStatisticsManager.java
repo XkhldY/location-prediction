@@ -348,7 +348,13 @@ public class TripStatisticsManager {
       return 0;
     return lastLocation.getTime() - lastMovingLocation.getTime();
   }
-
+  /**
+   * @return last good location received from gps or network cell which is valid.
+   */
+  public Location getLastLocation()
+  {
+    return lastLocation;
+  }
   /**
    * Gets the current elevation smoothed over several readings. The elevation
    * data is very noisy so it is better to use the smoothed elevation than the

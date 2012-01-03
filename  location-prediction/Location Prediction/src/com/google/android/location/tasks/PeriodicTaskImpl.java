@@ -1,5 +1,10 @@
 package com.google.android.location.tasks;
 
+import com.google.android.lib.content.CreateRouteTrackPoint;
+import com.google.android.service.ServiceControl;
+import com.google.android.service.ServiceManager;
+
+import android.content.Context;
 import android.util.Log;
 
 import static com.google.android.location.content.Constants.*;
@@ -16,10 +21,17 @@ import static com.google.android.location.content.Constants.*;
  */
 public class PeriodicTaskImpl implements PeriodicTask {
 
+	ServiceManager service;
+	boolean isRecording;
 	@Override
 	public void insertRouteTrackPoint() 
 	{
 		Log.d(TAG, "PeriodicTaskImpl:inserting a point on the route");
+		if(isRecording)
+		{
+			Log.d(TAG, "PeriodicTaskImpl:inserting a route track point");
+			service.insertRouteTrackPoint(CreateRouteTrackPoint.DEFAULT_STATISTICS);
+		}
 	}
 
 	@Override
@@ -29,9 +41,11 @@ public class PeriodicTaskImpl implements PeriodicTask {
 	}
 
 	@Override
-	public void start() 
+	public void start(ServiceManager service, boolean isRecording) 
 	{
-		
+		Log.d(TAG, "PeriodicTaskImpl:starting");
+		this.service = service;
+		this.isRecording = isRecording;
 	}
     public static class Factory implements PeriodicTaskFactory
     {
