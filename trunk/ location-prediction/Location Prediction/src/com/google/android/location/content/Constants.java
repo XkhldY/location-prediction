@@ -52,6 +52,11 @@ public static final int MENU_SAVE_GPX_FILE = 206;
 public static final int MENU_CLEAR_MAP = 210;
 
 /**
+ * the minimum required idle time from where we can conclude this can be an end
+ * location
+ */
+public static final int minRequiredIdleTime = 5;
+/**
  * The number of distance readings to smooth to get a stable signal.
  */
 public static final int DISTANCE_SMOOTHING_FACTOR = 25;

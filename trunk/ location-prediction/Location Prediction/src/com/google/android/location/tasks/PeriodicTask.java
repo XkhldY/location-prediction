@@ -22,6 +22,6 @@ public interface PeriodicTask {
 	 * 
 	 * @param set up for subsequent calls of inserting a new route track point
 	 */
-	void start();
+	void start(ServiceManager service, boolean isRecording);
 
 }

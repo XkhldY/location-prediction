@@ -5,9 +5,9 @@ import android.provider.BaseColumns;
 
 public interface RoutesTrackPointsColumns extends BaseColumns {
 	public static final Uri CONTENT_URI = Uri
-			.parse("content://com.google.android.maps.myroutes/endpoints");
-	public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.google.endpoint";
-	public static final String CONTENT_ITEMTYPE = "vnd.android.cursor.item/vnd.google.endpoint";
+			.parse("content://com.google.android.maps.myroutes/routetrackpoints");
+	public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.google.routetrackpoint";
+	public static final String CONTENT_ITEMTYPE = "vnd.android.cursor.item/vnd.google.ROUTEPOINTS_TABLE";
 	public static final String DEFAULT_SORT_ORDER = "_id";
 	public static final String TIME_SORT_ORDER = "START_TIME";
 	

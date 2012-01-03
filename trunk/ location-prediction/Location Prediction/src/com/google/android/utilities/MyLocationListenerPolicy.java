@@ -3,11 +3,15 @@ package com.google.android.utilities;
 import com.google.android.location.content.Constants;
 
 
+import android.location.Location;
 import android.util.Log;
 
 public class MyLocationListenerPolicy implements LocationListenerPolicy 
 {
-
+    /**
+     * distance from the last recorded location
+     */
+	private double distance;
 	/**
 	 * min interval for idle time
 	 */
@@ -17,13 +21,14 @@ public class MyLocationListenerPolicy implements LocationListenerPolicy
      */
     private long maxInterval;
     /**
-     * the min distance until the next update
+     * min distance between updates
      */
     private int minDistance;
     /**
      * value to check the type of location listener
      */
     private boolean isStaticLocationListener = false;
+    private Location lastLocation = null;
     /**
      * idle time in one place
      */
@@ -39,7 +44,6 @@ public class MyLocationListenerPolicy implements LocationListenerPolicy
 	  this.minInterval = minInterval;
 	  this.maxInterval = maxInterval;
 	  this.minDistance = minDistance;
-	  
 	}
 
 	public MyLocationListenerPolicy(final long interval) 
@@ -63,29 +67,26 @@ public class MyLocationListenerPolicy implements LocationListenerPolicy
 	}
 
 	@Override
-	public int getMinDistance() 
+	public double getDistance() 
 	{
-		if(isStaticLocationListener)
-		{
-			return 0;
-		}
-		return minDistance;
+		return distance;
 	}
-   
+    @Override
+    public int getMinDistance()
+    {
+    	return minDistance;
+    }
 	@Override
 	public void updateIdleTime(long idleTime) 
 	{
-		if(isStaticLocationListener)
-		{
-			Log.d(Constants.TAG, "StaticListener");
-		}
-		else
-		{
-			this.idleTime = idleTime;
-		}
+		this.idleTime = idleTime;
 	}
-
-
+    
+    @Override
+    public void setDistance(double distance)
+    {
+    	this.distance = distance;
+    }
 	private long getDesiredDynamicPollingInterval() 
 	{
 		long desiredInterval = idleTime / 2;
@@ -93,6 +94,26 @@ public class MyLocationListenerPolicy implements LocationListenerPolicy
 	    desiredInterval = (desiredInterval / 1000) * 1000;
 	    return Math.max(Math.min(maxInterval, desiredInterval),
 	                    minInterval);
+	}
+
+	@Override
+	public long getIdleTime() 
+	{
+       return idleTime;
+	}
+    @Override
+	public Location getLastLocation() {
+		return lastLocation;
+	}
+    @Override
+	public void setLastLocation(Location lastLocation) {
+		this.lastLocation = lastLocation;
+	}
+
+	@Override
+	public void resetIdleTime() 
+	{
+	   this.idleTime = 0;	
 	}
 
 }

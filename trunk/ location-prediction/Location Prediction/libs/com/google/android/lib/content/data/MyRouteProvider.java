@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 
+
 import com.google.android.lib.content.RouteTrackPoint;
 import com.google.android.lib.content.Route;
 
@@ -21,6 +22,32 @@ public interface MyRouteProvider
 	  */
 	 void deleteAllRoutes();
 	 
+	 /**
+	  * gets a location by name or by its properties
+	  * @param locationToSearch the location to be searched
+	  * @param routeId the id of the route the locations belongs to
+	  * @param locationFactory CreateLocationFactory 
+	  * @return the location from db or null if the location doesn't exist.
+	  */
+	 Location getLocationByName(Location locationToSearch, long routeId, CreateLocationFactory locationFactory);
+	 /**
+	  * updates the current location times count from the database;
+	  * @param location the location to be updated
+	  * @param routeId the id of the route from where the location should be retrieved
+	  * @param locationFactory the location factory.
+	  * @param cursor - the cursor over a all the locations from the given routeId
+	  */
+	 void updateLocationTimesCount(Location location, long routeId, CreateLocationFactory locationFactory,Cursor cursor);
+	 /**
+	  * gets the number of times a user has been at the specific location from a route
+	  * if the location hasn't been found the method returns -1
+	  * @param location the location to be
+	  * @param routeId the id of the route where the search takes place
+	  * @param locationFactory the location factory type
+	  * @param cursor - a cursor over all the locations that belongs to the route that has the id routeId
+	  * @return the nr of times that the user has visited the location.
+	  */
+	 int getLocationTimesCount(Location location, long routeId, CreateLocationFactory locationFactory, Cursor cursor);
 	 /**delete a route based id
 	 * deletes a route based on its id
 	 * @param routeId = the id of the route to be deleted
@@ -62,11 +89,11 @@ public interface MyRouteProvider
 	 long getLastRouteTrackPointId(long routeId);
 	 /**
 	  * 
-	  * @param routeId = id of the route 
+	  * @param routeTrackPointId = id of the route track point 
 	  * from where the route track point should be retrieved
-	  * @return the RouteTrackPoint with the route_id = @routeId
+	  * @return the RouteTrackPoint with the @_id = routeTrackPointId
 	  */
-	 RouteTrackPoint getRouteTrackPointById(long routeId);
+	 RouteTrackPoint getRouteTrackPointById(long routeTrackPointId);
 	
 	 /**get lastLocationid
 		 * @param routeId = id of the route where the location is
@@ -78,7 +105,7 @@ public interface MyRouteProvider
 	  */
 	 long getLastRouteId();
 	 /**
-	  * 
+	  * finds a location in a route knowing the id of the location.
 	  * @param id of the location
 	  * @return the location
 	  */
@@ -96,10 +123,13 @@ public interface MyRouteProvider
 	  * @return a list of the routes available
  	  */
 	 List<Route>getAllRoutes();
-	 /**retrieve a cursor over a number of locations 
-	 *@return cursor having the min point for a route
+	 /**
+	 * @param routeid - the id of the current route
+	 * @param minRoutePointId - the minimum point from where the cursor it's retrieved
+	 * @param locationsNumber - the number of locations
+	 * @param descending - true if the sorting is descending , false if not
 	 */
-	 Cursor getLocationsCursor(long routeId, long minRoutePointId,int locationsNumber, boolean sort_type);
+	 Cursor getLocationsCursor(long routeId, long minRoutePointId,int locationsNumber, boolean descending);
 	 /**@param id = the id of the route
 	 *@param minTrackId the minimum trackid,
 	 *@param maxTraks = the max nr of endpoints
@@ -145,6 +175,13 @@ public interface MyRouteProvider
 	  * @param route to be updated
 	  */
 	 void updateRoute(Route route);
+	 /**
+	  * checks if a given location in a given route exits or not.
+	  * @param location  the location to search for
+	  * @param routeId the id of the route where to search the location
+	  * @return false if the location doesn't exist and true if it does.
+	  */
+	 boolean checkLocation(Location location, long routeId, CreateLocationFactory locationFactory);
 	 /**
 	  * update a route using a location and an endPoint
 	  * @param RouteTrackPoint that is to be update and
@@ -232,9 +269,45 @@ public interface MyRouteProvider
 			   return new Location("Network");	
 			}
 	};
-	 //iterato through a number of locations form a route , given a starting point
+	/**
+	   * Creates a new read-only iterator over all track points for the given route.  It provides
+	   * a lightweight way of iterating over long routes without failing due to the underlying cursor
+	   * limitations. Since it's a read-only iterator, {@link Iterator#remove()} always throws
+	   * {@class UnsupportedOperationException}.
+	   * 
+	   * Each call to {@link LocationIterator#next()} may advance to the next DB record, and if so,
+	   * the iterator calls {@link LocationFactory#createLocation()} and populates it with information
+	   * retrieved from the record.
+	   * 
+	   * When done with iteration, you must call {@link LocationIterator#close()} to make sure that all
+	   * resources are properly deallocated.
+	   * 
+	   * Example use:
+	   * <code>
+	   *   ...
+	   *   LocationIterator it = providerUtils.getLocationIterator(
+	   *       1, MyTracksProviderUtils.DEFAULT_LOCATION_FACTORY);
+	   *   try {
+	   *     for (Location loc : it) {
+	   *       ...  // Do something useful with the location.
+	   *     }
+	   *   } finally {
+	   *     it.close();
+	   *   }
+	   *   ...
+	   * </code>
+	   * 
+	   * @param routeId the ID of a track to retrieve locations for.
+	   * @param startRoutePointId the ID of the first track point to load, or -1 to start from
+	   *        the first point.
+	   * @param sort_type if true the results will be returned in descending ID
+	   *        order (latest location first).
+	   * @param locationFactory the factory for creating new locations.
+	   * 
+	   * @return the read-only iterator over the given route's points.
+	   */
 	 LocationIterator getLocationIterator(long routeId, long startRoutePointId, 
-			                              boolean sort_type, CreateLocationFactory locationFactory);
+			                              boolean descending, CreateLocationFactory locationFactory);
 
 	 public static class Factory
 	 {
@@ -253,5 +326,4 @@ public interface MyRouteProvider
 		}
 	
 	 }
-	 
 }

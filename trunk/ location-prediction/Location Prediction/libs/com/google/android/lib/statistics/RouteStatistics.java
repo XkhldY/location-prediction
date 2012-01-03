@@ -238,14 +238,14 @@ public class RouteStatistics implements Parcelable{
 	  /**
 	   * Returns the bottommost position (lowest latitude) of the track, in meters.
 	   */
-	  public int getLowestAltitude() {
+	  public int getLowestLatitude() {
 	    return (int) (latitudeExtremities.getMin() * 1E6);
 	  }
 
 	  /**
 	   * Returns the topmost position (highest latitude) of the track, in meters.
 	   */
-	  public int getHighestAltitude() {
+	  public int getHighestLatitude() {
 	    return (int) (latitudeExtremities.getMax() * 1E6);
 	  }
 	  /**

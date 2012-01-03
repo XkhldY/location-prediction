@@ -3354,4 +3354,5 @@ limitations under the License.
       Screenshot: welcome.png">
     What are waypoint markers?
   </string>
+  <string name="location_prediction">Location_Prediction</string>
 </resources>

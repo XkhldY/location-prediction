@@ -5,9 +5,7 @@ import android.location.Location;
 
 import com.google.android.lib.content.RouteLocation;
 
-import com.google.android.lib.content.data.MyRouteProvider.LocationFactory;
-
-public class DoubleCachedLocationFactory implements LocationFactory
+public class DoubleCachedLocationFactory implements CreateLocationFactory
 {
 	private int lastGpsLocation = 0;
 	private int lastNetworkLocation = 0;

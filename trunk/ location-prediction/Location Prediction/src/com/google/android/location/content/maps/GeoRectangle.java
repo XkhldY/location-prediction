@@ -5,7 +5,7 @@ import com.google.android.maps.GeoPoint;
 /**
  * A rectangle in geographical space.
  */
-class GeoRectangle {
+public class GeoRectangle {
   public int top;
   public int left;
   public int bottom;
