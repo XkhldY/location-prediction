@@ -133,12 +133,14 @@ public class DbManagerDataSourceImpl implements IDbManagerDataSource
 
 	    Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	    final long now = System.currentTimeMillis();
-	    if (loc == null || loc.getTime() < now - MAX_LOCATION_AGE_MS) {
+	    if (loc == null || loc.getTime() < now - MAX_LOCATION_AGE_MS) 
+	    {
 	      // We don't have a recent GPS fix, just use cell towers if available
 	      loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 	      int toastResId = R.string.my_location_approximate_location;
-	      if (loc == null || loc.getTime() < now - MAX_NETWORK_AGE_MS) {
+	      if (loc == null || loc.getTime() < now - MAX_NETWORK_AGE_MS) 
+	      {
 	        // We don't have a recent cell tower location, let the user know:
 	        toastResId = R.string.my_location_no_location;
 	      }
